@@ -1,0 +1,95 @@
+
+/*
+设置整个登录框
+ */
+#login{
+    // 设置圆角矩形
+    -fx-background-radius: 20px;
+
+    // 设置背景色
+    -fx-background-color: linear-gradient(#0e6671, #0b4050);
+
+    // 设置高度和宽度
+    -fx-pref-height: 500px;
+    -fx-pref-width: 350px;
+
+}
+
+
+
+
+/*
+设置右上角关闭按钮
+ */
+#close{
+    -fx-text-fill: grey;
+    -fx-translate-x: 320px;
+}
+
+#close:hover{
+    -fx-text-fill: white;
+}
+
+#minimize{
+    -fx-text-fill: #ccffff;
+    -fx-translate-x: 290px;
+}
+
+
+
+
+/*
+设置APP名称
+ */
+#appName{
+    -fx-translate-y: 40px;
+    -fx-translate-x: 80px;
+
+    -fx-font-weight: 20px;
+    -fx-text-fill: #99cc00;
+}
+
+
+/*
+设置账号和密码
+ */
+#userAccount{
+    -fx-translate-x: 84px;
+    -fx-translate-y: 250px;
+}
+#userPassword{
+    -fx-translate-x: 84px;
+    -fx-translate-y: 290px;
+}
+
+.inputClass{
+    -fx-font-size: 13px;
+    -fx-background-color: transparent;
+    -fx-border-color: #000000; /* 设置边框颜色 */
+    -fx-border-width: 0 0 3px 0;
+    -fx-pref-width: 180px;
+    -fx-text-fill: #03e9f4;
+    -fx-prompt-text-fill: #03e9f4;
+}
+
+.inputClass:focused{
+    -fx-border-color: white; /* 设置边框颜色 */
+    -fx-prompt-text-fill: transparent;
+}
+
+/*
+设置登录按钮
+ */
+#loginButton{
+    -fx-pref-width: 80px;
+    -fx-pref-height: 30px;
+    -fx-translate-x: 134px;
+    -fx-translate-y: 345px;
+    -fx-background-color: #006699;
+}
+
+#loginButton:hover{
+    -fx-background-color: #03e9f4;
+    -fx-text-fill: white;
+
+}

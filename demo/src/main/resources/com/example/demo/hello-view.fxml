@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<AnchorPane id="login"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@css/login.css"
+            prefHeight="500"
+            prefWidth="300"
+           >
+
+    <Label id="minimize" fx:id="loginMinimize"></Label>
+    <Label id="close" fx:id="loginClose"></Label>
+
+    <Label id="dummy" fx:id="dummyLabel"></Label>
+
+
+
+
+    <Label id="appName" fx:id="loginAppName" ></Label>
+
+
+
+
+
+    <TextField id="userAccount" promptText="UserAccount" styleClass="inputClass" editable="true" fx:id="userAccount" focusTraversable="false" layoutX="10" layoutY="10">
+
+    </TextField>
+
+
+    <PasswordField id="userPassword" promptText="UserPassword" styleClass="inputClass" editable="true" fx:id="userPassword" focusTraversable="false" layoutX="10" layoutY="50">
+
+    </PasswordField>
+
+
+
+
+<!--    <AnchorPane>-->
+<!--        <Button id="loginButton" text="登录" fx:id="loginButton" layoutX="10" layoutY="50"></Button>-->
+<!--    </AnchorPane>-->
+
+
+</AnchorPane>

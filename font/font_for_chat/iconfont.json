@@ -1,0 +1,37 @@
+{
+  "id": "4461204",
+  "name": "IM-Chat",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1235",
+      "name": "对话",
+      "font_class": "duihua",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "557037",
+      "name": "shezhi",
+      "font_class": "shezhi",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "1183028",
+      "name": "收藏",
+      "font_class": "shoucang",
+      "unicode": "e65e",
+      "unicode_decimal": 58974
+    },
+    {
+      "icon_id": "27475345",
+      "name": "我的好友",
+      "font_class": "wodehaoyou",
+      "unicode": "e6e7",
+      "unicode_decimal": 59111
+    }
+  ]
+}

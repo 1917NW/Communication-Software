@@ -1,0 +1,23 @@
+{
+  "id": "4460300",
+  "name": "IM",
+  "font_family": "tq",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1299763",
+      "name": "Minimize-2",
+      "font_class": "2zuixiaohua-2",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
+      "icon_id": "5358515",
+      "name": "关闭",
+      "font_class": "guanbi",
+      "unicode": "e7ac",
+      "unicode_decimal": 59308
+    }
+  ]
+}

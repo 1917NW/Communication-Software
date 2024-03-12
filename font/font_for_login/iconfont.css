@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "tq"; /* Project id 4460300 */
+  src: url('iconfont.ttf?t=1710073087161') format('truetype');
+}
+
+.tq {
+  font-family: "tq" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-2zuixiaohua-2:before {
+  content: "\e65a";
+}
+
+.icon-guanbi:before {
+  content: "\e7ac";
+}
+

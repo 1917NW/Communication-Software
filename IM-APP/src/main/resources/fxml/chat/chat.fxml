@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane id="Chat" styleClass="Chat" prefHeight="800.0" prefWidth="1200.0" stylesheets="@css/chat.css"
+            xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.lxy.imapp.controller.ChatController">
+    <children>
+<!--        条形bar-->
+        <Pane id="bar" prefHeight="800" prefWidth="74" >
+            <Button id = "profile" layoutX="12" layoutY="25" prefHeight="50" prefWidth="50" fx:id="profile"></Button>
+
+            <Label id="bar_chat" prefWidth="30" prefHeight="30" layoutX="22" layoutY="100"  fx:id="barChat" styleClass="bar_chat_item" onMouseClicked="#switchToChat" onMouseEntered="#hoverChatLabel" onMouseExited="#unhoverChatLabel"></Label>
+
+            <Label id="bar_friend" prefHeight="30" prefWidth="30" layoutX="22" layoutY="160" fx:id="barFriend" styleClass="bar_chat_item" onMouseClicked="#switchToFriend" onMouseEntered="#hoverFriendLabel" onMouseExited="#unhoverFriendLabel"></Label>
+
+            <Label id="bar_favorite" prefWidth="30" prefHeight="30" layoutX="22" layoutY="220" fx:id="barFavorite" styleClass="bar_chat_item"></Label>
+
+            <Label id="bar_set" prefWidth="24" prefHeight="24" layoutX="25" layoutY="750" fx:id="barSetting" styleClass="bar_chat_item" ></Label>
+        </Pane>
+
+        <Pane visible="true" id="group_bar_chat" layoutX="75" layoutY="2" prefWidth="1122" prefHeight="795" fx:id="chatPane">
+            <children>
+                <!-- 操作栏；最小化、关闭 -->
+                <Pane id="operation" layoutX="314" prefWidth="808" prefHeight="32">
+                    <children>
+                        <Button id="group_bar_chat_min" styleClass="min" layoutX="700" prefWidth="42" prefHeight="32"/>
+                        <Button id="group_bar_chat_close" styleClass="close" layoutX="750" prefWidth="42" prefHeight="32"/>
+                    </children>
+                </Pane>
+            <!-- 搜索栏-->
+                <Pane styleClass="search" prefHeight="80" prefWidth="314">
+                    <children>
+                        <TextField styleClass="searchInput" layoutX="20" layoutY="30" prefHeight="30" prefWidth="240" promptText="搜索">
+                            <padding>
+                                <Insets left="30"/>
+                            </padding>
+                        </TextField>
+                        <Label styleClass="searchAdd" layoutX="270" layoutY="30" prefWidth="30" prefHeight="30"></Label>
+                    </children>
+                </Pane>
+
+<!--              会话栏-->
+                <Pane id="talk" layoutY="80" prefHeight="715" prefWidth="314">
+                    <children>
+                        <ListView id="talkList" prefHeight="715" prefWidth="314" styleClass="talkListStyle" fx:id="talkList"></ListView>
+                    </children>
+                </Pane>
+
+<!--                消息栏-->
+                <Pane id="information" layoutX="314" layoutY="32" prefWidth="808" prefHeight="586">
+                    <children>
+
+                        <Pane id="info_pane" prefWidth="852" prefHeight="44">
+                            <children>
+                                <Label id="info_more" layoutX="800" prefWidth="43" prefHeight="43"></Label>
+                                <Label id="info_name" layoutX="40" layoutY="-8" prefWidth="400" prefHeight="40" text="李向阳"></Label>
+                            </children>
+                        </Pane>
+                        <Pane id="info_pane_box" layoutX="1" layoutY="45" prefWidth="850" prefHeight="560" style="-fx-background-color: transparent;-fx-border-width: 0"></Pane>
+                    </children>
+                </Pane>
+
+<!--                工具栏-->
+                <Pane id="tool" layoutX="314" layoutY="618" prefWidth="808" prefHeight="46">
+                    <children>
+                        <Button id="tool_face" layoutX="20" layoutY="3" prefWidth="40" prefHeight="40"/>
+                    </children>
+                </Pane>
+
+<!--                长度为810-->
+<!--                文本栏-->
+                <Pane id="txt" layoutX="314" layoutY="664" prefWidth="808" prefHeight="90">
+                    <children>
+                        <TextArea id="txt_input" styleClass="txt_input_style" layoutX="20" prefWidth="770" prefHeight="90" wrapText="true"></TextArea>
+                    </children>
+                </Pane>
+
+                <Pane id="touch" layoutX="314" layoutY="754" prefWidth="808" prefHeight="40">
+                    <children>
+                        <Label id="touch_send" layoutX="707"  layoutY="4" prefWidth="85" prefHeight="34" text="发送(S)"></Label>
+                    </children>
+                </Pane>
+
+            </children>
+        </Pane>
+        <Pane visible="false" id="group_bar_friend" layoutX="75" layoutY="2" prefWidth="1122" prefHeight="795" fx:id="friendPane"></Pane>
+    </children>
+</AnchorPane>
