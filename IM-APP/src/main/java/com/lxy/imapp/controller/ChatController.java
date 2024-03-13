@@ -1,5 +1,6 @@
 package com.lxy.imapp.controller;
 
+import com.lxy.imapp.constant.TalkType;
 import com.lxy.imapp.data.GroupsData;
 import com.lxy.imapp.data.RemindCount;
 import com.lxy.imapp.data.TalkBoxData;
@@ -275,13 +276,12 @@ public class ChatController {
         // 好友 - 对话框
         addTalkBox(-1, 0, "1000002", "铁锤", "03_50", "秋风扫过树叶落，哪有棋盘哪有我", new Date(), false);
         addTalkMsgUserLeft("1000002", "秋风扫过树叶落，哪有棋盘哪有我", new Date(), true, false, true);
-
         addTalkMsgRight("1000002", "我Q，传说中的老头杀？", new Date(), true, true, false);
-        Pane talkPane = findItemInListView(talkList, Ids.ElementTalkId.createTalkPaneId("1000002"));
-        addTalkBox(-1, 0, "1000004", "哈尼克兔", "04_50", null, null, false);
-        addTalkMsgUserLeft("1000004", "沉淀、分享、成长，让自己和他人都有所收获！", new Date(), true, false, true);
-        addTalkMsgRight("1000004", "今年过年是放假时间最长的了！", new Date(), true, true, false);
 
+        addTalkBox(-1, 0, "1000004", "哈尼克兔", "04_50", null, null, true);
+        addTalkMsgUserLeft("1000004", "沉淀、分享、成长，让自己和他人都有所收获！", new Date(), true, true, true);
+        addTalkMsgRight("1000004", "今年过年是放假时间最长的了！", new Date(), true, true, false);
+        addTalkMsgUserLeft("1000002", "秋风扫过树叶落，哪有棋盘哪有我", new Date(), true, false, true);
         //addTalkMsgUserLeft("1000002", "我是狗", new Date(), true, false, true);
 
         //talkList.getSelectionModel().select(CacheUtil.talkMap.get("1000002").pane());
@@ -316,12 +316,11 @@ public class ChatController {
         // 设置会话栏里面的消息
         talkElement.fillMsgSketch(msg, msgDate);
 
+        // 将对话框向上移动，并且指定是否选中
+        updateTalkListIdxAndSelected(TalkType.PRIVATE_MESSAGE.getTalkTypeCode(), talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
 
-        updateTalkListIdxAndSelected(1, talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
-
-        // 如果当前选中的会话和要接收的消息属于同一个会话，则填充对话框聊天窗口
-//        Pane selectedItem = talkList.getSelectionModel().getSelectedItem();
-//        if(talkElement.pane().equals(selectedItem))
+        // 如果选中该对话，才会进行填充
+        if(selected)
         fillInfoBox(talkElement, talkUserData.getTalkName());
     }
 
@@ -386,7 +385,7 @@ public class ChatController {
             isRemind(msgRemindLabel, talkType, isRemind);
             return;
         }
-        // 对话空不为空，判断第一个元素是否当前聊天Pane
+        // 对话框不为空，判断第一个元素是否当前聊天Pane
         Pane firstPane = talkList.getItems().get(0);
         // 判断元素是否在首位，如果是首位可返回不需要重新设置首位
         if (talkBoxData.getTalkId().equals(((TalkBoxData) firstPane.getUserData()).getTalkId())) {
@@ -423,7 +422,7 @@ public class ChatController {
         if (!isRemind) return;
         msgRemindLabel.setVisible(true);
         // 群组直接展示小红点
-        if (1 == talkType) {
+        if (TalkType.GROUP_MESSAGE.getTalkTypeCode() == talkType) {
             return;
         }
         RemindCount remindCount = (RemindCount) msgRemindLabel.getUserData();
