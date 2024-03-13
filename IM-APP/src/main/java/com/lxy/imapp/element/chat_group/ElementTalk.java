@@ -15,6 +15,7 @@ import javafx.scene.layout.*;
 
 import java.util.Date;
 
+// 代表会话栏里面的一次会话
 public class ElementTalk {
     private Pane pane;
 
@@ -30,10 +31,16 @@ public class ElementTalk {
     public ElementTalk(String talkId, Integer talkType, String talkName, String talkHead, String talkSketch, Date talkDate){
         pane = new Pane();
 
+        // 设置会话id，每个会话都有唯一的一个id
         pane.setId(Ids.ElementTalkId.createTalkPaneId(talkId));
+
+        // 设置会话对象的属性
         pane.setUserData(new TalkBoxData(talkId, talkType, talkName, talkHead));
+
+        // 设置会话窗口的大小
         pane.setPrefSize(270, 80);
         pane.getStyleClass().add("talkElement");
+
         ObservableList<Node> children = pane.getChildren();
 
         // 头像
@@ -54,7 +61,7 @@ public class ElementTalk {
         nikeName.getStyleClass().add("element_nikeName");
         children.add(nikeName);
 
-        // 信息简述
+        // 最近的一次消息
         msgSketch = new Label();
         msgSketch.setId(Ids.ElementTalkId.createMsgSketchId(talkId));
         msgSketch.setPrefSize(200, 25);
@@ -71,15 +78,23 @@ public class ElementTalk {
         msgData.setLayoutY(15);
         msgData.getStyleClass().add("element_msgData");
         children.add(msgData);
-        // 填充
+
+        // 填充 最近的一次消息和时间
         fillMsgSketch(talkSketch, talkDate);
 
         // 消息提醒
         msgRemind = new Label();
+
         msgRemind.setPrefSize(15, 15);
         msgRemind.setLayoutX(60);
         msgRemind.setLayoutY(5);
         msgRemind.setUserData(new RemindCount());
+
+        msgRemind.setText("");
+        msgRemind.setVisible(false);
+        msgRemind.getStyleClass().add("element_msgRemind");
+
+        children.add(msgRemind);
 
         // 删除对话框按钮
         delete = new Button();
@@ -88,7 +103,7 @@ public class ElementTalk {
         delete.setLayoutX(-8);
         delete.getStyleClass().add("element_delete");
 
-        // 给Button设置背景图片
+        // 给delete-button设置背景图片
         Image image = new Image("file:src/main/resources/fxml/chat/img/talk_delete.png");
 
         BackgroundImage backgroundImage = new BackgroundImage(image,
@@ -100,7 +115,7 @@ public class ElementTalk {
         delete.setBackground(background);
         children.add(delete);
 
-        // 消息框[初始化，未装载］，承载对话信息内容，点击按钮时候填充
+        // 会话对应的具体消息框[初始化，未装载］，承载对话信息内容，点击按钮时候填充
         infoBoxList = new ListView<>();
         infoBoxList.setId(Ids.ElementTalkId.createInfoBoxListId(talkId));
         infoBoxList.setUserData(new TalkData(talkName , talkHead));

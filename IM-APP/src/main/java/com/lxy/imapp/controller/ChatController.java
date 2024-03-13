@@ -1,6 +1,10 @@
 package com.lxy.imapp.controller;
 
+import com.lxy.imapp.data.GroupsData;
 import com.lxy.imapp.data.RemindCount;
+import com.lxy.imapp.data.TalkBoxData;
+import com.lxy.imapp.data.TalkData;
+import com.lxy.imapp.element.chat_group.ElementInfoBox;
 import com.lxy.imapp.element.chat_group.ElementTalk;
 import com.lxy.imapp.util.CacheUtil;
 import com.lxy.imapp.util.Ids;
@@ -8,10 +12,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -56,6 +59,10 @@ public class ChatController {
 
     private Paint lightBlue = Color.web("#03e9f4");
 
+    public String userId;       // 用户ID
+    public String userNickName; // 用户昵称
+    public String userHead;     // 用户头像
+
     public void initialize() {
 
        setProfilePhoto();
@@ -65,6 +72,7 @@ public class ChatController {
        setBarSettingStyle();
        initPaneList();
        initTalkList();
+       initSendHandler();
     }
 
 
@@ -181,13 +189,32 @@ public class ChatController {
         barFriend.setTextFill(darkBlue);
     }
 
+
+    /**
+     * 在talklist中查询指定id的pane
+     * @param talkList
+     * @param id
+     * @return
+     */
+    Pane findItemInListView(ListView<Pane> talkList, String id){
+        if(talkList.getItems().isEmpty())
+            return null;
+        ObservableList<Pane> items = talkList.getItems();
+        for(int i = 0; i < items.size(); i++){
+            if(items.get(i).getId().equals(id))
+                return items.get(i);
+        }
+        return null;
+    }
+
     public void addTalkBox(int talkIdx, Integer talkType, String talkId, String talkName, String talkHead, String talkSketch, Date talkDate, Boolean selected) {
+
 
         // 判断会话框是否有该对象
         ElementTalk elementTalk = CacheUtil.talkMap.get(talkId);
         if (null != elementTalk) {
-            Node talkNode = talkList.lookup("#" + Ids.ElementTalkId.createTalkPaneId(talkId));
-            if (null == talkNode) {
+            Pane talkPane = findItemInListView(talkList, Ids.ElementTalkId.createTalkPaneId(talkId));
+            if (null == talkPane) {
                 talkList.getItems().add(talkIdx, elementTalk.pane());
             }
             if (selected) {
@@ -206,7 +233,7 @@ public class ChatController {
 
         Pane talkElementPane = talkElement.pane();
         if (talkIdx >= 0) {
-            items.add(talkIdx, talkElementPane);  // 添加到第一个位置
+            items.add(talkIdx, talkElementPane);  // 添加到指定位置
         } else {
             items.add(talkElementPane);           // 顺序添加
         }
@@ -216,7 +243,12 @@ public class ChatController {
         }
         // 对话框元素点击事件
         talkElementPane.setOnMousePressed(event -> {
-            System.out.println("点击对话框：" + talkName);
+            // 填充消息栏
+            fillInfoBox(talkElement, talkName);
+            // 清除消息提醒
+            Label msgRemind = talkElement.msgRemind();
+            msgRemind.setUserData(new RemindCount(0));
+            msgRemind.setVisible(false);
         });
 
         // 鼠标事件[移入/移出]
@@ -238,16 +270,237 @@ public class ChatController {
 
     private void initTalkList() {
 
-        addTalkBox(-1, 0, "1000001", "小傅哥", "01_50", "我不是一个简单的男人", new Date(), true);
-        addTalkBox(-1, 0, "1000002", "铁锤", "02_50", "有本事现时里扎一下", new Date(), false);
-        addTalkBox(-1, 0, "1000003", "团团", "03_50", "秋风扫过树叶落，哪有棋盘哪有我", new Date(), false);
-        addTalkBox(-1, 0, "1000004", "哈尼克兔", "04_50", "你把爱放在我的心里", new Date(), false);
-        addTalkBox(0, 1, "5307397", "虫洞 · 技术栈(1区)", "group_1", "小傅哥：吉祥健康、如意安康", new Date(), false);
-        addTalkBox(-1, 0, "1000005", "小傅哥", "01_50", "我不是一个简单的男人", new Date(), true);
-        addTalkBox(-1, 0, "1000006", "小傅哥", "01_50", "我不是一个简单的男人", new Date(), true);
-        addTalkBox(-1, 0, "1000007", "小傅哥", "01_50", "我不是一个简单的男人", new Date(), true);
-        addTalkBox(-1, 0, "1000008", "小傅哥", "01_50", "我不是一个简单的男人", new Date(), true);
+        setUserInfo("1000001", "拎包冲", "02_50");
+
+        // 好友 - 对话框
+        addTalkBox(-1, 0, "1000002", "铁锤", "03_50", "秋风扫过树叶落，哪有棋盘哪有我", new Date(), false);
+        addTalkMsgUserLeft("1000002", "秋风扫过树叶落，哪有棋盘哪有我", new Date(), true, false, true);
+
+        addTalkMsgRight("1000002", "我Q，传说中的老头杀？", new Date(), true, true, false);
+        Pane talkPane = findItemInListView(talkList, Ids.ElementTalkId.createTalkPaneId("1000002"));
+        addTalkBox(-1, 0, "1000004", "哈尼克兔", "04_50", null, null, false);
+        addTalkMsgUserLeft("1000004", "沉淀、分享、成长，让自己和他人都有所收获！", new Date(), true, false, true);
+        addTalkMsgRight("1000004", "今年过年是放假时间最长的了！", new Date(), true, true, false);
+
+        //addTalkMsgUserLeft("1000002", "我是狗", new Date(), true, false, true);
+
+        //talkList.getSelectionModel().select(CacheUtil.talkMap.get("1000002").pane());
+//        // 群组 - 对话框
+//        addTalkBox(0, 1, "5307397", "虫洞 · 技术栈(1区)", "group_1", "", new Date(), true);
+//        addTalkMsgRight("5307397", "你炸了我的山", new Date(), true, true, false);
+//        chat.addTalkMsgGroupLeft("5307397", "1000002", "拎包冲", "01_50", "推我过忘川", new Date(), true, false, true);
+//        chat.addTalkMsgGroupLeft("5307397", "1000003", "铁锤", "03_50", "奈河桥边的姑娘", new Date(), true, false, true);
+//        chat.addTalkMsgGroupLeft("5307397", "1000004", "哈尼克兔", "04_50", "等我回头看", new Date(), true, false, true);
     }
+
+    public void setUserInfo(String userId, String userNickName, String userHead) {
+        this.userId = userId;
+        this.userNickName = userNickName;
+        this.userHead = userHead;
+
+        // TODO ：设置头像
+        //button.setStyle(String.format("-fx-background-image: url('/fxml/chat/img/head/%s.png')", userHead));
+    }
+
+    public void addTalkMsgUserLeft(String talkId, String msg, Date msgDate, Boolean idxFirst, Boolean selected, Boolean isRemind) {
+        ElementTalk talkElement = CacheUtil.talkMap.get(talkId);
+        ListView<Pane> listView = talkElement.infoBoxList();
+        TalkData talkUserData = (TalkData) listView.getUserData();
+        // 创建pane
+        Pane left = new ElementInfoBox().left(talkUserData.getTalkName(), talkUserData.getTalkHead(), msg);
+        // 消息填充
+        listView.getItems().add(left);
+        // 滚动条
+        listView.scrollTo(left);
+
+        // 设置会话栏里面的消息
+        talkElement.fillMsgSketch(msg, msgDate);
+
+
+        updateTalkListIdxAndSelected(1, talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
+
+        // 如果当前选中的会话和要接收的消息属于同一个会话，则填充对话框聊天窗口
+//        Pane selectedItem = talkList.getSelectionModel().getSelectedItem();
+//        if(talkElement.pane().equals(selectedItem))
+        fillInfoBox(talkElement, talkUserData.getTalkName());
+    }
+
+    @FXML
+    private Label infoName;
+
+    @FXML
+    private Pane infoPaneBox;
+
+
+    // 填充talkElement到infoBox
+    private void fillInfoBox(ElementTalk talkElement, String talkName) {
+
+
+        String talkId = talkElement.pane().getId();
+
+        // 填充对话列表
+        String boxUserId = (String) infoPaneBox.getUserData();
+        // 判断是否已经填充[talkId]，当前已填充则返回
+        if (talkId.equals(boxUserId))
+            return;
+
+        ListView<Pane> listView = talkElement.infoBoxList();
+        listView.setPrefWidth(800);
+
+        infoPaneBox.setUserData(talkId);
+        infoPaneBox.getChildren().clear();
+        infoPaneBox.getChildren().add(listView);
+
+        // 对话框名称
+        infoName.setText(talkName);
+    }
+
+    public void addTalkMsgRight(String talkId, String msg, Date msgData, Boolean idxFirst, Boolean selected, Boolean isRemind) {
+        ElementTalk talkElement = CacheUtil.talkMap.get(talkId);
+        ListView<Pane> listView = talkElement.infoBoxList();
+        Pane right = new ElementInfoBox().right(userNickName, userHead, msg);
+        // 消息填充
+        listView.getItems().add(right);
+        // 滚动条
+        listView.scrollTo(right);
+        talkElement.fillMsgSketch(msg, msgData);
+
+        updateTalkListIdxAndSelected(1, talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
+
+    }
+
+    void updateTalkListIdxAndSelected(int talkType, Pane talkElementPane, Label msgRemindLabel, Boolean idxFirst, Boolean selected, Boolean isRemind) {
+        // 对话框ID、好友ID
+        TalkBoxData talkBoxData = (TalkBoxData) talkElementPane.getUserData();
+        // 填充到对话框
+        // 对话空为空，初始化[置顶、选中、提醒]
+        if (talkList.getItems().isEmpty()) {
+            if (idxFirst) {
+                talkList.getItems().add(0, talkElementPane);
+            }
+            if (selected) {
+                // 设置对话框[√选中]
+                talkList.getSelectionModel().select(talkElementPane);
+            }
+
+            isRemind(msgRemindLabel, talkType, isRemind);
+            return;
+        }
+        // 对话空不为空，判断第一个元素是否当前聊天Pane
+        Pane firstPane = talkList.getItems().get(0);
+        // 判断元素是否在首位，如果是首位可返回不需要重新设置首位
+        if (talkBoxData.getTalkId().equals(((TalkBoxData) firstPane.getUserData()).getTalkId())) {
+
+            // 选中判断；如果第一个元素已经选中[说明正在会话]，那么清空消息提醒
+            talkList.getSelectionModel().select(firstPane);
+            Pane selectedItem = talkList.getSelectionModel().getSelectedItem();
+
+            TalkBoxData selectedItemUserData = (TalkBoxData) selectedItem.getUserData();
+            if (null != selectedItemUserData && talkBoxData.getTalkId().equals(selectedItemUserData.getTalkId())) {
+                clearRemind(msgRemindLabel);
+            } else {
+                isRemind(msgRemindLabel, talkType, isRemind);
+            }
+            return;
+        }
+
+        if (idxFirst) {
+            talkList.getItems().remove(talkElementPane);
+            talkList.getItems().add(0, talkElementPane);
+        }
+        if (selected) {
+            // 设置对话框[√选中]
+            talkList.getSelectionModel().select(talkElementPane);
+        }
+        isRemind(msgRemindLabel, talkType, isRemind);
+    }
+
+    private void clearRemind(Label msgRemindLabel) {
+        msgRemindLabel.setVisible(false);
+        msgRemindLabel.setUserData(new RemindCount(0));
+    }
+    private void isRemind(Label msgRemindLabel, int talkType, Boolean isRemind) {
+        if (!isRemind) return;
+        msgRemindLabel.setVisible(true);
+        // 群组直接展示小红点
+        if (1 == talkType) {
+            return;
+        }
+        RemindCount remindCount = (RemindCount) msgRemindLabel.getUserData();
+        // 超过10个展示省略号
+        if (remindCount.getCount() > 99) {
+            msgRemindLabel.setText("···");
+            return;
+        }
+        int count = remindCount.getCount() + 1;
+        msgRemindLabel.setUserData(new RemindCount(count));
+        msgRemindLabel.setText(String.valueOf(count));
+    }
+
+
+    @FXML
+    private TextArea txtInput;
+
+    @FXML
+    private Label touchSend;
+
+    private void initSendHandler(){
+        touchSend.setOnMouseClicked(event -> {
+            sendMessage();
+        });
+
+        txtInput.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                sendMessage();
+            }
+        });
+    }
+
+    private void sendMessage(){
+        MultipleSelectionModel<Pane> selectionModel = talkList.getSelectionModel();
+        Pane selectedItem = selectionModel.getSelectedItem();
+
+        // 对话信息
+        TalkBoxData  talkBoxData = (TalkBoxData) selectedItem.getUserData();
+
+
+        String msg = txtInput.getText();
+
+        if(null == msg || "".equals(msg) || "".equals(msg.trim()))
+            return;
+
+        Date msgDate = new Date();
+        System.out.println("发送消息:"+msg);
+
+        addTalkMsgRight(talkBoxData.getTalkId(), msg, msgDate, true, true, false);
+        txtInput.clear();
+    }
+
+//    public void addTalkMsgGroupLeft(String talkId, String userId, String userNickName, String userHead, String msg, Integer msgType, Date msgDate, Boolean idxFirst, Boolean selected, Boolean isRemind) {
+//        // 自己的消息抛弃
+//        if (this.userId.equals(userId))
+//            return;
+//
+//        ElementTalk talkElement = CacheUtil.talkMap.get(talkId);
+//        if (null == talkElement) {
+//            GroupsData groupsData = (GroupsData) $(Ids.ElementTalkId.createFriendGroupId(talkId), Pane.class).getUserData();
+//            if (null == groupsData) return;
+//            addTalkBox(0, 1, talkId, groupsData.getGroupName(), groupsData.getGroupHead(), userNickName + "：" + msg, msgDate, false);
+//            talkElement = CacheUtil.talkMap.get(talkId);
+//            // 事件通知(开启与群组发送消息)
+//            chatEvent.doEventAddTalkGroup(super.userId, talkId);
+//        }
+//        ListView<Pane> listView = talkElement.infoBoxList();
+//        Pane left = new ElementInfoBox().left(userNickName, userHead, msg, msgType);
+//        // 消息填充
+//        listView.getItems().add(left);
+//        // 滚动条
+//        listView.scrollTo(left);
+//        talkElement.fillMsgSketch(0 == msgType ? userNickName + "：" + msg : userNickName + "：[表情]", msgDate);
+//        // TODO 设置位置&选中
+//
+//    }
+
 
 }
 

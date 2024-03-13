@@ -22,6 +22,7 @@ public class Chat extends Stage {
             root = fxmlLoader.load();
 
             Scene scene = new Scene(root);
+
             scene.setFill(Color.TRANSPARENT);
             setScene(scene);
             setResizable(false);

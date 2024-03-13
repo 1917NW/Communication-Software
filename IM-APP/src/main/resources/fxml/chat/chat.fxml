@@ -56,13 +56,13 @@
                 <Pane id="information" layoutX="314" layoutY="32" prefWidth="808" prefHeight="586">
                     <children>
 
-                        <Pane id="info_pane" prefWidth="852" prefHeight="44">
+                        <Pane id="info_pane" prefWidth="808" prefHeight="44">
                             <children>
                                 <Label id="info_more" layoutX="800" prefWidth="43" prefHeight="43"></Label>
-                                <Label id="info_name" layoutX="40" layoutY="-8" prefWidth="400" prefHeight="40" text="李向阳"></Label>
+                                <Label id="info_name" layoutX="40" layoutY="-8" prefWidth="400" prefHeight="40" fx:id="infoName"></Label>
                             </children>
                         </Pane>
-                        <Pane id="info_pane_box" layoutX="1" layoutY="45" prefWidth="850" prefHeight="560" style="-fx-background-color: transparent;-fx-border-width: 0"></Pane>
+                        <Pane id="info_pane_box" layoutX="1" layoutY="45" prefWidth="800" prefHeight="560" style="-fx-background-color: transparent;-fx-border-width: 0" fx:id="infoPaneBox"></Pane>
                     </children>
                 </Pane>
 
@@ -77,13 +77,14 @@
 <!--                文本栏-->
                 <Pane id="txt" layoutX="314" layoutY="664" prefWidth="808" prefHeight="90">
                     <children>
-                        <TextArea id="txt_input" styleClass="txt_input_style" layoutX="20" prefWidth="770" prefHeight="90" wrapText="true"></TextArea>
+                        <TextArea fx:id="txtInput" id="txt_input" styleClass="txt_input_style" layoutX="20" prefWidth="770" prefHeight="90" wrapText="true" ></TextArea>
                     </children>
                 </Pane>
 
+<!--                按钮栏-->
                 <Pane id="touch" layoutX="314" layoutY="754" prefWidth="808" prefHeight="40">
                     <children>
-                        <Label id="touch_send" layoutX="707"  layoutY="4" prefWidth="85" prefHeight="34" text="发送(S)"></Label>
+                        <Label id="touch_send" layoutX="707"  layoutY="4" prefWidth="85" prefHeight="34" text="发送(S)" fx:id="touchSend"></Label>
                     </children>
                 </Pane>
 
