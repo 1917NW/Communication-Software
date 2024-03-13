@@ -29,8 +29,8 @@
                 <!-- 操作栏；最小化、关闭 -->
                 <Pane id="operation" layoutX="314" prefWidth="808" prefHeight="32">
                     <children>
-                        <Button id="group_bar_chat_min" styleClass="min" layoutX="700" prefWidth="42" prefHeight="32"/>
-                        <Button id="group_bar_chat_close" styleClass="close" layoutX="750" prefWidth="42" prefHeight="32"/>
+                        <Button id="group_bar_chat_min" styleClass="min" layoutX="700" prefWidth="42" prefHeight="32" onMouseClicked="#minizeWindow"/>
+                        <Button id="group_bar_chat_close" styleClass="close" layoutX="750" prefWidth="42" prefHeight="32" onMouseClicked="#closeWindow"/>
                     </children>
                 </Pane>
             <!-- 搜索栏-->

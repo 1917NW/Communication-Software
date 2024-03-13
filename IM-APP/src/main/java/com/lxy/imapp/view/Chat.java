@@ -1,5 +1,6 @@
 package com.lxy.imapp.view;
 
+import com.lxy.imapp.controller.ChatController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,9 +21,11 @@ public class Chat extends Stage {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource(RESOURCE_NAME));
             root = fxmlLoader.load();
+            ChatController controller = fxmlLoader.getController();
+
+            controller.setStage(this);
 
             Scene scene = new Scene(root);
-
             scene.setFill(Color.TRANSPARENT);
             setScene(scene);
             setResizable(false);

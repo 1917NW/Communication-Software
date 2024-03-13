@@ -23,6 +23,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 
 import java.util.*;
 
@@ -54,6 +55,11 @@ public class ChatController {
 
     private Map<Pane, Label> paneLabelMap;
 
+    private Stage stage;
+
+    public void setStage(Stage stage){
+        this.stage = stage;
+    }
 
 
     private Paint darkBlue = Color.web("#0099cc");
@@ -516,6 +522,14 @@ public class ChatController {
     }
 
 
+    public void minizeWindow(MouseEvent mouseEvent) {
+        stage.setIconified(true);
+    }
+
+    public void closeWindow(MouseEvent mouseEvent){
+        stage.close();
+        System.exit(0);
+    }
 }
 
 
