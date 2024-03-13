@@ -6,17 +6,17 @@
 
    https://www.bilibili.com/video/BV15t411s7R3/?spm_id_from=333.337.search-card.all.click&vd_source=9a145ddb2460c9bfcdbed4ac563578b6
 
-3. 引入头像 
+3. 引入头像  ?
 
-4. 消息提示
+4. 消息提示  v
 
-5. 实现群聊功能
+5. 实现群聊功能  v
 
-6. 实现选中的功能 v
+6. 实现选中的功能  v
 
-7. 调整消息样式
+7. 调整消息样式  v
 
-8. lookup方法怎么使用 x
+8. lookup方法怎么使用  x  v
 
    // 当我和x对话时，x的消息需要填充
 

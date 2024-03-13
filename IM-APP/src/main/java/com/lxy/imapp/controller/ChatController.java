@@ -208,8 +208,8 @@ public class ChatController {
         return null;
     }
 
+    // selected表示是否在talkList中选择该会话框
     public void addTalkBox(int talkIdx, Integer talkType, String talkId, String talkName, String talkHead, String talkSketch, Date talkDate, Boolean selected) {
-
 
         // 判断会话框是否有该对象
         ElementTalk elementTalk = CacheUtil.talkMap.get(talkId);
@@ -281,16 +281,17 @@ public class ChatController {
         addTalkBox(-1, 0, "1000004", "哈尼克兔", "04_50", null, null, true);
         addTalkMsgUserLeft("1000004", "沉淀、分享、成长，让自己和他人都有所收获！", new Date(), true, true, true);
         addTalkMsgRight("1000004", "今年过年是放假时间最长的了！", new Date(), true, true, false);
-        addTalkMsgUserLeft("1000002", "秋风扫过树叶落，哪有棋盘哪有我", new Date(), true, false, true);
-        //addTalkMsgUserLeft("1000002", "我是狗", new Date(), true, false, true);
 
-        //talkList.getSelectionModel().select(CacheUtil.talkMap.get("1000002").pane());
-//        // 群组 - 对话框
-//        addTalkBox(0, 1, "5307397", "虫洞 · 技术栈(1区)", "group_1", "", new Date(), true);
-//        addTalkMsgRight("5307397", "你炸了我的山", new Date(), true, true, false);
-//        chat.addTalkMsgGroupLeft("5307397", "1000002", "拎包冲", "01_50", "推我过忘川", new Date(), true, false, true);
-//        chat.addTalkMsgGroupLeft("5307397", "1000003", "铁锤", "03_50", "奈河桥边的姑娘", new Date(), true, false, true);
-//        chat.addTalkMsgGroupLeft("5307397", "1000004", "哈尼克兔", "04_50", "等我回头看", new Date(), true, false, true);
+        addTalkMsgUserLeft("1000002", "秋风扫过树叶落，哪有棋盘哪有我", new Date(), true, false, true);
+        addTalkMsgUserLeft("1000002", "我是狗", new Date(), true, false, true);
+
+
+        // 群组 - 对话框
+        addTalkBox(0, 1, "5307397", "虫洞 · 技术栈(1区)", "group_1", "", new Date(), false);
+        addTalkMsgRight("5307397", "你炸了我的山", new Date(), true, true, false);
+        addTalkMsgGroupLeft("5307397", "1000002", "拎包冲", "01_50", "推我过忘川", new Date(), true, false, true);
+        addTalkMsgGroupLeft("5307397", "1000003", "铁锤", "03_50", "奈河桥边的姑娘", new Date(), true, false, true);
+        addTalkMsgGroupLeft("5307397", "1000004", "哈尼克兔", "04_50", "等我回头看", new Date(), true, false, true);
     }
 
     public void setUserInfo(String userId, String userNickName, String userHead) {
@@ -391,8 +392,12 @@ public class ChatController {
         if (talkBoxData.getTalkId().equals(((TalkBoxData) firstPane.getUserData()).getTalkId())) {
 
             // 选中判断；如果第一个元素已经选中[说明正在会话]，那么清空消息提醒
-            talkList.getSelectionModel().select(firstPane);
             Pane selectedItem = talkList.getSelectionModel().getSelectedItem();
+            // 选中判断；如果第一个元素已经选中[说明正在会话]，那么清空消息提醒
+            if (null == selectedItem){
+                isRemind(msgRemindLabel, talkType, isRemind);
+                return;
+            }
 
             TalkBoxData selectedItemUserData = (TalkBoxData) selectedItem.getUserData();
             if (null != selectedItemUserData && talkBoxData.getTalkId().equals(selectedItemUserData.getTalkId())) {
@@ -475,30 +480,40 @@ public class ChatController {
         txtInput.clear();
     }
 
-//    public void addTalkMsgGroupLeft(String talkId, String userId, String userNickName, String userHead, String msg, Integer msgType, Date msgDate, Boolean idxFirst, Boolean selected, Boolean isRemind) {
-//        // 自己的消息抛弃
-//        if (this.userId.equals(userId))
-//            return;
-//
-//        ElementTalk talkElement = CacheUtil.talkMap.get(talkId);
-//        if (null == talkElement) {
-//            GroupsData groupsData = (GroupsData) $(Ids.ElementTalkId.createFriendGroupId(talkId), Pane.class).getUserData();
-//            if (null == groupsData) return;
-//            addTalkBox(0, 1, talkId, groupsData.getGroupName(), groupsData.getGroupHead(), userNickName + "：" + msg, msgDate, false);
-//            talkElement = CacheUtil.talkMap.get(talkId);
-//            // 事件通知(开启与群组发送消息)
-//            chatEvent.doEventAddTalkGroup(super.userId, talkId);
-//        }
-//        ListView<Pane> listView = talkElement.infoBoxList();
-//        Pane left = new ElementInfoBox().left(userNickName, userHead, msg, msgType);
-//        // 消息填充
-//        listView.getItems().add(left);
-//        // 滚动条
-//        listView.scrollTo(left);
-//        talkElement.fillMsgSketch(0 == msgType ? userNickName + "：" + msg : userNickName + "：[表情]", msgDate);
-//        // TODO 设置位置&选中
-//
-//    }
+    // selected为true，则表示选中该会话框，并且将会话填充到infoBox中
+    public void addTalkMsgGroupLeft(String talkId, String userId, String userNickName, String userHead, String msg, Date msgDate, Boolean idxFirst, Boolean selected, Boolean isRemind) {
+        // 如果时自己发送的消息，则抛弃
+        if (this.userId.equals(userId))
+            return;
+
+        GroupsData groupsData = null;
+        ElementTalk talkElement = CacheUtil.talkMap.get(talkId);
+        if (null == talkElement) {
+            Pane itemInListView = findItemInListView(talkList, Ids.ElementTalkId.createFriendGroupId(talkId));
+            if(itemInListView == null)
+                return;
+            groupsData = (GroupsData)itemInListView.getUserData();
+            if (groupsData == null)
+                return;
+            addTalkBox(0, 1, talkId, groupsData.getGroupName(), groupsData.getGroupHead(), userNickName + "：" + msg, msgDate, false);
+            talkElement = CacheUtil.talkMap.get(talkId);
+            // 事件通知(开启与群组发送消息)
+            System.out.println("填充到聊天窗口[群组] groupId：" + groupsData.getGroupId());
+        }
+        ListView<Pane> listView = talkElement.infoBoxList();
+        Pane left = new ElementInfoBox().left(userNickName, userHead, msg);
+        // 消息填充
+        listView.getItems().add(left);
+        // 滚动条
+        listView.scrollTo(left);
+        talkElement.fillMsgSketch( userNickName + "：" + msg, msgDate);
+        // 设置位置&选中
+        updateTalkListIdxAndSelected(TalkType.GROUP_MESSAGE.getTalkTypeCode(), talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
+
+        if(selected && groupsData!=null)
+            fillInfoBox(talkElement, groupsData.getGroupName());
+
+    }
 
 
 }
