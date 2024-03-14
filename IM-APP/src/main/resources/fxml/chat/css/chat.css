@@ -1,63 +1,11 @@
-@import "chat_talk.css";
-@import "chat_information.css";
-@import "chat_tool.css";
-@import "chat_txt.css";
-@import "chat_touch.css";
-@import "chat_search.css";
-@import "chat_operation.css";
-#Chat{
-    -fx-background-radius: 20px;
-    -fx-background-color: #03e9f4;
+@import "group_bar_chat/chat_talk.css";
+@import "group_bar_chat/chat_information.css";
+@import "group_bar_chat/chat_tool.css";
+@import "group_bar_chat/chat_txt.css";
+@import "group_bar_chat/chat_touch.css";
 
 
-}
 
-#bar{
-    -fx-border-width: 2px;
-    -fx-border-radius: 20px 0 0 20px;
-    -fx-border-color: #03e9f4;
-
-    -fx-background-color: linear-gradient(#0e6671, #0b4050);
-    -fx-background-radius: 20px 0 0 20px;
-}
-
-#profile{
-    -fx-cursor: hand;
-}
-
-
-.bar_chat_item{
-    -fx-background-radius: 2px;
-    -fx-cursor: hand;
-    -fx-border-radius: 2px;
-
-    -fx-text-fill: #0099cc;
-
-    -fx-pref-height: 30px;
-    -fx-pref-width: 30px;
-
-}
-
-#bar_chat{
-    -fx-text-fill: #03e9f4;
-}
-/*.bar_chat_item:hover{*/
-/*    -fx-background-radius: 2px;*/
-
-/*    -fx-cursor: hand;*/
-/*    -fx-border-radius: 2px;*/
-
-/*    -fx-text-fill: #03e9f4;*/
-/*}*/
-
-#bar_set:hover{
-        -fx-background-radius: 2px;
-
-        -fx-cursor: hand;
-        -fx-border-radius: 2px;
-
-        -fx-text-fill: #03e9f4;
-}
 
 #group_bar_chat{
     -fx-background-color: transparent;
@@ -65,8 +13,5 @@
 
 }
 
-#group_bar_friend{
-    -fx-background-color: yellow;
-    -fx-background-radius: 0 20px 20px 0;
-}
+
 

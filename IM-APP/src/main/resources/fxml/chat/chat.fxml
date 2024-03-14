@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<AnchorPane id="Chat" styleClass="Chat" prefHeight="800.0" prefWidth="1200.0" stylesheets="@css/chat.css"
+<AnchorPane id="Chat" styleClass="Chat" prefHeight="800.0" prefWidth="1200.0" stylesheets="@css/content.css"
             xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.lxy.imapp.controller.ChatController">
     <children>
@@ -90,6 +90,31 @@
 
             </children>
         </Pane>
-        <Pane visible="false" id="group_bar_friend" layoutX="75" layoutY="2" prefWidth="1122" prefHeight="795" fx:id="friendPane"></Pane>
+        <Pane visible="false" id="group_bar_friend" layoutX="75" layoutY="2" prefWidth="1122" prefHeight="795" fx:id="friendPane">
+            <!-- 操作栏；最小化、关闭 -->
+            <Pane id="operation" layoutX="314" prefWidth="808" prefHeight="32">
+                <children>
+                    <Button id="group_bar_chat_min" styleClass="min" layoutX="700" prefWidth="42" prefHeight="32" onMouseClicked="#minizeWindow"/>
+                    <Button id="group_bar_chat_close" styleClass="close" layoutX="750" prefWidth="42" prefHeight="32" onMouseClicked="#closeWindow"/>
+                </children>
+            </Pane>
+            <!-- 搜索栏-->
+            <Pane styleClass="search" prefHeight="80" prefWidth="314">
+                <children>
+                    <TextField styleClass="searchInput" layoutX="20" layoutY="30" prefHeight="30" prefWidth="240" promptText="搜索">
+                        <padding>
+                            <Insets left="30"/>
+                        </padding>
+                    </TextField>
+                    <Label styleClass="searchAdd" layoutX="270" layoutY="30" prefWidth="30" prefHeight="30"></Label>
+                </children>
+            </Pane>
+
+            <Pane id="friend" layoutY="80" prefHeight="715" prefWidth="314">
+                <children>
+                    <ListView id="friendList" prefHeight="715" prefWidth="314" styleClass="friendListStyle" fx:id="friendList"></ListView>
+                </children>
+            </Pane>
+        </Pane>
     </children>
 </AnchorPane>

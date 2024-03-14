@@ -53,6 +53,9 @@ public class ChatController {
     @FXML
     private ListView<Pane> talkList;
 
+    @FXML
+    private ListView<Pane> friendList;
+
     private Map<Pane, Label> paneLabelMap;
 
     private Stage stage;
