@@ -1,5 +1,6 @@
 package com.lxy.imapp.controller;
 
+import com.lxy.imapp.constant.FriendPaneId;
 import com.lxy.imapp.constant.TalkType;
 import com.lxy.imapp.data.GroupsData;
 import com.lxy.imapp.data.RemindCount;
@@ -7,6 +8,7 @@ import com.lxy.imapp.data.TalkBoxData;
 import com.lxy.imapp.data.TalkData;
 import com.lxy.imapp.element.chat_group.ElementInfoBox;
 import com.lxy.imapp.element.chat_group.ElementTalk;
+import com.lxy.imapp.element.friend_group.*;
 import com.lxy.imapp.util.CacheUtil;
 import com.lxy.imapp.util.Ids;
 import javafx.collections.ObservableList;
@@ -73,6 +75,14 @@ public class ChatController {
     public String userNickName; // 用户昵称
     public String userHead;     // 用户头像
 
+    public ListView<Pane> userListView;
+
+    public ListView<Pane> groupListView;
+
+    public Pane friendGroupPane;
+
+
+
     public void initialize() {
 
        setProfilePhoto();
@@ -81,8 +91,36 @@ public class ChatController {
        setBarFavoriteStyle();
        setBarSettingStyle();
        initPaneList();
-       initTalkList();
+
        initSendHandler();
+
+       // 初始化好友界面左侧栏
+        initAddFriendLuck();
+
+        // 初始化公众号
+        addFriendSubscription();
+
+        // 初始化群聊列表
+        addFriendGroupList();
+//
+//        // 初始化好友列表
+        addFriendUserList();
+//
+        testTalkList();
+        testFriendList();
+    }
+
+    private void testFriendList() {
+        // 群组
+        addFriendGroup("5307397", "虫洞 · 技术栈(1区)", "group_1");
+        addFriendGroup("5307392", "CSDN 社区专家", "group_2");
+        addFriendGroup("5307399", "洗脚城VIP", "group_3");
+
+        // 好友
+        addFriendUser(false, "1000004", "哈尼克兔", "04_50");
+        addFriendUser(false, "1000001", "拎包冲", "02_50");
+        addFriendUser(false, "1000002", "铁锤", "03_50");
+        addFriendUser(true, "1000003", "小傅哥 | bugstack.cn", "01_50");
     }
 
 
@@ -278,7 +316,7 @@ public class ChatController {
         });
     }
 
-    private void initTalkList() {
+    private void testTalkList() {
 
         setUserInfo("1000001", "拎包冲", "02_50");
 
@@ -533,6 +571,176 @@ public class ChatController {
         stage.close();
         System.exit(0);
     }
+
+    // ----------------------以下均为好友面板---------------------------
+
+    // 添加新的好友
+    public void initAddFriendLuck(){
+        ObservableList<Pane> items = friendList.getItems();
+
+        // 设置新的朋友面板
+        ElementFriendTag elementFriendTag = new ElementFriendTag("新的朋友");
+        items.add(elementFriendTag.pane());
+
+        ElementFriendLuck element = new ElementFriendLuck();
+        Pane pane = element.pane();
+        items.add(pane);
+
+        pane.setOnMousePressed(event -> {
+            Pane friendLuckPane = element.friendLuckPane();
+            setContentPaneBox(FriendPaneId.NEW_FRIEND_PANE_ID.getId(), "新的朋友", friendLuckPane);
+            clearViewListSelectedAll(userListView, groupListView);
+            ListView<Pane> paneListView = element.friendLuckListView();
+            paneListView.getItems().clear();
+            System.out.println("添加好友");
+
+        });
+
+        // 搜索框事件
+        TextField friendLuckSearch = element.friendLuckSearch();
+
+        friendLuckSearch.setOnKeyPressed(event -> {
+            if(event.getCode().equals(KeyCode.ENTER)){
+                String text = friendLuckSearch.getText();
+                if(text == null)
+                    text = "";
+
+                text = text.trim();
+                if(text.length() > 30)
+                    text = text.substring(0, 30);
+
+                System.out.println("搜搜好友:" + text);
+
+                element.friendLuckListView().getItems().clear();
+                // 添加朋友
+                element.friendLuckListView().getItems().add(new ElementFriendLuckUser("100005", "比丘卡", "05_50",0).pane());
+
+                element.friendLuckListView().getItems().add(new ElementFriendLuckUser("1000006", "兰兰", "05_50",0).pane());
+
+                element.friendLuckListView().getItems().add(new ElementFriendLuckUser("100007","Alexa", "07_50", 2).pane());
+
+
+            }
+        });
+
+
+    }
+
+
+    // 添加公众号
+    public void addFriendSubscription(){
+        ObservableList<Pane> items = friendList.getItems();
+        ElementFriendTag elementFriendTag = new ElementFriendTag("公众号");
+        items.add(elementFriendTag.pane());
+
+        ElementFriendSubscription elementFriendSubscription = new ElementFriendSubscription();
+        Pane pane = elementFriendSubscription.pane();
+        items.add(pane);
+
+
+        pane.setOnMousePressed(event -> {
+            clearViewListSelectedAll(userListView, groupListView);
+        });
+
+
+    }
+
+    public void clearViewListSelectedAll(ListView<Pane>... listViews) {
+        for (ListView<Pane> listView : listViews) {
+            if(listView != null)
+            listView.getSelectionModel().clearSelection();
+        }
+    }
+
+    public void addFriendGroupList(){
+        ObservableList<Pane> items = friendList.getItems();
+        ElementFriendTag elementFriendTag = new ElementFriendTag("群聊");
+        items.add(elementFriendTag.pane());
+
+        ElementFriendGroupList elementFriendGroupList = new ElementFriendGroupList();
+        groupListView = elementFriendGroupList.getGroupListView();
+        Pane pane = elementFriendGroupList.pane();
+        friendGroupPane = pane;
+        items.add(pane);
+    }
+
+    public void addFriendUserList(){
+        ObservableList<Pane> items = friendList.getItems();
+
+        ElementFriendTag elementFriendTag = new ElementFriendTag("好友");
+        items.add(elementFriendTag.pane());
+
+        ElementFriendUserList elementFriendUserList = new ElementFriendUserList();
+        Pane pane = elementFriendUserList.pane();
+        userListView = elementFriendUserList.getUserListView();
+        friendUserListPane = pane;
+        items.add(pane);
+
+    }
+
+    public void addFriendGroup(String groupId, String groupName, String groupHead) {
+        ElementFriendGroup elementFriendGroup = new ElementFriendGroup(groupId, groupName, groupHead);
+        Pane pane = elementFriendGroup.pane();
+        if(groupListView == null) {
+            System.out.println("groupListView is Null!");
+            return;
+        }
+        // 添加到群组列表
+        ObservableList<Pane> items = groupListView.getItems();
+        items.add(pane);
+        groupListView.setPrefHeight(80 * items.size());
+
+        if(friendGroupPane != null)
+        friendGroupPane.setPrefHeight(80 * items.size());
+        // 添加监听事件
+        pane.setOnMousePressed(event -> {
+            clearViewListSelectedAll(friendList, userListView);
+        });
+    }
+
+    private Pane friendUserListPane;
+
+    public void addFriendUser(boolean selected, String userFriendId, String userFriendNickName, String userFriendHead) {
+        ElementFriendUser friendUser = new ElementFriendUser(userFriendId, userFriendNickName, userFriendHead);
+        Pane pane = friendUser.pane();
+
+        ObservableList<Pane> items = null;
+        // 添加到好友列表
+        if(userListView == null)
+            return;
+
+        items = userListView.getItems();
+        items.add(pane);
+        userListView.setPrefHeight(80 * items.size());
+        friendUserListPane.setPrefHeight(80 * items.size());
+        // 选中
+        if (selected) {
+            userListView.getSelectionModel().select(pane);
+        }
+        // 添加监听事件
+        pane.setOnMousePressed(event -> {
+            clearViewListSelectedAll(friendList, groupListView);
+        });
+    }
+
+
+    @FXML
+    private Pane contentPaneBox;
+
+    @FXML
+    private Label contentName;
+    void setContentPaneBox(String id, String name, Node node) {
+        // 填充对话列表
+        contentPaneBox.setUserData(id);
+        contentPaneBox.getChildren().clear();
+        contentPaneBox.getChildren().add(node);
+
+        // 设置对话框名称
+        contentName.setText(name);
+    }
+
+
+
 }
 
 

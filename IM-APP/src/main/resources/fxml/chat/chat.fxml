@@ -115,6 +115,18 @@
                     <ListView id="friendList" prefHeight="715" prefWidth="314" styleClass="friendListStyle" fx:id="friendList"></ListView>
                 </children>
             </Pane>
+
+            <Pane id="content" layoutX="314" layoutY="32" prefWidth="808" prefHeight="606">
+                <children>
+                    <Pane id="content_pane" prefWidth="808" prefHeight="44">
+                        <children>
+                            <Label id="content_name" layoutX="40" layoutY="-8" prefWidth="400" prefHeight="40"
+                                   text="加载..." fx:id="contentName"/>
+                        </children>
+                    </Pane>
+                    <Pane id="content_pane_box" layoutX="1" layoutY="45" prefWidth="808" prefHeight="560" style="-fx-background-color:transparent;-fx-border-width:0;" fx:id="contentPaneBox"/>
+                </children>
+            </Pane>
         </Pane>
     </children>
 </AnchorPane>

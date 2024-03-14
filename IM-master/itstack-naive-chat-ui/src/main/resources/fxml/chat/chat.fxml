@@ -122,6 +122,7 @@
                     </children>
                 </Pane>
                 <!-- 内容栏；新的朋友、公众号、群组、好友，明细信息(发送消息按钮) -->
+
                 <Pane id="content" layoutX="314" layoutY="32" prefWidth="852" prefHeight="606">
                     <children>
                         <Pane id="content_pane" prefWidth="852" prefHeight="44">
@@ -133,6 +134,7 @@
                         <Pane id="content_pane_box" layoutX="1" layoutY="45" prefWidth="850" prefHeight="560" style="-fx-background-color:transparent;-fx-border-width:0;"/>
                     </children>
                 </Pane>
+                
             </children>
         </Pane>
         
