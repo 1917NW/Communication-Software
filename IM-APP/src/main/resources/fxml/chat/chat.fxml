@@ -66,10 +66,10 @@
                     </children>
                 </Pane>
 
-<!--                工具栏-->
+<!--                工具栏，现在只有表情包-->
                 <Pane id="tool" layoutX="314" layoutY="618" prefWidth="808" prefHeight="46">
                     <children>
-                        <Button id="tool_face" layoutX="20" layoutY="3" prefWidth="40" prefHeight="40"/>
+                        <Button id="tool_face" layoutX="20" layoutY="3" prefWidth="40" prefHeight="40" fx:id="emotionButton"/>
                     </children>
                 </Pane>
 

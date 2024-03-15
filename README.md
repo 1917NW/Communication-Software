@@ -12,7 +12,7 @@ https://www.bilibili.com/video/BV15t411s7R3/?spm_id_from=333.337.search-card.all
 * [ ] 引入头像
 * [X] 消息提示
 * [X] 实现群聊功能
-* [ ] 实现选中的功能
+* [x] 实现选中的功能
 * [ ] 调整消息样式
 * [X] 消息填充
 

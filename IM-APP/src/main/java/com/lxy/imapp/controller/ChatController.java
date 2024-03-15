@@ -11,6 +11,7 @@ import com.lxy.imapp.element.chat_group.ElementTalk;
 import com.lxy.imapp.element.friend_group.*;
 import com.lxy.imapp.util.CacheUtil;
 import com.lxy.imapp.util.Ids;
+import com.lxy.imapp.view.Emotion;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -91,7 +92,7 @@ public class ChatController {
        setBarFavoriteStyle();
        setBarSettingStyle();
        initPaneList();
-
+       initToolBox();
        initSendHandler();
 
        // 初始化好友界面左侧栏
@@ -799,7 +800,19 @@ public class ChatController {
     }
 
 
+    @FXML
+    private Button emotionButton;
 
+    private void registerEmotionHandler() {
+        Emotion emotionStage = new Emotion();
+        emotionButton.setOnMousePressed(event -> {
+            emotionStage.doShowFace(stage.getX() + 314 + 74 , stage.getY() + 618- 170);
+        });
+    }
+
+    public void initToolBox(){
+        registerEmotionHandler();
+    }
 
 }
 
