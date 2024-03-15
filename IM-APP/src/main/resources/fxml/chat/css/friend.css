@@ -1,6 +1,6 @@
 @import "group_bar_friend/chat_content.css";
 @import "group_bar_friend/chat_friend.css";
 #group_bar_friend{
-    -fx-background-color: yellow;
+    -fx-background-color: white;
     -fx-background-radius: 0 20px 20px 0;
 }

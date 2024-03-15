@@ -41,8 +41,8 @@ public class ElementFriendSubscription {
 
         // 初始化未装载
         subPane = new Pane();
-        subPane.setPrefSize(850, 560);
-        subPane.setStyle("-fx-background-color:transparent;");
+        subPane.setPrefSize(808, 560);
+        subPane.setStyle("-fx-background-color:black;");
         ObservableList<Node> subPaneChildren = subPane.getChildren();
 
         Button gzh_button = new Button();

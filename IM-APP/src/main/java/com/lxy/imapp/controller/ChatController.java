@@ -199,6 +199,8 @@ public class ChatController {
 
         switchToPane(chatPane);
 
+
+
         barChat.setTextFill(lightBlue);
         barFriend.setTextFill(darkBlue);
 
@@ -256,12 +258,14 @@ public class ChatController {
     }
 
     // selected表示是否在talkList中选择该会话框
-    public void addTalkBox(int talkIdx, Integer talkType, String talkId, String talkName, String talkHead, String talkSketch, Date talkDate, Boolean selected) {
+    // talkType=0表示为好友消息， talkType=1表示群组消息
+    public ElementTalk addTalkBox(int talkIdx, Integer talkType, String talkId, String talkName, String talkHead, String talkSketch, Date talkDate, Boolean selected) {
 
         // 判断会话框是否有该对象
         ElementTalk elementTalk = CacheUtil.talkMap.get(talkId);
         if (null != elementTalk) {
-            Pane talkPane = findItemInListView(talkList, Ids.ElementTalkId.createTalkPaneId(talkId));
+
+             Pane  talkPane = findItemInListView(talkList, Ids.ElementTalkId.createTalkPaneId(talkId));
             if (null == talkPane) {
                 talkList.getItems().add(talkIdx, elementTalk.pane());
             }
@@ -269,7 +273,7 @@ public class ChatController {
                 // 设置选中
                 talkList.getSelectionModel().select(elementTalk.pane());
             }
-            return;
+            return elementTalk;
         }
 
         // 初始化对话框元素
@@ -293,10 +297,8 @@ public class ChatController {
         talkElementPane.setOnMousePressed(event -> {
             // 填充消息栏
             fillInfoBox(talkElement, talkName);
-            // 清除消息提醒
-            Label msgRemind = talkElement.msgRemind();
-            msgRemind.setUserData(new RemindCount(0));
-            msgRemind.setVisible(false);
+
+
         });
 
         // 鼠标事件[移入/移出]
@@ -314,6 +316,8 @@ public class ChatController {
             talkList.getItems().remove(talkElementPane);
             talkElement.clearMsgSketch();
         });
+
+        return talkElement;
     }
 
     private void testTalkList() {
@@ -335,6 +339,7 @@ public class ChatController {
 
         // 群组 - 对话框
         addTalkBox(0, 1, "5307397", "虫洞 · 技术栈(1区)", "group_1", "", new Date(), false);
+
         addTalkMsgRight("5307397", "你炸了我的山", new Date(), true, true, false);
         addTalkMsgGroupLeft("5307397", "1000002", "拎包冲", "01_50", "推我过忘川", new Date(), true, false, true);
         addTalkMsgGroupLeft("5307397", "1000003", "铁锤", "03_50", "奈河桥边的姑娘", new Date(), true, false, true);
@@ -400,6 +405,9 @@ public class ChatController {
 
         // 对话框名称
         infoName.setText(talkName);
+
+        // 清除通知
+        clearRemind(talkElement.msgRemind());
     }
 
     public void addTalkMsgRight(String talkId, String msg, Date msgData, Boolean idxFirst, Boolean selected, Boolean isRemind) {
@@ -640,6 +648,8 @@ public class ChatController {
 
         pane.setOnMousePressed(event -> {
             clearViewListSelectedAll(userListView, groupListView);
+            Pane subPane = elementFriendSubscription.subPane();
+            setContentPaneBox(FriendPaneId.SUBSCRIBE_PANE_ID.getId(), "公众号", subPane);
         });
 
 
@@ -662,6 +672,7 @@ public class ChatController {
         Pane pane = elementFriendGroupList.pane();
         friendGroupPane = pane;
         items.add(pane);
+
     }
 
     public void addFriendUserList(){
@@ -690,11 +701,29 @@ public class ChatController {
         items.add(pane);
         groupListView.setPrefHeight(80 * items.size());
 
+        // 群组信息面板，点击群组时，右侧会显现
+        Pane detailContent = new Pane();
+        detailContent.setPrefSize(808,560);
+        detailContent.getStyleClass().add("friendGroupDetailContent");
+        ObservableList<Node> children = detailContent.getChildren();
+
+        Button sendMsgButton = new Button();
+        sendMsgButton.setId(groupId);
+        sendMsgButton.getStyleClass().add("friendGroupSendMsgButton");
+        sendMsgButton.setPrefSize(176,50);
+        sendMsgButton.setLayoutX(316);
+        sendMsgButton.setLayoutY(450);
+        sendMsgButton.setText("发送消息");
+        children.add(sendMsgButton);
+
         if(friendGroupPane != null)
         friendGroupPane.setPrefHeight(80 * items.size());
+
+        doEventOpenFriendGroupSendMsg(sendMsgButton, groupId, groupName, groupHead, 1);
         // 添加监听事件
         pane.setOnMousePressed(event -> {
             clearViewListSelectedAll(friendList, userListView);
+            setContentPaneBox(groupId, groupName, detailContent);
         });
     }
 
@@ -709,6 +738,21 @@ public class ChatController {
         if(userListView == null)
             return;
 
+        // 好友，内容框[初始化，未装载]，承载好友信息内容，点击按钮时候填充
+        Pane detailContent = new Pane();
+        detailContent.setPrefSize(808, 560);
+        detailContent.getStyleClass().add("friendUserDetailContent");
+        ObservableList<Node> children = detailContent.getChildren();
+
+        Button sendMsgButton = new Button();
+        sendMsgButton.setId(userFriendId);
+        sendMsgButton.getStyleClass().add("friendUserSendMsgButton");
+        sendMsgButton.setPrefSize(176, 50);
+        sendMsgButton.setLayoutX(316);
+        sendMsgButton.setLayoutY(450);
+        sendMsgButton.setText("发送消息");
+        children.add(sendMsgButton);
+
         items = userListView.getItems();
         items.add(pane);
         userListView.setPrefHeight(80 * items.size());
@@ -717,9 +761,12 @@ public class ChatController {
         if (selected) {
             userListView.getSelectionModel().select(pane);
         }
+
+        doEventOpenFriendGroupSendMsg(sendMsgButton, userFriendId, userFriendNickName, userFriendHead, 0);
         // 添加监听事件
         pane.setOnMousePressed(event -> {
             clearViewListSelectedAll(friendList, groupListView);
+            setContentPaneBox(userFriendId, userFriendNickName,detailContent);
         });
     }
 
@@ -738,6 +785,19 @@ public class ChatController {
         // 设置对话框名称
         contentName.setText(name);
     }
+
+    public void doEventOpenFriendGroupSendMsg(Button sendMsgButton, String groupId, String groupName, String groupHead, Integer talkType) {
+        sendMsgButton.setOnMouseClicked(event -> {
+            // 1. 添加好友到对话框
+            ElementTalk elementTalk = addTalkBox(0, talkType, groupId, groupName, groupHead, null, null, true);
+            // 2. 切换到对话框窗口
+            switchToChat(event);
+            fillInfoBox(elementTalk, groupName);
+            // 3. 事件处理；填充到对话框
+            System.out.println("事件处理；填充到对话框");
+        });
+    }
+
 
 
 
