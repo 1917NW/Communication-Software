@@ -6,7 +6,7 @@
 * [ ] 使用手机号登录
 * [x] 设置一个很炫酷的按钮
 * [x] 删除会话后infoBox显示背景图片
-* [ ] 设置图片为圆角
+* [ ] 设置图片为圆角（无法实现）
 
 https://www.bilibili.com/video/BV15t411s7R3/?spm_id_from=333.337.search-card.all.click&vd_source=9a145ddb2460c9bfcdbed4ac563578b6
 

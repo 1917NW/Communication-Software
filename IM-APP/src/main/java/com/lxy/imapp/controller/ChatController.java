@@ -18,6 +18,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -87,8 +88,10 @@ public class ChatController {
 
 
     public void initialize() {
-
+        // 设置用户头像
        setProfilePhoto();
+
+
        setBarChatStyle();
        setBarFriendStyle();
        setBarFavoriteStyle();
@@ -185,14 +188,16 @@ public class ChatController {
 
         // 给Button设置背景图片
         Image image = new Image("file:src/main/resources/fxml/chat/img/dog.png");
+        ImageView imageView = new ImageView(image);
 
         BackgroundImage backgroundImage = new BackgroundImage(image,
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER, new BackgroundSize(50,50,true,true,true,true));
 
+
         Background background = new Background(backgroundImage);
 
-        // 给Button设置背景
+//         给Button设置背景
         profile.setBackground(background);
     }
 
