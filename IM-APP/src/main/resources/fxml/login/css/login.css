@@ -33,6 +33,7 @@
 #minimize{
     -fx-text-fill: #ccffff;
     -fx-translate-x: 290px;
+    -fx-cursor: hand;
 }
 
 
@@ -56,10 +57,31 @@
 #userAccount{
     -fx-translate-x: 84px;
     -fx-translate-y: 250px;
+    -fx-pref-width: 180px;
 }
-#userPassword{
+
+#userAccountIcon{
+    -fx-translate-x: 84px;
+    -fx-translate-y: 250px;
+}
+#userPassword, #userShowPassword{
     -fx-translate-x: 84px;
     -fx-translate-y: 290px;
+    -fx-pref-width: 180px;
+
+}
+
+#userPasswordIcon{
+    -fx-translate-x: 84px;
+    -fx-translate-y: 289px;
+}
+#userShowPasswordIcon{
+    -fx-translate-x: 244px;
+    -fx-translate-y: 290px;
+}
+#userShowPasswordIcon:hover{
+    -fx-cursor: hand;
+    -fx-text-fill: #03e9f4;
 }
 
 .inputClass{
@@ -67,7 +89,7 @@
     -fx-background-color: transparent;
     -fx-border-color: #000000; /* 设置边框颜色 */
     -fx-border-width: 0 0 3px 0;
-    -fx-pref-width: 180px;
+
     -fx-text-fill: #03e9f4;
     -fx-prompt-text-fill: #03e9f4;
 }
@@ -77,6 +99,12 @@
     -fx-prompt-text-fill: transparent;
 }
 
+.highlight{
+    -fx-text-fill: #03e9f4;
+}
+
+
+
 /*
 设置登录按钮
  */
@@ -85,11 +113,13 @@
     -fx-pref-height: 30px;
     -fx-translate-x: 134px;
     -fx-translate-y: 345px;
-    -fx-background-color: #006699;
+    -fx-background-radius: 15px;
+    -fx-background-color: rgba(0,0,0,.5);
+    -fx-text-fill:#03e9f4;
 }
 
 #loginButton:hover{
     -fx-background-color: #03e9f4;
     -fx-text-fill: white;
-
+    -fx-effect: dropshadow(three-pass-box , #03e9f4 , 15 , 0.7 , 0 , 0);
 }

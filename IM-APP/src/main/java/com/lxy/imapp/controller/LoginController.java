@@ -14,6 +14,7 @@ import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -44,7 +45,7 @@ public class LoginController {
 
     private Stage stage;
 
-
+    private Paint lightBlue = Color.web("#03e9f4");
 
 
     public void initialize(){
@@ -55,6 +56,15 @@ public class LoginController {
 
         setAppNameStyle();
 
+        bindPasswordField();
+
+        initUserAccountIcon();
+
+        initUserPasswordIcon();
+
+        initUserShowPasswordIcon();
+
+        initAccountFocusHandler();
     }
 
 
@@ -112,8 +122,112 @@ public class LoginController {
 
     public void login(MouseEvent mouseEvent) {
         System.out.println("用户名:" + userAccount.getText());
-        System.out.println("密码:"+ userPassword.getText());
+        System.out.println("密码:"+ password);
+    }
+
+    @FXML
+    private Label userAccountIcon;
+
+    @FXML
+    private Label userPasswordIcon;
+
+    private void initUserAccountIcon(){
+        Font font = Font.loadFont(getClass().getResourceAsStream("/fxml/login/tff/input.ttf"), 20);
+        //某个图标的unicode
+        char unicode = '\uE61E';
+        userAccountIcon.setFont(Font.font(font.getFamily(), 15));
+        userAccountIcon.setText(Character.toString(unicode));
+    }
+
+    private void initUserPasswordIcon(){
+        Font font = Font.loadFont(getClass().getResourceAsStream("/fxml/login/tff/input.ttf"), 20);
+        //某个图标的unicode
+        char unicode = '\uE608';
+        userPasswordIcon.setFont(Font.font(font.getFamily(), 18));
+        userPasswordIcon.setText(Character.toString(unicode));
+    }
+
+    @FXML
+    private Label userShowPasswordIcon;
+
+    private void initAccountFocusHandler(){
+        userAccount.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+            if (!isNowFocused) {
+               userAccountIcon.getStyleClass().remove("highlight");
+            }
+            else {
+                userAccountIcon.getStyleClass().add("highlight");
+            }
+        });
+
+        userPassword.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+            if (!isNowFocused) {
+                userPasswordIcon.getStyleClass().remove("highlight");
+            }
+            else {
+                userPasswordIcon.getStyleClass().add("highlight");
+            }
+        });
+
+        userShowPassword.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+            if (!isNowFocused) {
+                userPasswordIcon.getStyleClass().remove("highlight");
+            }
+            else {
+                userPasswordIcon.getStyleClass().add("highlight");
+            }
+        });
+
+
+    }
+
+    private void initUserShowPasswordIcon(){
+        Font font = Font.loadFont(getClass().getResourceAsStream("/fxml/login/tff/input.ttf"), 20);
+        //某个图标的unicode
+        char unicode = '\uE600';
+        userShowPasswordIcon.setFont(Font.font(font.getFamily(), 18));
+        userShowPasswordIcon.setText(Character.toString(unicode));
     }
 
 
+    public void highlightAccountIcon(MouseEvent mouseEvent) {
+        userAccountIcon.setTextFill(lightBlue);
+    }
+
+    private boolean isHighlightShowPasswordIcon = false;
+
+    @FXML
+    private TextField userShowPassword;
+
+    void showPassword(boolean isShow){
+
+        userPassword.setVisible(!isShow);
+        userShowPassword.setVisible(isShow);
+
+    }
+    public void showPassword(MouseEvent mouseEvent) {
+
+        if(!isHighlightShowPasswordIcon){
+            userShowPasswordIcon.getStyleClass().add("highlight");
+            showPassword(true);
+        }else {
+            userShowPasswordIcon.getStyleClass().remove("highlight");
+            showPassword(false);
+        }
+        isHighlightShowPasswordIcon = !isHighlightShowPasswordIcon;
+    }
+    private String password;
+
+    private void bindPasswordField(){
+        userPassword.textProperty().addListener((observable, oldValue, newValue) ->
+        {
+            password = newValue;
+            userShowPassword.setText(password);
+        });
+        userShowPassword.textProperty().addListener((observable, oldValue, newValue) ->
+        {
+            password = newValue;
+            userPassword.setText(password);
+        });
+    }
 }

@@ -1,0 +1,25 @@
+@font-face {
+  font-family: "im-input"; /* Project id 4469294 */
+  src: url('iconfont.ttf?t=1710560739295') format('truetype');
+}
+
+.im-input {
+  font-family: "im-input" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-mima:before {
+  content: "\e608";
+}
+
+.icon-denglu-zhanghao_zhanghao:before {
+  content: "\e61e";
+}
+
+.icon-mimaxianshi:before {
+  content: "\e600";
+}
+

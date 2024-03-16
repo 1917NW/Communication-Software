@@ -7,12 +7,13 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
 <AnchorPane id="login"
             xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             stylesheets="@css/login.css"
             fx:controller="com.lxy.imapp.controller.LoginController"
-           onMouseClicked="#lostFocus"
+            onMouseClicked="#lostFocus"
            >
 
         <Label id="minimize" fx:id="loginMinimize" onMouseClicked="#minimizeStage"></Label>
@@ -30,19 +31,34 @@
 
 
     <TextField id="userAccount" promptText="UserAccount" styleClass="inputClass" editable="true" fx:id="userAccount" focusTraversable="false" >
-
+        <padding>
+            <Insets left="25" right="25"></Insets>
+        </padding>
     </TextField>
+
+    <Label id="userAccountIcon" fx:id="userAccountIcon" ></Label>
 
 
     <PasswordField id="userPassword" promptText="UserPassword" styleClass="inputClass" editable="true" fx:id="userPassword" focusTraversable="false">
+        <padding>
+            <Insets left="25" right="25"></Insets>
+        </padding>
+    </PasswordField>
 
-        </PasswordField>
+    <TextField visible="false" id="userShowPassword" promptText="UserPassword" styleClass="inputClass" editable="true" fx:id="userShowPassword" focusTraversable="false">
+        <padding>
+            <Insets left="25" right="25"></Insets>
+        </padding>
+    </TextField>
+
+    <Label id="userPasswordIcon"  fx:id="userPasswordIcon"></Label>
+    <Label fx:id="userShowPasswordIcon" id="userShowPasswordIcon" onMouseClicked="#showPassword"></Label>
 
 
 
 
 
-        <Button id="loginButton" text="登录" fx:id="loginButton" onMouseClicked="#login"></Button>
+    <Button id="loginButton" text="登录" fx:id="loginButton" onMouseClicked="#login"></Button>
 
 
 
