@@ -70,6 +70,8 @@ public class ChatController {
 
     private Paint darkBlue = Color.web("#0099cc");
 
+    private Paint whiteBlue = Color.web("#99cccc");
+
     private Paint lightBlue = Color.web("#03e9f4");
 
     public String userId;       // 用户ID
@@ -94,6 +96,7 @@ public class ChatController {
        initPaneList();
        initToolBox();
        initSendHandler();
+       setLogo();
 
        // 初始化好友界面左侧栏
         initAddFriendLuck();
@@ -203,7 +206,7 @@ public class ChatController {
 
 
         barChat.setTextFill(lightBlue);
-        barFriend.setTextFill(darkBlue);
+        barFriend.setTextFill(whiteBlue);
 
 
     }
@@ -214,7 +217,7 @@ public class ChatController {
 
         switchToPane(friendPane);
         barFriend.setTextFill(lightBlue);
-        barChat.setTextFill(darkBlue);
+        barChat.setTextFill(whiteBlue);
 
 
     }
@@ -227,7 +230,7 @@ public class ChatController {
         if(chatPane.isVisible())
             return;
 
-        barChat.setTextFill(darkBlue);
+        barChat.setTextFill(whiteBlue);
     }
 
     public void hoverFriendLabel(MouseEvent mouseEvent) {
@@ -237,7 +240,7 @@ public class ChatController {
     public void unhoverFriendLabel(MouseEvent mouseEvent) {
         if(friendPane.isVisible())
             return;
-        barFriend.setTextFill(darkBlue);
+        barFriend.setTextFill(whiteBlue);
     }
 
 
@@ -298,6 +301,10 @@ public class ChatController {
         talkElementPane.setOnMousePressed(event -> {
             // 填充消息栏
             fillInfoBox(talkElement, talkName);
+            //
+            setValid(true);
+
+
 
 
         });
@@ -313,9 +320,13 @@ public class ChatController {
         });
         // 从对话框中删除
         talkElement.delete().setOnMouseClicked(event -> {
-            System.out.println("删除对话框：" + talkName);
+
             talkList.getItems().remove(talkElementPane);
             talkElement.clearMsgSketch();
+            setValid(false);
+            talkList.getSelectionModel().clearSelection();
+
+
         });
 
         return talkElement;
@@ -793,6 +804,9 @@ public class ChatController {
             ElementTalk elementTalk = addTalkBox(0, talkType, groupId, groupName, groupHead, null, null, true);
             // 2. 切换到对话框窗口
             switchToChat(event);
+            // 3.设置infoBox有效
+            setValid(true);
+            // 4.填充对话框
             fillInfoBox(elementTalk, groupName);
             // 3. 事件处理；填充到对话框
             System.out.println("事件处理；填充到对话框");
@@ -812,6 +826,28 @@ public class ChatController {
 
     public void initToolBox(){
         registerEmotionHandler();
+    }
+
+    @FXML
+    private Pane validPane;
+
+    @FXML
+    private Pane invalidPane;
+
+
+    public void setValid(boolean isValid){
+        validPane.setVisible(isValid);
+        invalidPane.setVisible(!isValid);
+    }
+
+    @FXML
+    private Label logo;
+
+    private void setLogo(){
+
+        logo.setFont(Font.font("Blackadder ITC", 100));
+        logo.setText("Nida");
+
     }
 
 }

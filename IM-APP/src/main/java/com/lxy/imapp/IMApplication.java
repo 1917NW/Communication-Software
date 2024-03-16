@@ -12,8 +12,8 @@ import java.io.IOException;
 public class IMApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Chat chat = new Chat();
-        chat.show();
+        Chat login = new Chat();
+        login.show();
     }
 
     public static void main(String[] args) {

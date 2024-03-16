@@ -52,41 +52,50 @@
                     </children>
                 </Pane>
 
-<!--                消息栏-->
-                <Pane id="information" layoutX="314" layoutY="32" prefWidth="808" prefHeight="586">
+                <Pane visible="true" id="validPane" layoutX="314" layoutY="32" prefHeight="800" prefWidth="808" fx:id="validPane">
                     <children>
+                    <!--                消息栏-->
+                    <Pane id="information"  prefWidth="808" prefHeight="586">
+                        <children>
+                            <Pane id="info_pane" prefWidth="808" prefHeight="44">
+                                <children>
+                                    <Label id="info_name" layoutX="40" layoutY="-8" prefWidth="400" prefHeight="40" fx:id="infoName"></Label>
+                                </children>
+                            </Pane>
+                            <Pane id="info_pane_box" layoutX="1" layoutY="45" prefWidth="800" prefHeight="618" style="-fx-background-color: transparent;-fx-border-width: 0" fx:id="infoPaneBox"></Pane>
+                        </children>
+                    </Pane>
 
-                        <Pane id="info_pane" prefWidth="808" prefHeight="44">
-                            <children>
-                                <Label id="info_more" layoutX="800" prefWidth="43" prefHeight="43"></Label>
-                                <Label id="info_name" layoutX="40" layoutY="-8" prefWidth="400" prefHeight="40" fx:id="infoName"></Label>
-                            </children>
-                        </Pane>
-                        <Pane id="info_pane_box" layoutX="1" layoutY="45" prefWidth="800" prefHeight="560" style="-fx-background-color: transparent;-fx-border-width: 0" fx:id="infoPaneBox"></Pane>
+                    <!--                工具栏，现在只有表情包-->
+                    <Pane id="tool"  layoutY="586" prefWidth="808" prefHeight="46">
+                        <children>
+                            <Button id="tool_face" layoutX="20" layoutY="3" prefWidth="40" prefHeight="40" fx:id="emotionButton"/>
+                        </children>
+                    </Pane>
+
+                    <!--                长度为810-->
+                    <!--                文本栏-->
+                    <Pane id="txt"  layoutY="632" prefWidth="808" prefHeight="90">
+                        <children>
+                            <TextArea fx:id="txtInput" id="txt_input" styleClass="txt_input_style" layoutX="20" prefWidth="770" prefHeight="90" wrapText="true" ></TextArea>
+                        </children>
+                    </Pane>
+
+                    <!--                按钮栏-->
+                    <Pane id="touch"  layoutY="722" prefWidth="808" prefHeight="40">
+                        <children>
+                            <Label id="touch_send" layoutX="707"  layoutY="4" prefWidth="85" prefHeight="34" text="发送(S)" fx:id="touchSend"></Label>
+                        </children>
+                    </Pane>
                     </children>
                 </Pane>
 
-<!--                工具栏，现在只有表情包-->
-                <Pane id="tool" layoutX="314" layoutY="618" prefWidth="808" prefHeight="46">
-                    <children>
-                        <Button id="tool_face" layoutX="20" layoutY="3" prefWidth="40" prefHeight="40" fx:id="emotionButton"/>
-                    </children>
+                <Pane visible="false" id="invalidPane" layoutX="314" layoutY="32" prefHeight="763" prefWidth="808" fx:id="invalidPane">
+                   <children>
+                       <Label id="logo"  fx:id="logo"></Label>
+                   </children>
                 </Pane>
 
-<!--                长度为810-->
-<!--                文本栏-->
-                <Pane id="txt" layoutX="314" layoutY="664" prefWidth="808" prefHeight="90">
-                    <children>
-                        <TextArea fx:id="txtInput" id="txt_input" styleClass="txt_input_style" layoutX="20" prefWidth="770" prefHeight="90" wrapText="true" ></TextArea>
-                    </children>
-                </Pane>
-
-<!--                按钮栏-->
-                <Pane id="touch" layoutX="314" layoutY="754" prefWidth="808" prefHeight="40">
-                    <children>
-                        <Label id="touch_send" layoutX="707"  layoutY="4" prefWidth="85" prefHeight="34" text="发送(S)" fx:id="touchSend"></Label>
-                    </children>
-                </Pane>
 
             </children>
         </Pane>

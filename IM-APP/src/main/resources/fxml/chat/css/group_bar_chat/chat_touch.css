@@ -7,13 +7,12 @@
 
 #touch_send,#touch_send:pressed{
     -fx-background-size: 43px 43px;
-    -fx-background-color: linear-gradient(#0e6671, #0b4050);
+    -fx-background-color: #03e9f4;
     -fx-background-radius: 10px;
     -fx-border-radius: 10px;
     -fx-cursor: hand;
     -fx-text-fill: #0099cc;
-    -fx-border-width: 1px;
-    -fx-border-color: #0b4050;
+
     -fx-font-family: "微软雅黑";
     -fx-font-size: 18px;
     -fx-alignment: center;

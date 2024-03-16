@@ -7,7 +7,7 @@
     -fx-background-radius: 20px;
 
     // 设置背景色
-    -fx-background-color: linear-gradient(#0e6671, #0b4050);
+    -fx-background-color: linear-gradient(#0099cc, #0b4050);
 
     // 设置高度和宽度
     -fx-pref-height: 500px;

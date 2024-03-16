@@ -4,7 +4,7 @@
 * [ ] 增加密码框查看密码
 * [ ] 使用手机号注册
 * [ ] 使用手机号登录
-* [ ] 删除会话后infoBox显示背景图片
+* [x] 删除会话后infoBox显示背景图片
 * [ ] 设置图片为圆角
 
 https://www.bilibili.com/video/BV15t411s7R3/?spm_id_from=333.337.search-card.all.click&vd_source=9a145ddb2460c9bfcdbed4ac563578b6
