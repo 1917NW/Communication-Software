@@ -14,7 +14,8 @@ https://www.bilibili.com/video/BV15t411s7R3/?spm_id_from=333.337.search-card.all
 * [X] 消息提示
 * [X] 实现群聊功能
 * [x] 实现选中的功能
-* [ ] 调整消息样式
+* [x] 调整消息样式
+* [x] 消息添加右键菜单栏，菜单栏功能包含复制
 * [X] 消息填充
 
 - 当我和x对话时，x的消息需要填充

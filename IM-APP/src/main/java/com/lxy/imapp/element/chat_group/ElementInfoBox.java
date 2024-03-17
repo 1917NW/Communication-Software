@@ -2,10 +2,17 @@ package com.lxy.imapp.element.chat_group;
 
 import com.lxy.imapp.util.AutoSizeTool;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 // 代表聊天框内的一条信息
 public class ElementInfoBox {
@@ -14,7 +21,7 @@ public class ElementInfoBox {
     private Pane head; //头像
     private Label nikeName; //内容箭头
     private Label infoContentArrow; //内容箭头
-    private TextArea infoContent; // 内容
+    private Label infoContent; // 内容
 
     public Pane left(String userNickName, String userHead, String msg){
         double autoHeight = AutoSizeTool.getHeight(msg);
@@ -45,13 +52,31 @@ public class ElementInfoBox {
         children.add(nikeName);
 
         // 内容
-        infoContent = new TextArea();
+        infoContent = new Label();
         infoContent.setPrefWidth(autoWidth);
         infoContent.setPrefHeight(autoHeight);
         infoContent.setLayoutX(80);
         infoContent.setLayoutY(30);
         infoContent.setWrapText(true);
-        infoContent.setEditable(false);
+
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem copyMenuItem = new MenuItem("复制");
+        copyMenuItem.setOnAction(event -> {
+            // 将文本内容复制到剪贴板
+            Clipboard clipboard = Clipboard.getSystemClipboard();
+            ClipboardContent content = new ClipboardContent();
+            content.putString(infoContent.getText());
+            clipboard.setContent(content);
+        });
+        MenuItem deleteMenuItem = new MenuItem("删除");
+
+        contextMenu.getItems().add(copyMenuItem);
+        contextMenu.getItems().add(deleteMenuItem);
+
+
+        // 将ContextMenu绑定到Label上
+        infoContent.setContextMenu(contextMenu);
+
         infoContent.setText(msg);
         infoContent.getStyleClass().add("box_infoContent_left");
         children.add(infoContent);
@@ -84,16 +109,44 @@ public class ElementInfoBox {
 
 
         // 内容
-        infoContent = new TextArea();
+        VBox vBox = new VBox();
+        vBox.setLayoutY(30);
+        vBox.setPrefHeight(autoHeight);
+        vBox.setPrefWidth(715);
+        vBox.setAlignment(Pos.TOP_RIGHT);
+
+        infoContent = new Label();
         infoContent.setPrefWidth(autoWidth);
         infoContent.setPrefHeight(autoHeight);
-        infoContent.setLayoutX(730 - autoWidth - 15);
-        infoContent.setLayoutY(30);
+        System.out.println("autoWidth:" + autoWidth + "autoHeight:" + autoHeight);
         infoContent.setWrapText(true);
         infoContent.setText(msg);
         infoContent.getStyleClass().add("box_infoContent_right");
-        infoContent.setEditable(false);
-        children.add(infoContent);
+        infoContent.setAlignment(Pos.TOP_LEFT);
+
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem copyMenuItem = new MenuItem("复制");
+        copyMenuItem.setOnAction(event -> {
+            // 将文本内容复制到剪贴板
+            Clipboard clipboard = Clipboard.getSystemClipboard();
+            ClipboardContent content = new ClipboardContent();
+            content.putString(infoContent.getText());
+            clipboard.setContent(content);
+        });
+        MenuItem deleteMenuItem = new MenuItem("删除");
+
+        contextMenu.getItems().add(copyMenuItem);
+        contextMenu.getItems().add(deleteMenuItem);
+
+
+        // 将ContextMenu绑定到Label上
+        infoContent.setContextMenu(contextMenu);
+
+//        infoContent.setLayoutX(730 - autoWidth - 15);
+//        infoContent.setLayoutY(30);
+        vBox.getChildren().add(infoContent);
+
+        children.add(vBox);
 
         return pane;
 

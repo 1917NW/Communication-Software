@@ -136,23 +136,29 @@
     -fx-border-width: 0 1px 1px 0;
     -fx-border-radius: 2px;
     -fx-background-radius: 2px;
+
     -fx-control-inner-background: #9eea6a;
     -fx-control-inner-radius:2px;
+
     -fx-background-color: #9eea6a;
     -fx-font-family: "微软雅黑";
     -fx-font-style: italic;
     -fx-text-fill: #000000;
     -fx-font-size: 16px;
+
     -fx-white-space: nowrap;
     -fx-overflow: hidden;
-    -fx-text-overflow: ellipsis;
-    -fx-text-align: right;
-    -fx-alignment: center-right;
+
+    -fx-text-align: left;
+
 }
 
 .box_infoContent_left,.box_infoContent_right{
     -fx-background-insets: 0;
     -fx-background-color: transparent, white, transparent, white;
+    -fx-background-radius: 8px;
+    -fx-padding: 5;
+    -fx-border-radius: 8px;
 }
 
 .box_infoContent_left .content, .box_infoContent_right .content{

@@ -414,7 +414,8 @@ public class ChatController {
             return;
 
         ListView<Pane> listView = talkElement.infoBoxList();
-        listView.setPrefWidth(800);
+        listView.setPrefWidth(808);
+        listView.setPrefHeight(542);
 
         infoPaneBox.setUserData(talkId);
         infoPaneBox.getChildren().clear();

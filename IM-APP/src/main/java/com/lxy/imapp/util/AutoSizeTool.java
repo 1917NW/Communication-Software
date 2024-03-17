@@ -1,48 +1,41 @@
 package com.lxy.imapp.util;
 
 
+import javafx.geometry.Bounds;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+
 public class AutoSizeTool {
 
+    private static final double MAX_LABEL_WIDTH = 450; // 最大宽度值
     public static double getWidth(String msg) {
-        int len = msg.length();
-        double width = 0;
-        for (int i = 0; i < len; i++) {
-            if (isChinese(msg.charAt(i))) {
-                width += 16;
-            } else {
-                width += 16;
-            }
-        }
+        double textWidth = getTextWidth(msg);
+        return Math.min(textWidth, MAX_LABEL_WIDTH);
 
-        width += 22; // 补全前后空格
+    }
 
-        if (width > 450) {
-            return 450;
-        }
+    public static double getTextWidth(String msg){
+        Text text = new Text(msg);
+        text.setFont(Font.font(16));
 
-        return width < 50 ? 50 : width;
+        // 获取文本的宽度
+        Bounds textBounds = text.getBoundsInLocal();
+        double textWidth = textBounds.getWidth() + 20;
+
+        System.out.println("textWidth:" + textWidth);
+        return textWidth;
     }
 
     public static double getHeight(String msg) {
-        int len = msg.length();
-        double width = 0;
-        for (int i = 0; i < len; i++) {
-            if (isChinese(msg.charAt(i))) {
-                width += 16;
-            } else {
-                width += 16;
-            }
-        }
+        double textWidth = getTextWidth(msg);
 
-        width += 22; // 补全前后空格
-
-        double remainder = width % 450;
-        int line = (int) (width / 450);
+        double remainder = textWidth % 450;
+        int line = (int) (textWidth / 450);
 
         if (remainder != 0) {
             line = line + 1;
         }
-
+        System.out.println("line:" + line);
         double autoHeight = line * 24 + 10;
 
         return autoHeight < 30 ? 30 : autoHeight;
