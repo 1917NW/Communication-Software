@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3308/qiyu_live_user?useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+
+

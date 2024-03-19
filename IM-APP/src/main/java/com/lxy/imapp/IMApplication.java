@@ -1,10 +1,10 @@
 package com.lxy.imapp;
 
-import com.lxy.imapp.view.Chat;
-import com.lxy.imapp.view.Login;
+import com.lxy.imapp.front.view.Chat;
+import com.lxy.imapp.front.view.Login;
+import com.lxy.protocolpackage.protocol.login.LoginRequest;
+import com.lxy.protocolpackage.util.SerializationUtil;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,7 +16,4 @@ public class IMApplication extends Application {
         login.show();
     }
 
-    public static void main(String[] args) {
-        launch();
-    }
 }
