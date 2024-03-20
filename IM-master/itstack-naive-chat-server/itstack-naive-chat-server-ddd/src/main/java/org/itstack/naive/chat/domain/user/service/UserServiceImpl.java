@@ -21,6 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private IUserRepository userRepository;
+    
     @Resource
     private ThreadPoolTaskExecutor taskExecutor;
 

@@ -1,6 +1,7 @@
 package com.lxy.protocolpackage.protocol;
 
 import com.lxy.protocolpackage.protocol.login.LoginRequest;
+import com.lxy.protocolpackage.protocol.login.LoginResponse;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,6 +12,7 @@ public abstract class Packet {
 
     static {
         packetType.put(Command.LoginRequest, LoginRequest.class);
+        packetType.put(Command.LoginResponse, LoginResponse.class);
     }
 
     public static Class<? extends Packet> get(Byte command) {

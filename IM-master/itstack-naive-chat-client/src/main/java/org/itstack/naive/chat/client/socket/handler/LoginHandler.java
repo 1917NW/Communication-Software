@@ -40,6 +40,7 @@ public class LoginHandler extends SimpleChannelInboundHandler<LoginResponse> {
             IChatMethod chat = uiService.getChat();
             // 设置用户信息
             chat.setUserInfo(msg.getUserId(), msg.getUserNickName(), msg.getUserHead());
+            
             // 对话框
             List<ChatTalkDto> chatTalkList = msg.getChatTalkList();
             if (null != chatTalkList) {

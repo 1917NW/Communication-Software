@@ -1,5 +1,6 @@
 package com.lxy.imapp.front.view;
 
+import com.lxy.imapp.biz.event.ChatEventHandler;
 import com.lxy.imapp.front.controller.ChatController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,13 +19,15 @@ public class Chat extends Stage {
 
     public ChatController controller;
 
-    public Chat(){
+
+
+    public Chat(ChatEventHandler chatEventHandler){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource(RESOURCE_NAME));
             root = fxmlLoader.load();
             controller = fxmlLoader.getController();
-
+            controller.setChatEventHandler(chatEventHandler);
             controller.setStage(this);
 
             Scene scene = new Scene(root);

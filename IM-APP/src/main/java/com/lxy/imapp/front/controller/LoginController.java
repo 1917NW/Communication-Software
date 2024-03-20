@@ -1,5 +1,6 @@
 package com.lxy.imapp.front.controller;
 
+import com.lxy.imapp.biz.event.LoginEventHandler;
 import com.lxy.imapp.front.view.Login;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,6 +15,12 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class LoginController {
+
+    private LoginEventHandler loginEventHandler;
+
+    public void setLoginEventHandler(LoginEventHandler loginEventHandler){
+        this.loginEventHandler = loginEventHandler;
+    }
 
     @FXML
     private Label loginAppName;
@@ -117,6 +124,8 @@ public class LoginController {
     public void login(MouseEvent mouseEvent) {
         System.out.println("用户名:" + userAccount.getText());
         System.out.println("密码:"+ password);
+
+        loginEventHandler.doLogin(userAccount.getText(), password);
     }
 
     @FXML

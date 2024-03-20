@@ -1,5 +1,6 @@
 package com.lxy.imapp.front.view;
 
+import com.lxy.imapp.biz.event.LoginEventHandler;
 import com.lxy.imapp.front.controller.LoginController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -22,16 +23,20 @@ public class Login extends Stage {
 
     private double yOffset;
 
+    private Chat chat;
+
+    private LoginEventHandler loginEventHandler;
 
     public LoginController loginController;
 
-    public Login(){
+    public Login(LoginEventHandler loginEventHandler, Chat chat){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource(RESOURCE_NAME));
             root = fxmlLoader.load();
             loginController = fxmlLoader.getController();
-
+            loginController.setLoginEventHandler(loginEventHandler);
+            this.chat = chat;
         } catch (IOException e) {
            e.printStackTrace();
         }
@@ -67,5 +72,12 @@ public class Login extends Stage {
         root.setOnMouseReleased(event -> {
             root.setCursor(Cursor.DEFAULT);
         });
+    }
+
+    public void LoginSuccess(){
+        // 关闭原窗口
+        close();
+        // 打开聊天窗口
+        chat.show();
     }
 }

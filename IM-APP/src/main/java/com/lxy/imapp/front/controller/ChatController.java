@@ -1,5 +1,6 @@
 package com.lxy.imapp.front.controller;
 
+import com.lxy.imapp.biz.event.ChatEventHandler;
 import com.lxy.imapp.front.constant.FriendPaneId;
 import com.lxy.imapp.front.constant.TalkType;
 import com.lxy.imapp.front.data.GroupsData;
@@ -30,6 +31,12 @@ import javafx.stage.Stage;
 import java.util.*;
 
 public class ChatController {
+
+    private ChatEventHandler chatEventHandler;
+
+    public void setChatEventHandler(ChatEventHandler chatEventHandler){
+        this.chatEventHandler = chatEventHandler;
+    }
 
     @FXML
     private Button profile;

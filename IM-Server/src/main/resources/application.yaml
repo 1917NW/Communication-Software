@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3308/qiyu_live_user?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3308/im_system
     username: root
     password: root
 

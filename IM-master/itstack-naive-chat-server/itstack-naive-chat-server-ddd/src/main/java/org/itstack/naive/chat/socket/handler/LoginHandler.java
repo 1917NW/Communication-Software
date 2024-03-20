@@ -55,6 +55,7 @@ public class LoginHandler extends MyBizHandler<LoginRequest> {
         UserInfo userInfo = userService.queryUserInfo(msg.getUserId());
         // 3.2 对话框
         List<TalkBoxInfo> talkBoxInfoList = userService.queryTalkBoxInfoList(msg.getUserId());
+        
         for (TalkBoxInfo talkBoxInfo : talkBoxInfoList) {
             ChatTalkDto chatTalk = new ChatTalkDto();
             chatTalk.setTalkId(talkBoxInfo.getTalkId());
@@ -90,6 +91,7 @@ public class LoginHandler extends MyBizHandler<LoginRequest> {
                 }
                 chatTalk.setChatRecordList(chatRecordDtoList);
             }
+            
             // 群组；聊天消息
             else if (Constants.TalkType.Group.getCode().equals(talkBoxInfo.getTalkType())) {
                 List<ChatRecordDto> chatRecordDtoList = new ArrayList<>();

@@ -1,5 +1,13 @@
+com\lxy\protocolpackage\codec\ObjEncoder.class
+com\lxy\protocolpackage\protocol\login\dto\UserFriendDto.class
+com\lxy\protocolpackage\protocol\login\dto\ChatTalkDto.class
 com\lxy\protocolpackage\util\SerializationUtil.class
+com\lxy\protocolpackage\constants\TalkType.class
+com\lxy\protocolpackage\protocol\login\dto\GroupsDto.class
+com\lxy\protocolpackage\constants\MsgType.class
 com\lxy\protocolpackage\protocol\Command.class
 com\lxy\protocolpackage\protocol\login\LoginRequest.class
 com\lxy\protocolpackage\protocol\Packet.class
+com\lxy\protocolpackage\protocol\login\LoginResponse.class
+com\lxy\protocolpackage\protocol\login\dto\ChatRecordDto.class
 com\lxy\protocolpackage\codec\ObjDecoder.class
