@@ -1,10 +1,13 @@
 package com.lxy.socket.handler.impl;
 
+import cn.hutool.json.JSONUtil;
 import com.lxy.application.UserService;
 import com.lxy.domain.user.model.*;
 import com.lxy.infrastructure.common.SocketChannelUtil;
+import com.lxy.infrastructure.common.UserOffineMsgCache;
 import com.lxy.protocolpackage.constants.MsgType;
 import com.lxy.protocolpackage.constants.TalkType;
+import com.lxy.protocolpackage.protocol.Packet;
 import com.lxy.protocolpackage.protocol.login.LoginRequest;
 import com.lxy.protocolpackage.protocol.login.LoginResponse;
 import com.lxy.protocolpackage.protocol.login.dto.ChatRecordDto;
@@ -18,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Component
@@ -146,5 +150,25 @@ public class LoginHandler extends AbstractBizHandler<LoginRequest> {
         }
 
         channel.writeAndFlush(loginResponse);
+
+        // 发送离线时的消息
+        clearOfflineMsg(channel, userId);
+    }
+
+    private void clearOfflineMsg(Channel channel, String userId) {
+
+        List<Packet> offlineMsgList = UserOffineMsgCache.getOfflineMsgByUserId(userId);
+        System.out.println("清空离线时的消息:" + JSONUtil.toJsonStr(offlineMsgList));
+        if(offlineMsgList != null && !offlineMsgList.isEmpty()){
+            Iterator<Packet> iterator = offlineMsgList.iterator();
+            while (iterator.hasNext()){
+                Packet next = iterator.next();
+                channel.writeAndFlush(next);
+                iterator.remove();
+            }
+
+        }
+
+
     }
 }

@@ -42,7 +42,8 @@ public class LoginHandler extends AbstractBizHandler<LoginResponse> {
             imUI.getLogin().LoginSuccess();
             ChatController chatController = imUI.getChat().controller;
             System.out.println(msg);
-            chatController.setUserInfo("123", "lxy", "");
+
+            chatController.setUserInfo(msg.getUserId(), msg.getUserNickName(), msg.getUserHead());
 
             // 显示对话
             List<ChatTalkDto> chatTalkList = msg.getChatTalkList();

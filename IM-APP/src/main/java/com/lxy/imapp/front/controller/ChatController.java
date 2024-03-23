@@ -80,9 +80,9 @@ public class ChatController {
 
     private Paint lightBlue = Color.web("#03e9f4");
 
-    public String userId;       // 用户ID
-    public String userNickName; // 用户昵称
-    public String userHead;     // 用户头像
+    public String currentUserId;       // 用户ID
+    public String currentUserNickName; // 用户昵称
+    public String currentUserHead;     // 用户头像
 
     public ListView<Pane> userListView;
 
@@ -260,10 +260,15 @@ public class ChatController {
     }
 
     public void hoverFriendLabel(MouseEvent mouseEvent) {
+        if(barFriend.getTextFill().equals(Color.YELLOW))
+            return;
         barFriend.setTextFill(lightBlue);
     }
 
     public void unhoverFriendLabel(MouseEvent mouseEvent) {
+        if(barFriend.getTextFill().equals(Color.YELLOW))
+            return;
+
         if(friendPane.isVisible())
             return;
         barFriend.setTextFill(whiteBlue);
@@ -385,9 +390,9 @@ public class ChatController {
     }
 
     public void setUserInfo(String userId, String userNickName, String userHead) {
-        this.userId = userId;
-        this.userNickName = userNickName;
-        this.userHead = userHead;
+        this.currentUserId = userId;
+        this.currentUserNickName = userNickName;
+        this.currentUserHead = userHead;
 
         // TODO ：设置头像
         //button.setStyle(String.format("-fx-background-image: url('/fxml/chat/img/head/%s.png')", userHead));
@@ -455,7 +460,7 @@ public class ChatController {
     public void addTalkMsgRight(String talkId, String msg, Date msgData, Boolean idxFirst, Boolean selected, Boolean isRemind) {
         ElementTalk talkElement = CacheUtil.talkMap.get(talkId);
         ListView<Pane> listView = talkElement.infoBoxList();
-        Pane right = new ElementInfoBox().right(userNickName, userHead, msg);
+        Pane right = new ElementInfoBox().right(currentUserNickName, currentUserHead, msg);
         // 消息填充
         listView.getItems().add(right);
         // 滚动条
@@ -580,7 +585,7 @@ public class ChatController {
     // selected为true，则表示选中该会话框，并且将会话填充到infoBox中
     public void addTalkMsgGroupLeft(String talkId, String userId, String userNickName, String userHead, String msg, Date msgDate, Boolean idxFirst, Boolean selected, Boolean isRemind) {
         // 如果时自己发送的消息，则抛弃
-        if (this.userId.equals(userId))
+        if (this.currentUserId.equals(userId))
             return;
 
         GroupsData groupsData = null;
@@ -665,7 +670,7 @@ public class ChatController {
 
                 element.friendLuckListView().getItems().clear();
 
-               chatEventHandler.doFriendLuckSearch(userId, text);
+               chatEventHandler.doFriendLuckSearch(currentUserId, text);
 
             }
         });
@@ -683,11 +688,13 @@ public class ChatController {
 
         // 点击事件 TODO:申请添加好友
         friendLuckUser.statusLabel().setOnMousePressed(event -> {
-            chatEventHandler.doSendFriendRequest(this.userId, userId);
+            chatEventHandler.doSendFriendRequest(this.currentUserId, userId);
         });
     }
 
     private  ListView<Pane> newFriendListView;
+
+    private ElementNewFriend elementNewFriend;
     private void initNewFriend(){
         ObservableList<Pane> items = friendList.getItems();
 
@@ -695,15 +702,17 @@ public class ChatController {
         ElementFriendTag elementFriendTag = new ElementFriendTag("新的朋友");
         items.add(elementFriendTag.pane());
 
-        ElementNewFriend element = new ElementNewFriend();
-        Pane pane = element.pane();
+        elementNewFriend = new ElementNewFriend();
+
+        Pane pane = elementNewFriend.pane();
         items.add(pane);
-        newFriendListView = element.newFriendListView();
+        newFriendListView = elementNewFriend.newFriendListView();
         pane.setOnMousePressed(event -> {
-            Pane newFriendPane = element.getNewFriendPane();
+            Pane newFriendPane = elementNewFriend.getNewFriendPane();
             setContentPaneBox(FriendPaneId.NEW_FRIEND_PANE_ID.getId(), "新的朋友", newFriendPane);
             clearViewListSelectedAll(userListView, groupListView);
             System.out.println("添加好友");
+            elementNewFriend.getNewFriendRemind().setVisible(false);
         });
 
     }
@@ -712,17 +721,36 @@ public class ChatController {
         ElementNewFriendUser newFriendUser = new ElementNewFriendUser(userId, userNickName, userHead);
         Pane pane = newFriendUser.pane();
 
+        if(!friendPane.isVisible())
+            barFriend.setTextFill(Color.YELLOW);
+        elementNewFriend.getNewFriendRemind().setVisible(true);
         // 添加到新的朋友列表
         ObservableList<Pane> items = newFriendListView.getItems();
+
+        for(Pane currentPane : items){
+            String paneUserId = (String) currentPane.getUserData();
+            if(paneUserId.equals(userId)) {
+                newFriendListView.getItems().remove(currentPane);
+                newFriendListView.getItems().add(0, currentPane);
+                return;
+            }
+        }
         items.add(pane);
 
         newFriendUser.agreeLabel().setOnMousePressed(event -> {
             System.out.println("同意添加好友");
+            newFriendListView.getItems().remove(pane);
+            addFriendUser(false, userId, userNickName, userHead);
+            chatEventHandler.agreeFriendRequest(this.currentUserId, userId);
         });
 
-        newFriendUser.agreeLabel().setOnMousePressed(event -> {
+        newFriendUser.rejectLabel().setOnMousePressed(event -> {
             System.out.println("拒绝添加好友");
+            newFriendListView.getItems().remove(pane);
+            chatEventHandler.rejectFriendRequest(this.currentUserId, userId);
         });
+
+
 
     }
 

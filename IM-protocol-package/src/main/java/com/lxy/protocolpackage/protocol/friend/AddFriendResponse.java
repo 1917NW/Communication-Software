@@ -17,6 +17,8 @@ public class AddFriendResponse extends Packet {
     private String userId;    // 用户ID[自己的ID]
     private String requestFriendId;  // 好友ID
 
+    private Boolean agree;
+
 
 
     @Override

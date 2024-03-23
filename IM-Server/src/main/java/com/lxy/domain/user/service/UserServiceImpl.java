@@ -14,12 +14,18 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private ImUserDao imUserDao;
+
+    //默认线程池
+    private static ExecutorService executorService = Executors.newFixedThreadPool(4);
+
 
     @Override
     public boolean checkAuth(String userId, String userPassword) {
@@ -217,5 +223,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<String> queryTalkBoxGroupsIdList(String userId) {
         return null;
+    }
+
+    @Override
+    public void asyncAddUserFriend(String userId, String friendId) {
+        executorService.execute(() -> {
+            ImUserFriend imUserFriend = new ImUserFriend(userId, friendId);
+            imUserFriendDao.insert(imUserFriend);
+
+            ImUserFriend reverseImUserFriend = new ImUserFriend(friendId, userId);
+            imUserFriendDao.insert(reverseImUserFriend);
+        });
     }
 }

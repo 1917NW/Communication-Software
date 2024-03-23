@@ -1,5 +1,6 @@
 package com.lxy.imapp.front.element.friend_group;
 
+import com.lxy.imapp.front.data.RemindCount;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -18,6 +19,11 @@ public class ElementNewFriend {
 
     private ListView<Pane> newFriendListView; // 用户列表
 
+    private Label newFriendRemind;
+
+    public Label getNewFriendRemind(){
+        return newFriendRemind;
+    }
     public ElementNewFriend(){
         pane = new Pane();
         pane.setId("elementFriendLuck");
@@ -42,6 +48,19 @@ public class ElementNewFriend {
         name.setText("新的朋友");
         name.getStyleClass().add("elementFriendLuck_name");
         children.add(name);
+
+        // 消息提醒
+        newFriendRemind = new Label();
+
+        newFriendRemind.setPrefSize(15, 15);
+        newFriendRemind.setLayoutX(60);
+        newFriendRemind.setLayoutY(5);
+
+        newFriendRemind.setText("");
+        newFriendRemind.setVisible(false);
+        newFriendRemind.getStyleClass().add("element_msgRemind");
+
+        children.add(newFriendRemind);
         
         // 初始化框体区域[搜索好友框、展现框]
         newFriendPane = new Pane();

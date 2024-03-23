@@ -1,7 +1,9 @@
 package com.lxy.imapp.biz.event;
 
+import com.alibaba.fastjson.JSON;
 import com.lxy.imapp.biz.util.BeanUtil;
 import com.lxy.protocolpackage.protocol.friend.AddFriendRequest;
+import com.lxy.protocolpackage.protocol.friend.AddFriendResponse;
 import com.lxy.protocolpackage.protocol.friend.FriendRequest;
 import com.lxy.protocolpackage.protocol.friend.SearchFriendRequest;
 import javafx.scene.layout.Pane;
@@ -33,5 +35,27 @@ public class ChatEventHandler {
         Channel channel = BeanUtil.getChannel();
         channel.writeAndFlush(new FriendRequest(userId, friendId));
         System.out.println("发送好友申请");
+    }
+
+    public void agreeFriendRequest(String userId, String requestFriendId){
+        AddFriendResponse addFriendResponse = new AddFriendResponse();
+        addFriendResponse.setAgree(true);
+        addFriendResponse.setUserId(userId);
+        addFriendResponse.setRequestFriendId(requestFriendId);
+
+        System.out.println(JSON.toJSON(addFriendResponse));
+
+        Channel channel = BeanUtil.getChannel();
+        channel.writeAndFlush(addFriendResponse);
+    }
+
+    public void rejectFriendRequest(String userId, String requestFriendId){
+        AddFriendResponse addFriendResponse = new AddFriendResponse();
+        addFriendResponse.setAgree(false);
+        addFriendResponse.setUserId(userId);
+        addFriendResponse.setRequestFriendId(requestFriendId);
+
+        Channel channel = BeanUtil.getChannel();
+        channel.writeAndFlush(addFriendResponse);
     }
 }

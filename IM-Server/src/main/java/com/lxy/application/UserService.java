@@ -117,4 +117,12 @@ public interface UserService {
      */
     List<String> queryTalkBoxGroupsIdList(String userId);
 
+    /**
+     * 异步插入添加好友信息
+     * @param userId
+     * @param friendId
+     */
+
+    void asyncAddUserFriend(String userId, String friendId);
+
 }

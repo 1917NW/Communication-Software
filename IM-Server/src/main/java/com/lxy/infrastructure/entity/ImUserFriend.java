@@ -2,7 +2,12 @@ package com.lxy.infrastructure.entity;
 
 ;
 
+import java.lang.reflect.Type;
 import java.util.Date;
+
+import cn.hutool.core.date.DateTime;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +24,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @NoArgsConstructor
 @Data
 public class ImUserFriend{
+    @TableId(type = IdType.AUTO)
     //自增ID
     private Long id;
     //用户ID
@@ -29,6 +35,12 @@ public class ImUserFriend{
     private Date createTime;
     //更新时间
     private Date updateTime;
+
+    public ImUserFriend(String userId, String userFriendId){
+        this.userId = userId;
+        this.userFriendId = userFriendId;
+        this.createTime = this.updateTime = DateTime.now();
+    }
 
 
 

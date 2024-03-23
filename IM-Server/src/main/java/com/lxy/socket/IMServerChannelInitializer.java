@@ -3,6 +3,7 @@ import com.lxy.protocolpackage.codec.ObjDecoder;
 import com.lxy.protocolpackage.codec.ObjEncoder;
 import com.lxy.socket.handler.impl.LoginHandler;
 import com.lxy.socket.handler.impl.SearchFriendHandler;
+import com.lxy.socket.handler.impl.friend.AddFriendResponseHandler;
 import com.lxy.socket.handler.impl.friend.FriendRequestHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
@@ -25,6 +26,7 @@ public class IMServerChannelInitializer extends ChannelInitializer<SocketChannel
         socketChannel.pipeline().addLast(applicationContext.getBean(LoginHandler.class));
         socketChannel.pipeline().addLast(applicationContext.getBean(SearchFriendHandler.class));
         socketChannel.pipeline().addLast(applicationContext.getBean(FriendRequestHandler.class));
+        socketChannel.pipeline().addLast(applicationContext.getBean(AddFriendResponseHandler.class));
         socketChannel.pipeline().addLast(new ObjEncoder());
     }
 }
