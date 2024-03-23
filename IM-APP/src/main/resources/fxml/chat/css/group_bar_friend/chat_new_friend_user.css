@@ -1,0 +1,22 @@
+/** 添加好友 **/
+.elementNewFriend_agree,.elementNewFriend_agree:pressed{
+    -fx-background-color: #129611;
+    -fx-text-align: center;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    -fx-background-radius: 2px;
+    -fx-border-width: 1px;
+    -fx-border-radius: 2px;
+}
+
+.elementNewFriend_reject,.elementNewFriend_reject:pressed{
+    -fx-background-color: #999999;
+    -fx-text-align: center;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    -fx-background-radius: 2px;
+    -fx-border-width: 1px;
+    -fx-border-radius: 2px;
+}

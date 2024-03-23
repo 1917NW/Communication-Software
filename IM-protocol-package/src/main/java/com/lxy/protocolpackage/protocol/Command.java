@@ -24,4 +24,6 @@ public interface Command {
 
     Byte ReconnectRequest = 14;
 
+    Byte FriendRequest = 15;
+    Byte FriendResponse = 16;
 }

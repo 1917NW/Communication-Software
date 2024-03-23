@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserInfo {
     private String userId;       //用户ID
-    private String userNickName; //用户昵称
+    private String userNickname; //用户昵称
     private String userHead;     //用户头像
 }

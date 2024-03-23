@@ -35,7 +35,7 @@ public class ElementFriendSubscription {
         name.setPrefSize(200,40);
         name.setLayoutX(80);
         name.setLayoutY(15);
-        name.setText("公众号");
+        name.setText("创建群组");
         name.getStyleClass().add("elementFriendSubscription_name");
         children.add(name);
 

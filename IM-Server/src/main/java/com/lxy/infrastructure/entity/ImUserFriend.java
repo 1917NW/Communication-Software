@@ -22,9 +22,9 @@ public class ImUserFriend{
     //自增ID
     private Long id;
     //用户ID
-    private Long userId;
+    private String userId;
     //好友用户ID
-    private Long userFriendId;
+    private String userFriendId;
     //创建时间
     private Date createTime;
     //更新时间

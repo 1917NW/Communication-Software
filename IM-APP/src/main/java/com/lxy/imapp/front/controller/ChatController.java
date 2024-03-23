@@ -106,11 +106,20 @@ public class ChatController {
        initSendHandler();
        setLogo();
 
+
+        // 初始化新的朋友
+        initNewFriend();
+
        // 初始化好友界面左侧栏
         initAddFriendLuck();
 
-        // 初始化公众号
-        addFriendSubscription();
+
+
+        // 初始化创建群组
+        addCreateGroup();
+
+        // 初始化加入群组
+        addJoinGroup();
 
         // 初始化群聊列表
         addFriendGroupList();
@@ -118,8 +127,8 @@ public class ChatController {
 //        // 初始化好友列表
         addFriendUserList();
 //
-        testTalkList();
-        testFriendList();
+//        testTalkList();
+//        testFriendList();
 
         initBackGround();
     }
@@ -132,15 +141,14 @@ public class ChatController {
 
     private void testFriendList() {
         // 群组
-        addFriendGroup("5307397", "虫洞 · 技术栈(1区)", "group_1");
-        addFriendGroup("5307392", "CSDN 社区专家", "group_2");
-        addFriendGroup("5307399", "洗脚城VIP", "group_3");
+        addFriendGroup("5307392", "NK-F4", "group_2");
+        addFriendGroup("5307399", "天启四骑士", "group_3");
 
         // 好友
         addFriendUser(false, "1000004", "哈尼克兔", "04_50");
         addFriendUser(false, "1000001", "拎包冲", "02_50");
         addFriendUser(false, "1000002", "铁锤", "03_50");
-        addFriendUser(true, "1000003", "小傅哥 | bugstack.cn", "01_50");
+
     }
 
 
@@ -422,6 +430,7 @@ public class ChatController {
 
         // 填充对话列表
         String boxUserId = (String) infoPaneBox.getUserData();
+
         // 判断是否已经填充[talkId]，当前已填充则返回
         if (talkId.equals(boxUserId))
             return;
@@ -436,6 +445,8 @@ public class ChatController {
 
         // 对话框名称
         infoName.setText(talkName);
+
+
 
         // 清除通知
         clearRemind(talkElement.msgRemind());
@@ -613,21 +624,23 @@ public class ChatController {
 
     // ----------------------以下均为好友面板---------------------------
 
+    private ElementFriendLuck elementFriendLuck;
     // 添加新的好友
     public void initAddFriendLuck(){
         ObservableList<Pane> items = friendList.getItems();
 
         // 设置新的朋友面板
-        ElementFriendTag elementFriendTag = new ElementFriendTag("新的朋友");
+        ElementFriendTag elementFriendTag = new ElementFriendTag("添加朋友");
         items.add(elementFriendTag.pane());
 
         ElementFriendLuck element = new ElementFriendLuck();
+        elementFriendLuck = element;
         Pane pane = element.pane();
         items.add(pane);
 
         pane.setOnMousePressed(event -> {
             Pane friendLuckPane = element.friendLuckPane();
-            setContentPaneBox(FriendPaneId.NEW_FRIEND_PANE_ID.getId(), "新的朋友", friendLuckPane);
+            setContentPaneBox(FriendPaneId.NEW_FRIEND_PANE_ID.getId(), "添加朋友", friendLuckPane);
             clearViewListSelectedAll(userListView, groupListView);
             ListView<Pane> paneListView = element.friendLuckListView();
             paneListView.getItems().clear();
@@ -651,13 +664,8 @@ public class ChatController {
                 System.out.println("搜搜好友:" + text);
 
                 element.friendLuckListView().getItems().clear();
-                // 添加朋友
-                element.friendLuckListView().getItems().add(new ElementFriendLuckUser("100005", "比丘卡", "05_50",0).pane());
 
-                element.friendLuckListView().getItems().add(new ElementFriendLuckUser("1000006", "兰兰", "05_50",0).pane());
-
-                element.friendLuckListView().getItems().add(new ElementFriendLuckUser("100007","Alexa", "07_50", 2).pane());
-
+               chatEventHandler.doFriendLuckSearch(userId, text);
 
             }
         });
@@ -665,14 +673,67 @@ public class ChatController {
 
     }
 
+    public void addLuckFriend(String userId, String userNickName, String userHead, Integer status) {
+        ElementFriendLuckUser friendLuckUser = new ElementFriendLuckUser(userId, userNickName, userHead, status);
+        Pane pane = friendLuckUser.pane();
+        // 添加到好友列表
+        ListView<Pane> friendLuckListView = elementFriendLuck.friendLuckListView();
+        ObservableList<Pane> items = friendLuckListView.getItems();
+        items.add(pane);
 
-    // 添加公众号
-    public void addFriendSubscription(){
+        // 点击事件 TODO:申请添加好友
+        friendLuckUser.statusLabel().setOnMousePressed(event -> {
+            chatEventHandler.doSendFriendRequest(this.userId, userId);
+        });
+    }
+
+    private  ListView<Pane> newFriendListView;
+    private void initNewFriend(){
         ObservableList<Pane> items = friendList.getItems();
-        ElementFriendTag elementFriendTag = new ElementFriendTag("公众号");
+
+        // 设置新的朋友面板
+        ElementFriendTag elementFriendTag = new ElementFriendTag("新的朋友");
         items.add(elementFriendTag.pane());
 
-        ElementFriendSubscription elementFriendSubscription = new ElementFriendSubscription();
+        ElementNewFriend element = new ElementNewFriend();
+        Pane pane = element.pane();
+        items.add(pane);
+        newFriendListView = element.newFriendListView();
+        pane.setOnMousePressed(event -> {
+            Pane newFriendPane = element.getNewFriendPane();
+            setContentPaneBox(FriendPaneId.NEW_FRIEND_PANE_ID.getId(), "新的朋友", newFriendPane);
+            clearViewListSelectedAll(userListView, groupListView);
+            System.out.println("添加好友");
+        });
+
+    }
+
+    public void remindNewFriend(String userId, String userNickName, String userHead){
+        ElementNewFriendUser newFriendUser = new ElementNewFriendUser(userId, userNickName, userHead);
+        Pane pane = newFriendUser.pane();
+
+        // 添加到新的朋友列表
+        ObservableList<Pane> items = newFriendListView.getItems();
+        items.add(pane);
+
+        newFriendUser.agreeLabel().setOnMousePressed(event -> {
+            System.out.println("同意添加好友");
+        });
+
+        newFriendUser.agreeLabel().setOnMousePressed(event -> {
+            System.out.println("拒绝添加好友");
+        });
+
+    }
+
+
+    // 添加公众号
+    public void addCreateGroup(){
+        ObservableList<Pane> items = friendList.getItems();
+        ElementFriendTag elementFriendTag = new ElementFriendTag("创建群组");
+        items.add(elementFriendTag.pane());
+
+        ElementCreateGroup elementFriendSubscription = new ElementCreateGroup();
         Pane pane = elementFriendSubscription.pane();
         items.add(pane);
 
@@ -680,7 +741,26 @@ public class ChatController {
         pane.setOnMousePressed(event -> {
             clearViewListSelectedAll(userListView, groupListView);
             Pane subPane = elementFriendSubscription.subPane();
-            setContentPaneBox(FriendPaneId.SUBSCRIBE_PANE_ID.getId(), "公众号", subPane);
+            setContentPaneBox(FriendPaneId.SUBSCRIBE_PANE_ID.getId(), "创建群组", subPane);
+        });
+
+
+    }
+
+    public void addJoinGroup(){
+        ObservableList<Pane> items = friendList.getItems();
+        ElementFriendTag elementFriendTag = new ElementFriendTag("加入群组");
+        items.add(elementFriendTag.pane());
+
+        ElementJoinGroup elementFriendSubscription = new ElementJoinGroup();
+        Pane pane = elementFriendSubscription.pane();
+        items.add(pane);
+
+
+        pane.setOnMousePressed(event -> {
+            clearViewListSelectedAll(userListView, groupListView);
+            Pane subPane = elementFriendSubscription.subPane();
+            setContentPaneBox(FriendPaneId.SUBSCRIBE_PANE_ID.getId(), "加入群组", subPane);
         });
 
 
@@ -695,7 +775,7 @@ public class ChatController {
 
     public void addFriendGroupList(){
         ObservableList<Pane> items = friendList.getItems();
-        ElementFriendTag elementFriendTag = new ElementFriendTag("群聊");
+        ElementFriendTag elementFriendTag = new ElementFriendTag("群组");
         items.add(elementFriendTag.pane());
 
         ElementFriendGroupList elementFriendGroupList = new ElementFriendGroupList();
@@ -825,8 +905,17 @@ public class ChatController {
             switchToChat(event);
             // 3.设置infoBox有效
             setValid(true);
+
+            talkList.getItems().remove(elementTalk.pane());
+            talkList.getItems().add(0, elementTalk.pane());
+
             // 4.填充对话框
             fillInfoBox(elementTalk, groupName);
+
+
+            // 5. 使对话框处于第一位
+            talkList.getSelectionModel().select(elementTalk.pane());
+
             // 3. 事件处理；填充到对话框
             System.out.println("事件处理；填充到对话框");
         });

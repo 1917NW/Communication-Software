@@ -89,11 +89,15 @@ public class LoginHandler extends SimpleChannelInboundHandler<LoginResponse> {
                 );
 
             }
+
             // 群组
             List<GroupsDto> groupsList = msg.getGroupsList();
             if (null != groupsList) {
                 groupsList.forEach(groups -> chat.addFriendGroup(groups.getGroupId(), groups.getGroupName(), groups.getGroupHead()));
             }
+
+            
+
             // 好友
             List<UserFriendDto> userFriendList = msg.getUserFriendList();
             if (null != userFriendList) {

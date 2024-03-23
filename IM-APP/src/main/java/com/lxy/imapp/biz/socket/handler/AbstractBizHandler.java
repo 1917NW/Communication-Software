@@ -1,5 +1,6 @@
 package com.lxy.imapp.biz.socket.handler;
 
+import com.lxy.imapp.front.ImUI;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -7,6 +8,9 @@ import io.netty.channel.Channel;
 
 
 public abstract class AbstractBizHandler<T> extends SimpleChannelInboundHandler<T> {
+
+
+    protected ImUI imUI;
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, T msg) throws Exception {

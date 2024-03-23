@@ -3,6 +3,9 @@ package com.lxy.infrastructure.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lxy.infrastructure.entity.ImUser;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 /**
@@ -14,5 +17,12 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ImUserDao extends BaseMapper<ImUser> {
 
+    /**
+     * 带有排除结果的模糊查询
+     * @param excludeUserId 结果中排除userId为excludeUserId的记录
+     * @param matchWord 匹配词，匹配字段为userId或者userNickname
+     * @return
+     */
+    List<ImUser> fuzzySearchExcludeUserId(@Param("excludeUserId")String excludeUserId, @Param("matchWord") String matchWord);
 }
 

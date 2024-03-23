@@ -11,4 +11,8 @@ public enum MsgType {
         this.msgTypeCode = msgTypeCode;
     }
 
+    public Integer getMsgTypeCode(){
+        return this.msgTypeCode;
+    }
+
 }

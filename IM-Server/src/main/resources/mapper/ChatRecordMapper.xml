@@ -7,13 +7,13 @@
     <select id="queryGroupMsgByTalkId" resultType="com.lxy.infrastructure.entity.ImUserMsg">
         select * from im_user_msg
                  where talk_type = #{talkType} and talk_id = #{talkId}
-                order by msg_date desc
+                order by msg_date
     </select>
 
     <select id="queryFriendMsgByUserId" resultType="com.lxy.infrastructure.entity.ImUserMsg">
         select * from im_user_msg
             where talk_type = #{talkType} and ((talk_id = #{friendId} and user_id = #{userId}) or (talk_id = #{userId} and user_id = #{friendId}))
-            order by msg_date desc
+            order by msg_date
     </select>
 
 </mapper>

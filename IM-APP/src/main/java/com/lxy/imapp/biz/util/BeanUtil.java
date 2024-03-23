@@ -1,5 +1,6 @@
 package com.lxy.imapp.biz.util;
 
+import io.netty.channel.Channel;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,5 +15,7 @@ public class BeanUtil {
     public static <T> T getBean(String name, Class<T> t) {
         return (T) cacheMap.get(name);
     }
+
+    public static Channel getChannel(){return BeanUtil.getBean("channel", Channel.class);}
 
 }

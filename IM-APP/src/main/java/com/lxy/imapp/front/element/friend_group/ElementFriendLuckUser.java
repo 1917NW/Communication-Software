@@ -1,4 +1,5 @@
 package com.lxy.imapp.front.element.friend_group;
+import com.lxy.protocolpackage.constants.FriendState;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -67,10 +68,10 @@ public class ElementFriendLuckUser {
         statusLabel.setPrefSize(56, 30);
         statusLabel.setLayoutX(650);
         statusLabel.setLayoutY(20);
-        String statusText = "添加";
-        if (1 == status){
-            statusText = "允许";
-        } else if (2 == status){
+        String statusText = "";
+        if (FriendState.NOT_ADD.getStateCode().equals(status)){
+            statusText = "申请添加";
+        } else if (FriendState.HAVE_ADDED.getStateCode() .equals(status)){
             statusText = "已添加";
         }
         statusLabel.setText(statusText);

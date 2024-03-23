@@ -1,11 +1,16 @@
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\codec\ObjEncoder.java
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\login\LoginRequest.java
+C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\friend\AddFriendRequest.java
+C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\friend\AddFriendResponse.java
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\constants\TalkType.java
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\codec\ObjDecoder.java
+C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\friend\dto\UserDto.java
+C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\friend\SearchFriendResponse.java
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\login\dto\UserFriendDto.java
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\constants\MsgType.java
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\login\dto\GroupsDto.java
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\login\dto\ChatTalkDto.java
+C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\friend\SearchFriendRequest.java
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\Packet.java
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\login\dto\ChatRecordDto.java
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\login\LoginResponse.java

@@ -3,6 +3,7 @@ package com.lxy.imapp.front.view;
 import com.lxy.imapp.biz.event.ChatEventHandler;
 import com.lxy.imapp.front.controller.ChatController;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -36,11 +37,35 @@ public class Chat extends Stage {
             setResizable(false);
             initStyle(StageStyle.TRANSPARENT);
 
+            initEventHandler(root);
+
 
             getIcons().add(new Image("file:src/main/resources/fxml/login/img/app.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private double xOffset;
+
+    private double yOffset;
+    private void initEventHandler(Parent root) {
+        root.setOnMousePressed(mouseEvent -> {
+            xOffset = getX() - mouseEvent.getScreenX();
+            yOffset = getY() - mouseEvent.getScreenY();
+            root.setCursor(Cursor.CLOSED_HAND);
+        });
+
+
+        root.setOnMouseDragged(event -> {
+            setX(event.getScreenX() + xOffset);
+            setY(event.getScreenY() + yOffset);
+        });
+
+        root.setOnMouseReleased(event -> {
+            root.setCursor(Cursor.DEFAULT);
+        });
     }
 }

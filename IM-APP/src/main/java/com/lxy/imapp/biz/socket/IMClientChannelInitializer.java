@@ -1,5 +1,7 @@
 package com.lxy.imapp.biz.socket;
+import com.lxy.imapp.biz.socket.handler.impl.AddFriendRequestHandler;
 import com.lxy.imapp.biz.socket.handler.impl.LoginHandler;
+import com.lxy.imapp.biz.socket.handler.impl.SearchFriendHandler;
 import com.lxy.imapp.front.ImUI;
 import com.lxy.protocolpackage.codec.ObjDecoder;
 import com.lxy.protocolpackage.codec.ObjEncoder;
@@ -19,6 +21,8 @@ public class IMClientChannelInitializer extends ChannelInitializer<SocketChannel
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         socketChannel.pipeline().addLast(new ObjDecoder());
         socketChannel.pipeline().addLast(new LoginHandler(imUI));
+        socketChannel.pipeline().addLast(new SearchFriendHandler(imUI));
+        socketChannel.pipeline().addLast(new AddFriendRequestHandler(imUI));
         socketChannel.pipeline().addLast(new ObjEncoder());
     }
 }

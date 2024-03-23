@@ -6,6 +6,7 @@ import com.lxy.application.UserService;
 import com.lxy.domain.user.model.*;
 import com.lxy.infrastructure.dao.*;
 import com.lxy.infrastructure.entity.*;
+import com.lxy.protocolpackage.constants.FriendState;
 import com.lxy.protocolpackage.constants.TalkType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -153,7 +154,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<LuckUserInfo> queryFuzzyUserInfoList(String userId, String searchKey) {
-        return null;
+        List<LuckUserInfo> luckUserInfoList = new ArrayList<>();
+        List<ImUser> userList = imUserDao.fuzzySearchExcludeUserId(userId, searchKey);
+        List<String> friendList = null;
+        if(userList.size() > 0){
+            friendList = imUserFriendDao.queryAllFriendByUserId(userId);
+        }
+        for(ImUser user : userList){
+            LuckUserInfo userInfo = new LuckUserInfo(user.getUserId(), user.getUserNickname(), user.getUserHead(), FriendState.NOT_ADD.getStateCode());
+
+            if(friendList != null && friendList.contains(user.getUserId()))
+                userInfo.setStatus(FriendState.HAVE_ADDED.getStateCode());
+            luckUserInfoList.add(userInfo);
+        }
+        return luckUserInfoList;
     }
 
     @Override

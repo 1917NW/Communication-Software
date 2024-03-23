@@ -80,4 +80,9 @@ public class Login extends Stage {
         // 打开聊天窗口
         chat.show();
     }
+
+    public void LoingFailed(){
+        System.out.println("登录失败");
+
+    }
 }
