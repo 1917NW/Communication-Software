@@ -3,6 +3,10 @@ package com.lxy.protocolpackage.protocol;
 import com.lxy.protocolpackage.protocol.friend.*;
 import com.lxy.protocolpackage.protocol.login.LoginRequest;
 import com.lxy.protocolpackage.protocol.login.LoginResponse;
+import com.lxy.protocolpackage.protocol.msg.MsgRequest;
+import com.lxy.protocolpackage.protocol.msg.MsgResponse;
+import com.lxy.protocolpackage.protocol.talk.DelTalkRequest;
+import com.lxy.protocolpackage.protocol.talk.TalkNoticeRequest;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,6 +31,16 @@ public abstract class Packet {
         // 申请好友消息
         packetType.put(Command.FriendRequest, FriendRequest.class);
         packetType.put(Command.FriendResponse, FriendResponse.class);
+
+        // 添加对话框消息
+        packetType.put(Command.TalkNoticeRequest, TalkNoticeRequest.class);
+
+        // 删除对话框消息
+        packetType.put(Command.DelTalkRequest, DelTalkRequest.class);
+
+        // 好友消息
+        packetType.put(Command.MsgRequest, MsgRequest.class);
+        packetType.put(Command.MsgResponse, MsgResponse.class);
 
     }
 

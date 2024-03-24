@@ -7,6 +7,7 @@ import com.lxy.imapp.front.constant.TalkType;
 import com.lxy.imapp.front.controller.ChatController;
 import com.lxy.imapp.front.view.Chat;
 import com.lxy.protocolpackage.constants.MsgType;
+import com.lxy.protocolpackage.protocol.friend.dto.UserDto;
 import com.lxy.protocolpackage.protocol.login.LoginRequest;
 import com.lxy.protocolpackage.protocol.login.LoginResponse;
 import com.lxy.protocolpackage.protocol.login.dto.ChatRecordDto;
@@ -49,9 +50,16 @@ public class LoginHandler extends AbstractBizHandler<LoginResponse> {
             List<ChatTalkDto> chatTalkList = msg.getChatTalkList();
             if(chatTalkList != null){
                 chatTalkList.forEach(talk -> {
+
+
                     chatController.addTalkBox(0, talk.getTalkType(), talk.getTalkId(), talk.getTalkName(), talk.getTalkHead(), talk.getTalkSketch(), talk.getTalkDate(), false);
                     List<ChatRecordDto> chatRecordList = talk.getChatRecordList();
                     if(talk.getTalkType().equals(TalkType.PRIVATE_MESSAGE.getTalkTypeCode())){
+
+                        UserDto userDto = new UserDto();
+                        userDto.setUserId(talk.getTalkId());
+                        userDto.setUserHead(talk.getTalkHead());
+                        userDto.setUserNickName(talk.getTalkName());
 
                         // 如果为空，则直接返回
                         if(chatRecordList == null || chatRecordList.isEmpty())
@@ -62,7 +70,7 @@ public class LoginHandler extends AbstractBizHandler<LoginResponse> {
                             if(chatRecord.getMsgType().equals(MsgType.MINE_MSG.getMsgTypeCode())){
                                 chatController.addTalkMsgRight(chatRecord.getTalkId(), chatRecord.getMsgContent(),  chatRecord.getMsgDate(), true,false, false);
                             }else if(chatRecord.getMsgType().equals(MsgType.OTHERS_MSG.getMsgTypeCode())){
-                                chatController.addTalkMsgUserLeft(chatRecord.getTalkId(), chatRecord.getMsgContent(),  chatRecord.getMsgDate(), true,false, false);
+                                chatController.addTalkMsgUserLeft(userDto, chatRecord.getMsgContent(),  chatRecord.getMsgDate(), true,false, false);
                             }
                         } );
 

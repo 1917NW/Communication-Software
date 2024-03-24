@@ -2,6 +2,8 @@ package com.lxy;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lxy.infrastructure.dao.ImUserDao;
+import com.lxy.infrastructure.dao.ImUserMsgDao;
+import com.lxy.infrastructure.dao.ImUserTalkDao;
 import com.lxy.infrastructure.entity.ImUser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +19,13 @@ class ImServerApplicationTests {
 
     @Autowired
     private ImUserDao imUserDao;
+
+    @Autowired
+    private ImUserTalkDao imUserTalkDao;
+
     @Test
     void contextLoads() {
-        List<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(2);
-        list.add(3);
-
-        Iterator<Integer> iterator = list.iterator();
-
-        while (iterator.hasNext()){
-            Integer next = iterator.next();
-            System.out.println(next);
-            iterator.remove();
-
-        }
-
-        System.out.println(list.size());
+        imUserTalkDao.addTalkIfAbsent("1111", "1234", 1);
 
 
     }

@@ -98,9 +98,11 @@ public class UserServiceImpl implements UserService {
         return talkBoxInfoList;
     }
 
+
+
     @Override
     public void addTalkBoxInfo(String userId, String talkId, Integer talkType) {
-
+            imUserTalkDao.addTalkIfAbsent(userId, talkId, talkType);
     }
 
     @Autowired
@@ -211,8 +213,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserTalk(String userId, String talkId) {
-
+    public void deleteUserTalk(String userId, String talkId, Integer talkType) {
+        LambdaQueryWrapper<ImUserTalk> imUserTalkLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        imUserTalkLambdaQueryWrapper.eq(ImUserTalk::getUserId, userId);
+        imUserTalkLambdaQueryWrapper.eq(ImUserTalk::getTalkId, talkId);
+        imUserTalkLambdaQueryWrapper.eq(ImUserTalk::getTalkType, talkType);
+        imUserTalkDao.delete(imUserTalkLambdaQueryWrapper);
     }
 
     @Override

@@ -13,6 +13,8 @@ import com.lxy.imapp.front.element.friend_group.*;
 import com.lxy.imapp.front.util.CacheUtil;
 import com.lxy.imapp.front.util.Ids;
 import com.lxy.imapp.front.view.Emotion;
+import com.lxy.protocolpackage.protocol.friend.dto.UserDto;
+import com.lxy.protocolpackage.protocol.login.dto.ChatTalkDto;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -357,37 +359,15 @@ public class ChatController {
             setValid(false);
             talkList.getSelectionModel().clearSelection();
 
+            // 发送删除对话消息
+            chatEventHandler.doEventDeleteTalk(currentUserId, talkId, talkType);
 
         });
 
         return talkElement;
     }
 
-    private void testTalkList() {
 
-        setUserInfo("1000001", "拎包冲", "02_50");
-
-        // 好友 - 对话框
-        addTalkBox(-1, 0, "1000002", "铁锤", "03_50", "秋风扫过树叶落，哪有棋盘哪有我", new Date(), false);
-        addTalkMsgUserLeft("1000002", "秋风扫过树叶落，哪有棋盘哪有我", new Date(), true, false, true);
-        addTalkMsgRight("1000002", "我Q，传说中的老头杀？", new Date(), true, true, false);
-
-        addTalkBox(-1, 0, "1000004", "哈尼克兔", "04_50", null, null, true);
-        addTalkMsgUserLeft("1000004", "沉淀、分享、成长，让自己和他人都有所收获！", new Date(), true, true, true);
-        addTalkMsgRight("1000004", "今年过年是放假时间最长的了！", new Date(), true, true, false);
-
-        addTalkMsgUserLeft("1000002", "秋风扫过树叶落，哪有棋盘哪有我", new Date(), true, false, true);
-        addTalkMsgUserLeft("1000002", "我是狗", new Date(), true, false, true);
-
-
-        // 群组 - 对话框
-        addTalkBox(0, 1, "5307397", "虫洞 · 技术栈(1区)", "group_1", "", new Date(), false);
-
-        addTalkMsgRight("5307397", "你炸了我的山", new Date(), true, true, false);
-        addTalkMsgGroupLeft("5307397", "1000002", "拎包冲", "01_50", "推我过忘川", new Date(), true, false, true);
-        addTalkMsgGroupLeft("5307397", "1000003", "铁锤", "03_50", "奈河桥边的姑娘", new Date(), true, false, true);
-        addTalkMsgGroupLeft("5307397", "1000004", "哈尼克兔", "04_50", "等我回头看", new Date(), true, false, true);
-    }
 
     public void setUserInfo(String userId, String userNickName, String userHead) {
         this.currentUserId = userId;
@@ -398,8 +378,15 @@ public class ChatController {
         //button.setStyle(String.format("-fx-background-image: url('/fxml/chat/img/head/%s.png')", userHead));
     }
 
-    public void addTalkMsgUserLeft(String talkId, String msg, Date msgDate, Boolean idxFirst, Boolean selected, Boolean isRemind) {
+    public void addTalkMsgUserLeft(UserDto userDto, String msg, Date msgDate, Boolean idxFirst, Boolean selected, Boolean isRemind) {
+        String talkId = userDto.getUserId();
         ElementTalk talkElement = CacheUtil.talkMap.get(talkId);
+        if(talkElement == null){
+            // 初始化对话框元素
+             talkElement = new ElementTalk(talkId, TalkType.PRIVATE_MESSAGE.getTalkTypeCode(), userDto.getUserNickName(), userDto.getUserHead(), "", null);
+
+             CacheUtil.talkMap.put(talkId, talkElement);
+        }
         ListView<Pane> listView = talkElement.infoBoxList();
         TalkData talkUserData = (TalkData) listView.getUserData();
         // 创建pane
@@ -570,6 +557,7 @@ public class ChatController {
         TalkBoxData  talkBoxData = (TalkBoxData) selectedItem.getUserData();
 
 
+
         String msg = txtInput.getText();
 
         if(null == msg || "".equals(msg) || "".equals(msg.trim()))
@@ -580,6 +568,8 @@ public class ChatController {
 
         addTalkMsgRight(talkBoxData.getTalkId(), msg, msgDate, true, true, false);
         txtInput.clear();
+        chatEventHandler.doEventSendMsg(currentUserId, currentUserNickName, currentUserHead, talkBoxData.getTalkId(), talkBoxData.getTalkType(), msg,msgDate);
+
     }
 
     // selected为true，则表示选中该会话框，并且将会话填充到infoBox中
@@ -858,7 +848,7 @@ public class ChatController {
         if(friendGroupPane != null)
         friendGroupPane.setPrefHeight(80 * items.size());
 
-        doEventOpenFriendGroupSendMsg(sendMsgButton, groupId, groupName, groupHead, 1);
+        doEventOpenFriendGroupSendMsg(sendMsgButton, groupId, groupName, groupHead, TalkType.GROUP_MESSAGE.getTalkTypeCode());
         // 添加监听事件
         pane.setOnMousePressed(event -> {
             clearViewListSelectedAll(friendList, userListView);
@@ -901,7 +891,7 @@ public class ChatController {
             userListView.getSelectionModel().select(pane);
         }
 
-        doEventOpenFriendGroupSendMsg(sendMsgButton, userFriendId, userFriendNickName, userFriendHead, 0);
+        doEventOpenFriendGroupSendMsg(sendMsgButton, userFriendId, userFriendNickName, userFriendHead, TalkType.PRIVATE_MESSAGE.getTalkTypeCode());
         // 添加监听事件
         pane.setOnMousePressed(event -> {
             clearViewListSelectedAll(friendList, groupListView);
@@ -925,10 +915,10 @@ public class ChatController {
         contentName.setText(name);
     }
 
-    public void doEventOpenFriendGroupSendMsg(Button sendMsgButton, String groupId, String groupName, String groupHead, Integer talkType) {
+    public void doEventOpenFriendGroupSendMsg(Button sendMsgButton, String talkId, String talkName, String groupHead, Integer talkType) {
         sendMsgButton.setOnMouseClicked(event -> {
             // 1. 添加好友到对话框
-            ElementTalk elementTalk = addTalkBox(0, talkType, groupId, groupName, groupHead, null, null, true);
+            ElementTalk elementTalk = addTalkBox(0, talkType, talkId, talkName, groupHead, null, null, true);
             // 2. 切换到对话框窗口
             switchToChat(event);
             // 3.设置infoBox有效
@@ -938,14 +928,16 @@ public class ChatController {
             talkList.getItems().add(0, elementTalk.pane());
 
             // 4.填充对话框
-            fillInfoBox(elementTalk, groupName);
+            fillInfoBox(elementTalk, talkName);
 
 
             // 5. 使对话框处于第一位
             talkList.getSelectionModel().select(elementTalk.pane());
 
-            // 3. 事件处理；填充到对话框
-            System.out.println("事件处理；填充到对话框");
+
+            // 6. 发送到服务器端，添加对话数据
+            chatEventHandler.doEventAddTalk(currentUserId, talkId, talkType);
+
         });
     }
 

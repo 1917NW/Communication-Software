@@ -99,7 +99,7 @@ public interface UserService {
      * @param userId 用户ID
      * @param talkId 对话框ID
      */
-    void deleteUserTalk(String userId, String talkId);
+    void deleteUserTalk(String userId, String talkId, Integer talkType);
 
     /**
      * 查询用户群组ID集合
