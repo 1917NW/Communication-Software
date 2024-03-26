@@ -5,6 +5,9 @@ import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 
+/**
+ * 群组列表面板
+ */
 public class ElementFriendGroupList {
     private Pane pane;
     private ListView<Pane> groupListView;

@@ -5,6 +5,10 @@ import com.lxy.socket.handler.impl.LoginHandler;
 import com.lxy.socket.handler.impl.SearchFriendHandler;
 import com.lxy.socket.handler.impl.friend.AddFriendResponseHandler;
 import com.lxy.socket.handler.impl.friend.FriendRequestHandler;
+import com.lxy.socket.handler.impl.group.FullGroupJoinInGroupResponseHandler;
+import com.lxy.socket.handler.impl.group.GroupCreateRequestHandler;
+import com.lxy.socket.handler.impl.group.GroupSearchRequestHandler;
+import com.lxy.socket.handler.impl.group.JoinInGroupRequestHandler;
 import com.lxy.socket.handler.impl.msg.MsgRequestHandler;
 import com.lxy.socket.handler.impl.talk.DelTalkRequestHandler;
 import com.lxy.socket.handler.impl.talk.TalkNoticeRequestHandler;
@@ -33,6 +37,10 @@ public class IMServerChannelInitializer extends ChannelInitializer<SocketChannel
         socketChannel.pipeline().addLast(applicationContext.getBean(TalkNoticeRequestHandler.class));
         socketChannel.pipeline().addLast(applicationContext.getBean(DelTalkRequestHandler.class));
         socketChannel.pipeline().addLast(applicationContext.getBean(MsgRequestHandler.class));
+        socketChannel.pipeline().addLast(applicationContext.getBean(GroupCreateRequestHandler.class));
+        socketChannel.pipeline().addLast(applicationContext.getBean(GroupSearchRequestHandler.class));
+        socketChannel.pipeline().addLast(applicationContext.getBean(JoinInGroupRequestHandler.class));
+        socketChannel.pipeline().addLast(applicationContext.getBean(FullGroupJoinInGroupResponseHandler.class));
         socketChannel.pipeline().addLast(new ObjEncoder());
     }
 }

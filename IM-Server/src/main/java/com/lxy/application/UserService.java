@@ -4,6 +4,7 @@ package com.lxy.application;
 
 import com.lxy.domain.user.model.*;
 import com.lxy.infrastructure.entity.ImUserFriend;
+import com.lxy.protocolpackage.protocol.group.dto.GroupDto;
 
 import java.util.List;
 
@@ -33,6 +34,8 @@ public interface UserService {
      * @return 对话框列表
      */
     List<TalkBoxInfo> queryTalkBoxInfoList(String userId);
+
+    boolean createGroup(GroupsInfo groupsInfo);
 
     /**
      * 添加对话框
@@ -68,6 +71,11 @@ public interface UserService {
      * @return < 10个用户集合
      */
     List<LuckUserInfo> queryFuzzyUserInfoList(String userId, String searchKey);
+
+
+
+
+    List<GroupDto> queryFuzzyGroupList(String userId, String searchKey);
 
     /**
      * 添加好友到数据库中
@@ -125,4 +133,7 @@ public interface UserService {
 
     void asyncAddUserFriend(String userId, String friendId);
 
+    GroupDto queryGroupInfo(String groupId);
+
+    boolean addUserToGroup(String userId, String groupId);
 }

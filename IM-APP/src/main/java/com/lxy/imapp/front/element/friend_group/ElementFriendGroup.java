@@ -7,6 +7,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
+/**
+ * 群组具体信息面板
+ */
 public class ElementFriendGroup {
     private Pane groupPane;
 

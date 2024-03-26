@@ -26,4 +26,19 @@ public interface Command {
 
     Byte FriendRequest = 15;
     Byte FriendResponse = 16;
+
+    Byte SearchGroupRequest = 17;
+    Byte SearchGroupResponse = 18;
+
+    Byte CreateGroupRequest = 19;
+    Byte CreateGroupResponse = 20;
+
+    Byte JoinInGroupRequest = 21;
+
+    Byte FullUserJoinInGroupRequest = 22;
+
+    Byte FullGroupJoinInGroupResponse = 23;
+
+    Byte JoinInGroupResponse = 24;
+
 }

@@ -3,5 +3,12 @@ spring:
     url: jdbc:mysql://localhost:3308/im_system
     username: root
     password: root
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+
+
+
 
 

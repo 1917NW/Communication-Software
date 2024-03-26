@@ -45,7 +45,7 @@ public class ElementNewFriend {
         name.setPrefSize(200, 40);
         name.setLayoutX(80);
         name.setLayoutY(15);
-        name.setText("新的朋友");
+        name.setText("新的好友");
         name.getStyleClass().add("elementFriendLuck_name");
         children.add(name);
 

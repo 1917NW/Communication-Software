@@ -8,6 +8,7 @@ import com.lxy.infrastructure.entity.ImUser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,11 +24,12 @@ class ImServerApplicationTests {
     @Autowired
     private ImUserTalkDao imUserTalkDao;
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
     @Test
     void contextLoads() {
-        imUserTalkDao.addTalkIfAbsent("1111", "1234", 1);
-
-
+        stringRedisTemplate.opsForValue().increment("lxy");
     }
 
 }

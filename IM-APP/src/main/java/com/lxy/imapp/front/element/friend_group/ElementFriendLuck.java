@@ -8,6 +8,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
+/**
+ * 添加朋友面板
+ */
 public class ElementFriendLuck {
     private Pane pane;
 
@@ -39,7 +42,7 @@ public class ElementFriendLuck {
         name.setPrefSize(200, 40);
         name.setLayoutX(80);
         name.setLayoutY(15);
-        name.setText("添加朋友");
+        name.setText("添加好友");
         name.getStyleClass().add("elementFriendLuck_name");
         children.add(name);
         

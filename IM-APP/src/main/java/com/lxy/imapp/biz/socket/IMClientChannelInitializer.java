@@ -23,6 +23,10 @@ public class IMClientChannelInitializer extends ChannelInitializer<SocketChannel
         socketChannel.pipeline().addLast(new AddFriendRequestHandler(imUI));
         socketChannel.pipeline().addLast(new FriendResponseHandler(imUI));
         socketChannel.pipeline().addLast(new MsgResponseHandler(imUI));
+        socketChannel.pipeline().addLast(new GroupSearchResponseHandler(imUI));
+        socketChannel.pipeline().addLast(new GroupCreateResponseHandler(imUI));
+        socketChannel.pipeline().addLast(new FullUserJoinInGroupRequestHandler(imUI));
+        socketChannel.pipeline().addLast(new JoinInGroupResponseHandler(imUI));
         socketChannel.pipeline().addLast(new ObjEncoder());
     }
 }

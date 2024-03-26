@@ -1,6 +1,7 @@
 package com.lxy.imapp.front.controller;
 
 import com.lxy.imapp.biz.event.ChatEventHandler;
+import com.lxy.imapp.biz.socket.po.UserGroupRequest;
 import com.lxy.imapp.front.constant.FriendPaneId;
 import com.lxy.imapp.front.constant.TalkType;
 import com.lxy.imapp.front.data.GroupsData;
@@ -13,7 +14,10 @@ import com.lxy.imapp.front.element.friend_group.*;
 import com.lxy.imapp.front.util.CacheUtil;
 import com.lxy.imapp.front.util.Ids;
 import com.lxy.imapp.front.view.Emotion;
+import com.lxy.protocolpackage.constants.FriendState;
+import com.lxy.protocolpackage.constants.GroupState;
 import com.lxy.protocolpackage.protocol.friend.dto.UserDto;
+import com.lxy.protocolpackage.protocol.group.dto.GroupDto;
 import com.lxy.protocolpackage.protocol.login.dto.ChatTalkDto;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -109,7 +113,7 @@ public class ChatController {
        setLogo();
 
 
-        // 初始化新的朋友
+        // 初始化新的好友
         initNewFriend();
 
        // 初始化好友界面左侧栏
@@ -117,11 +121,16 @@ public class ChatController {
 
 
 
+        // 群组申请通知
+        addGroupRequest();
+
         // 初始化创建群组
         addCreateGroup();
 
         // 初始化加入群组
         addJoinGroup();
+
+
 
         // 初始化群聊列表
         addFriendGroupList();
@@ -133,6 +142,31 @@ public class ChatController {
 //        testFriendList();
 
         initBackGround();
+    }
+
+    private ElementGroupRequest elementGroupRequest;
+
+    private ListView<Pane> groupRequestListView;
+    private void addGroupRequest() {
+        ObservableList<Pane> items = friendList.getItems();
+
+        // 设置新的好友面板
+        ElementFriendTag elementFriendTag = new ElementFriendTag("群组申请");
+        items.add(elementFriendTag.pane());
+
+        elementGroupRequest = new ElementGroupRequest();
+
+        Pane pane = elementGroupRequest.pane();
+        items.add(pane);
+        groupRequestListView = elementGroupRequest.getGroupRequestListView();
+        pane.setOnMousePressed(event -> {
+            Pane groupRequestPane = elementGroupRequest.getGroupRequestPane();
+            setContentPaneBox(FriendPaneId.NEW_FRIEND_PANE_ID.getId(), "群组申请", groupRequestPane);
+            clearViewListSelectedAll(userListView, groupListView);
+            System.out.println("群组申请");
+            elementGroupRequest.getGroupRequestRemind().setVisible(false);
+        });
+
     }
 
     private void initBackGround() {
@@ -624,8 +658,8 @@ public class ChatController {
     public void initAddFriendLuck(){
         ObservableList<Pane> items = friendList.getItems();
 
-        // 设置新的朋友面板
-        ElementFriendTag elementFriendTag = new ElementFriendTag("添加朋友");
+        // 设置新的好友面板
+        ElementFriendTag elementFriendTag = new ElementFriendTag("添加好友");
         items.add(elementFriendTag.pane());
 
         ElementFriendLuck element = new ElementFriendLuck();
@@ -635,7 +669,7 @@ public class ChatController {
 
         pane.setOnMousePressed(event -> {
             Pane friendLuckPane = element.friendLuckPane();
-            setContentPaneBox(FriendPaneId.NEW_FRIEND_PANE_ID.getId(), "添加朋友", friendLuckPane);
+            setContentPaneBox(FriendPaneId.NEW_FRIEND_PANE_ID.getId(), "添加好友", friendLuckPane);
             clearViewListSelectedAll(userListView, groupListView);
             ListView<Pane> paneListView = element.friendLuckListView();
             paneListView.getItems().clear();
@@ -660,6 +694,7 @@ public class ChatController {
 
                 element.friendLuckListView().getItems().clear();
 
+                if(!text.equals(""))
                chatEventHandler.doFriendLuckSearch(currentUserId, text);
 
             }
@@ -668,16 +703,35 @@ public class ChatController {
 
     }
 
+    public void addSearchGroup(GroupDto groupDto){
+        ElementJoinGroupItem elementJoinGroupItem = new ElementJoinGroupItem(groupDto.getGroupId(), groupDto.getGroupName(), groupDto.getGroupHead(), groupDto.getStatus());
+        Pane pane = elementJoinGroupItem.pane();
+
+        ListView<Pane> groupListView = elementJoinGroup.getGroupListView();
+        ObservableList<Pane> items = groupListView.getItems();
+        items.add(pane);
+
+        elementJoinGroupItem.statusLabel().setOnMousePressed(event -> {
+            if(GroupState.NOT_ADD.getStateCode().equals(groupDto.getStatus()))
+                chatEventHandler.doSendJoinInGroupRequest(this.currentUserId, groupDto.getGroupId(),groupDto.getGroupLeaderId());
+        });
+
+
+
+    }
+
     public void addLuckFriend(String userId, String userNickName, String userHead, Integer status) {
         ElementFriendLuckUser friendLuckUser = new ElementFriendLuckUser(userId, userNickName, userHead, status);
         Pane pane = friendLuckUser.pane();
+
         // 添加到好友列表
         ListView<Pane> friendLuckListView = elementFriendLuck.friendLuckListView();
         ObservableList<Pane> items = friendLuckListView.getItems();
         items.add(pane);
 
-        // 点击事件 TODO:申请添加好友
+        // 点击事件 TODO 对Label的分类讨论
         friendLuckUser.statusLabel().setOnMousePressed(event -> {
+            if(FriendState.NOT_ADD.getStateCode().equals(status))
             chatEventHandler.doSendFriendRequest(this.currentUserId, userId);
         });
     }
@@ -688,8 +742,8 @@ public class ChatController {
     private void initNewFriend(){
         ObservableList<Pane> items = friendList.getItems();
 
-        // 设置新的朋友面板
-        ElementFriendTag elementFriendTag = new ElementFriendTag("新的朋友");
+        // 设置新的好友面板
+        ElementFriendTag elementFriendTag = new ElementFriendTag("新的好友");
         items.add(elementFriendTag.pane());
 
         elementNewFriend = new ElementNewFriend();
@@ -699,10 +753,50 @@ public class ChatController {
         newFriendListView = elementNewFriend.newFriendListView();
         pane.setOnMousePressed(event -> {
             Pane newFriendPane = elementNewFriend.getNewFriendPane();
-            setContentPaneBox(FriendPaneId.NEW_FRIEND_PANE_ID.getId(), "新的朋友", newFriendPane);
+            setContentPaneBox(FriendPaneId.NEW_FRIEND_PANE_ID.getId(), "新的好友", newFriendPane);
             clearViewListSelectedAll(userListView, groupListView);
             System.out.println("添加好友");
             elementNewFriend.getNewFriendRemind().setVisible(false);
+        });
+
+    }
+
+    public void remindGroupRequest(UserDto userDto, GroupDto groupDto){
+
+
+        if(!friendPane.isVisible())
+            barFriend.setTextFill(Color.YELLOW);
+
+        // 显示提示
+        elementGroupRequest.getGroupRequestRemind().setVisible(true);
+
+        // 添加申请
+        ObservableList<Pane> items = groupRequestListView.getItems();
+        ElementNewGroupRequest elementNewGroupRequest = new ElementNewGroupRequest(userDto, groupDto);
+        Pane pane = elementNewGroupRequest.pane();
+
+        UserGroupRequest userGroupRequest = new UserGroupRequest(userDto.getUserId(), groupDto.getGroupId());
+        for(Pane currentPane : items){
+            UserGroupRequest paneUserData = (UserGroupRequest) currentPane.getUserData();
+            if(paneUserData.equals(userGroupRequest)) {
+                groupRequestListView.getItems().remove(currentPane);
+                groupRequestListView.getItems().add(0, currentPane);
+                return;
+            }
+        }
+        items.add(pane);
+
+        // 注册申请事件处理
+        elementNewGroupRequest.agreeLabel().setOnMousePressed(event -> {
+            System.out.println("同意加入群组");
+            groupRequestListView.getItems().remove(pane);
+            chatEventHandler.agreeJoinInGroupRequest(userDto.getUserId(), groupDto);
+        });
+
+        elementNewGroupRequest.rejectLabel().setOnMousePressed(event -> {
+            System.out.println("拒绝添加好友");
+            groupRequestListView.getItems().remove(pane);
+            chatEventHandler.rejectJoinInGroupRequest(userDto.getUserId(), groupDto);
         });
 
     }
@@ -714,7 +808,8 @@ public class ChatController {
         if(!friendPane.isVisible())
             barFriend.setTextFill(Color.YELLOW);
         elementNewFriend.getNewFriendRemind().setVisible(true);
-        // 添加到新的朋友列表
+
+        // 添加到新的好友列表
         ObservableList<Pane> items = newFriendListView.getItems();
 
         for(Pane currentPane : items){
@@ -759,26 +854,67 @@ public class ChatController {
         pane.setOnMousePressed(event -> {
             clearViewListSelectedAll(userListView, groupListView);
             Pane subPane = elementFriendSubscription.subPane();
+            Button createGroupButton = elementFriendSubscription.getCreateGroupButton();
+            createGroupButton.setOnMouseClicked(event1 -> {
+                TextField groupName = elementFriendSubscription.getGroupName();
+                String text = groupName.getText();
+                if(text == null)
+                    text = "";
+
+                text = text.trim();
+                if(text.length() > 18)
+                    text = text.substring(0, 18);
+
+                if(! text.equals(""))
+                    chatEventHandler.doEventCreateGroup(currentUserId, text);
+
+
+            });
             setContentPaneBox(FriendPaneId.SUBSCRIBE_PANE_ID.getId(), "创建群组", subPane);
+
         });
 
 
     }
 
+    private ElementJoinGroup elementJoinGroup;
     public void addJoinGroup(){
         ObservableList<Pane> items = friendList.getItems();
         ElementFriendTag elementFriendTag = new ElementFriendTag("加入群组");
         items.add(elementFriendTag.pane());
 
-        ElementJoinGroup elementFriendSubscription = new ElementJoinGroup();
-        Pane pane = elementFriendSubscription.pane();
+        elementJoinGroup = new ElementJoinGroup();
+        Pane pane = elementJoinGroup.pane();
         items.add(pane);
 
 
         pane.setOnMousePressed(event -> {
             clearViewListSelectedAll(userListView, groupListView);
-            Pane subPane = elementFriendSubscription.subPane();
+            Pane subPane = elementJoinGroup.subPane();
             setContentPaneBox(FriendPaneId.SUBSCRIBE_PANE_ID.getId(), "加入群组", subPane);
+        });
+
+        // 搜索框事件
+        TextField friendLuckSearch = elementJoinGroup.getGroupSearch();
+
+        friendLuckSearch.setOnKeyPressed(event -> {
+            if(event.getCode().equals(KeyCode.ENTER)){
+                String text = friendLuckSearch.getText();
+                if(text == null)
+                    text = "";
+
+                text = text.trim();
+                if(text.length() > 30)
+                    text = text.substring(0, 30);
+
+                System.out.println("搜搜群组:" + text);
+
+                elementJoinGroup.getGroupListView().getItems().clear();
+
+                if(!text.equals(""))
+                chatEventHandler.doGroupSearch(currentUserId, text);
+
+            }
         });
 
 

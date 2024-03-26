@@ -1,6 +1,7 @@
 package com.lxy.protocolpackage.protocol;
 
 import com.lxy.protocolpackage.protocol.friend.*;
+import com.lxy.protocolpackage.protocol.group.*;
 import com.lxy.protocolpackage.protocol.login.LoginRequest;
 import com.lxy.protocolpackage.protocol.login.LoginResponse;
 import com.lxy.protocolpackage.protocol.msg.MsgRequest;
@@ -41,6 +42,21 @@ public abstract class Packet {
         // 好友消息
         packetType.put(Command.MsgRequest, MsgRequest.class);
         packetType.put(Command.MsgResponse, MsgResponse.class);
+
+        // 搜索群组消息
+        packetType.put(Command.SearchGroupRequest, GroupSearchRequest.class);
+        packetType.put(Command.SearchGroupResponse, GroupSearchResponse.class);
+
+        // 创建群组消息
+        packetType.put(Command.CreateGroupRequest, GroupCreateRequest.class);
+        packetType.put(Command.CreateGroupResponse, GroupCreateResponse.class);
+
+        // 群组申请添加消息
+        packetType.put(Command.JoinInGroupRequest, JoinInGroupRequest.class);
+        packetType.put(Command.JoinInGroupResponse, JoinInGroupResponse.class);
+
+        packetType.put(Command.FullUserJoinInGroupRequest, FullUserJoinInGroupRequest.class);
+        packetType.put(Command.FullGroupJoinInGroupResponse, FullGroupJoinInGroupResponse.class);
 
     }
 

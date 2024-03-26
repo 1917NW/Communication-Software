@@ -4,9 +4,17 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
+import java.awt.*;
+
+/**
+ * 创建群组面板
+ */
 public class ElementCreateGroup {
 
     private Pane pane;
@@ -15,6 +23,15 @@ public class ElementCreateGroup {
     private Label name;  // 名称
 
     private Pane subPane; // 公众号面板
+
+    private Label groupNameLabel;
+    private TextField groupName;
+
+    private Label groupHeadLabel;
+
+
+
+    private Button createGroupButton;
 
     public ElementCreateGroup(){
         pane = new Pane();
@@ -42,29 +59,37 @@ public class ElementCreateGroup {
         // 初始化未装载
         subPane = new Pane();
         subPane.setPrefSize(808, 560);
-        subPane.setStyle("-fx-background-color:black;");
+        subPane.setStyle("-fx-background-color:white;");
         ObservableList<Node> subPaneChildren = subPane.getChildren();
 
-        Button gzh_button = new Button();
-        gzh_button.setPrefSize(65,65);
-        gzh_button.setLayoutX(110);
-        gzh_button.setLayoutY(30);
-        gzh_button.setStyle("-fx-background-color: transparent;" +
-                "-fx-background-radius: 0px;" +
-                "-fx-border-width: 50px;" +
-                "-fx-background-image: url('/fxml/login/img/system/bugstack_logo.png');");
-        subPaneChildren.add(gzh_button);
 
-        Label gzh_label = new Label();
-        gzh_label.setPrefSize(150,20);
-        gzh_label.setLayoutX(95);
-        gzh_label.setLayoutY(100);
-        gzh_label.setText("bugstack虫洞栈");
-        gzh_label.setStyle("-fx-background-color: transparent;-fx-border-width: 0; -fx-text-fill: #999999;" +
-                "-fx-font-size: 14px;");
-        gzh_label.setTextAlignment(TextAlignment.CENTER);
-        subPaneChildren.add(gzh_label);
 
+        double groupNameX = 50;
+        double groupNameY = 100;
+        groupNameLabel = new Label();
+        groupNameLabel.setFont(Font.font(25));
+        groupNameLabel.setText("群组名称");
+        groupNameLabel.setPrefSize(200, 40);
+        groupNameLabel.setLayoutX(groupNameX);
+        groupNameLabel.setLayoutY(groupNameY);
+        subPaneChildren.add(groupNameLabel);
+
+        groupName = new TextField();
+        groupName.setPromptText("群组名称不超过18个字符");
+        groupName.setLayoutX(groupNameX + 120);
+        groupName.setLayoutY(groupNameY );
+        groupName.setPrefSize(600, 50);
+        subPaneChildren.add(groupName);
+
+        createGroupButton = new Button();
+        createGroupButton.setStyle("-fx-background-color: #99cc00");
+        createGroupButton.setTextFill(Color.WHITE);
+        createGroupButton.setLayoutX(groupNameX + 350);
+        createGroupButton.setLayoutY(groupNameY + 100);
+        createGroupButton.setPrefSize(90, 45);
+        createGroupButton.setText("创建群组");
+
+        subPaneChildren.add(createGroupButton);
     }
 
     public Pane pane() {
@@ -73,5 +98,13 @@ public class ElementCreateGroup {
 
     public Pane subPane() {
         return subPane;
+    }
+
+    public Button getCreateGroupButton() {
+        return createGroupButton;
+    }
+
+    public TextField getGroupName() {
+        return groupName;
     }
 }

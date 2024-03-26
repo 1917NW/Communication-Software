@@ -1,12 +1,18 @@
 package com.lxy.imapp.front.element.friend_group;
 
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.TextAlignment;
 
+/**
+ * 加入群组 面板
+ */
 public class ElementJoinGroup {
 
     private Pane pane;
@@ -14,7 +20,9 @@ public class ElementJoinGroup {
     private Label head;  // 头像
     private Label name;  // 名称
 
-    private Pane subPane; // 公众号面板
+    private Pane groupPane; // 群组面板
+    private TextField groupSearch; // 群组搜索
+    private ListView<Pane> groupListView; // 群组列表
 
     public ElementJoinGroup(){
         pane = new Pane();
@@ -39,31 +47,29 @@ public class ElementJoinGroup {
         name.getStyleClass().add("elementFriendSubscription_name");
         children.add(name);
 
-        // 初始化未装载
-        subPane = new Pane();
-        subPane.setPrefSize(808, 560);
-        subPane.setStyle("-fx-background-color:black;");
-        ObservableList<Node> subPaneChildren = subPane.getChildren();
+        // 初始化框体区域[搜索好友框、展现框]
+        groupPane = new Pane();
+        groupPane.setPrefSize(808, 560);
+        groupPane.getStyleClass().add("friendLuckPane");
+        ObservableList<Node> friendLuckPaneChildren = groupPane.getChildren();
 
-        Button gzh_button = new Button();
-        gzh_button.setPrefSize(65,65);
-        gzh_button.setLayoutX(110);
-        gzh_button.setLayoutY(30);
-        gzh_button.setStyle("-fx-background-color: transparent;" +
-                "-fx-background-radius: 0px;" +
-                "-fx-border-width: 50px;" +
-                "-fx-background-image: url('/fxml/login/img/system/bugstack_logo.png');");
-        subPaneChildren.add(gzh_button);
+        groupSearch = new TextField();
+        groupSearch.setPrefSize(600, 50);
+        groupSearch.setLayoutX(100);
+        groupSearch.setLayoutY(25);
+        groupSearch.setPromptText("搜索群组");
+        groupSearch.setPadding(new Insets(10));
+        groupSearch.getStyleClass().add("friendLuckSearch");
+        friendLuckPaneChildren.add(groupSearch);
 
-        Label gzh_label = new Label();
-        gzh_label.setPrefSize(150,20);
-        gzh_label.setLayoutX(95);
-        gzh_label.setLayoutY(100);
-        gzh_label.setText("bugstack虫洞栈");
-        gzh_label.setStyle("-fx-background-color: transparent;-fx-border-width: 0; -fx-text-fill: #999999;" +
-                "-fx-font-size: 14px;");
-        gzh_label.setTextAlignment(TextAlignment.CENTER);
-        subPaneChildren.add(gzh_label);
+        // 用户列表框[初始化，未装载]
+        groupListView = new ListView<>();
+        groupListView.setId("friendLuckListView");
+        groupListView.setPrefSize(808, 460);
+        groupListView.setLayoutX(-30);
+        groupListView.setLayoutY(75);
+        groupListView.getStyleClass().add("friendLuckListView");
+        friendLuckPaneChildren.add(groupListView);
 
     }
 
@@ -72,6 +78,14 @@ public class ElementJoinGroup {
     }
 
     public Pane subPane() {
-        return subPane;
+        return groupPane;
+    }
+
+    public TextField getGroupSearch() {
+        return groupSearch;
+    }
+
+    public ListView<Pane> getGroupListView() {
+        return groupListView;
     }
 }

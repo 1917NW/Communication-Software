@@ -1,13 +1,16 @@
 package com.lxy.domain.user.service;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lxy.application.UserService;
 import com.lxy.domain.user.model.*;
 import com.lxy.infrastructure.dao.*;
 import com.lxy.infrastructure.entity.*;
 import com.lxy.protocolpackage.constants.FriendState;
+import com.lxy.protocolpackage.constants.GroupState;
 import com.lxy.protocolpackage.constants.TalkType;
+import com.lxy.protocolpackage.protocol.group.dto.GroupDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -98,6 +101,16 @@ public class UserServiceImpl implements UserService {
         return talkBoxInfoList;
     }
 
+    @Override
+    public boolean createGroup(GroupsInfo groupsInfo) {
+        ImGroup imGroup = new ImGroup();
+        imGroup.setGroupId(groupsInfo.getGroupId());
+        imGroup.setGroupName(groupsInfo.getGroupName());
+        imGroup.setGroupLeaderId(groupsInfo.getGroupLeaderId());
+        imGroup.setCreateTime(DateTime.now());
+        imGroup.setUpdateTime(DateTime.now());
+        return imGroupDao.insert(imGroup) > 0;
+    }
 
 
     @Override
@@ -179,13 +192,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<GroupDto> queryFuzzyGroupList(String userId, String searchKey) {
+        List<GroupDto> groupDtoList = new ArrayList<>();
+        List<ImGroup> imGroups = imGroupDao.fuzzyQueryForGroup(searchKey);
+
+        List<String> userGroupList = imUserGroupDao.queryGroupIdOfUserId(userId);
+
+        if(imGroups != null){
+            for(ImGroup imGroup : imGroups){
+                GroupDto groupDto = new GroupDto(imGroup.getGroupId(), imGroup.getGroupName(), imGroup.getGroupHead(),imGroup.getGroupLeaderId(), GroupState.NOT_ADD.getStateCode());
+                if(userGroupList!=null && userGroupList.contains(imGroup.getGroupId()))
+                    groupDto.setStatus(GroupState.HAVE_ADDED.getStateCode());
+                groupDtoList.add(groupDto);
+            }
+        }
+
+        return groupDtoList;
+    }
+
+    @Override
     public void addUserFriend(List<ImUserFriend> userFriendList) {
 
     }
 
     @Override
     public void asyncAppendChatRecord(ChatRecordInfo chatRecordInfo) {
-
+        executorService.execute(() -> {
+            ImUserMsg imUserMsg = new ImUserMsg();
+            imUserMsg.setUserId(chatRecordInfo.getUserId());
+            imUserMsg.setTalkId(chatRecordInfo.getFriendId());
+            imUserMsg.setTalkType(chatRecordInfo.getTalkType());
+            imUserMsg.setMsgDate(chatRecordInfo.getMsgDate());
+            imUserMsg.setMsgContent(chatRecordInfo.getMsgContent());
+            imUserMsgDao.insert(imUserMsg);
+        });
     }
 
     @Autowired
@@ -205,7 +245,7 @@ public class UserServiceImpl implements UserService {
             chatRecordInfo.setUserId(chatRecord.getUserId());
             chatRecordInfo.setFriendId(chatRecord.getTalkId());
             chatRecordInfo.setMsgContent(chatRecord.getMsgContent());
-            chatRecordInfo.setMsgType(chatRecord.getTalktype());
+            chatRecordInfo.setMsgType(chatRecord.getTalkType());
             chatRecordInfo.setMsgDate(chatRecord.getMsgDate());
             chatRecordInfoList.add(chatRecordInfo);
         }
@@ -240,5 +280,30 @@ public class UserServiceImpl implements UserService {
             ImUserFriend reverseImUserFriend = new ImUserFriend(friendId, userId);
             imUserFriendDao.insert(reverseImUserFriend);
         });
+    }
+
+    @Override
+    public GroupDto queryGroupInfo(String groupId) {
+        LambdaQueryWrapper<ImGroup> imGroupLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        imGroupLambdaQueryWrapper.eq(ImGroup::getGroupId, groupId);
+        ImGroup imGroup = imGroupDao.selectOne(imGroupLambdaQueryWrapper);
+        GroupDto groupDto = new GroupDto();
+        if(imGroup != null){
+            groupDto.setGroupId(imGroup.getGroupId());
+            groupDto.setGroupName(imGroup.getGroupName());
+            groupDto.setGroupHead(imGroup.getGroupHead());
+        }
+        return groupDto;
+    }
+
+    @Override
+    public boolean addUserToGroup(String userId, String groupId) {
+        ImUserGroup imUserGroup = new ImUserGroup();
+        imUserGroup.setUserId(userId);
+        imUserGroup.setGroupId(groupId);
+        imUserGroup.setCreateTime(DateTime.now());
+        imUserGroup.setUpdateTime(DateTime.now());
+
+        return imUserGroupDao.insert(imUserGroup) > 0;
     }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lxy.infrastructure.dao.ImGroupDao">
+
+    <!--定义接口方法对应的 SQL 语句-->
+    <select id="fuzzyQueryForGroup" resultType="com.lxy.infrastructure.entity.ImGroup">
+
+        select group_id, group_name, group_head, group_leader_id
+        from im_group
+        where (group_id like "%"#{matchWord}"%" or group_name like "%"#{matchWord}"%")
+
+    </select>
+
+</mapper>

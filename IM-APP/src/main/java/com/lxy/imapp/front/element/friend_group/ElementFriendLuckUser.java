@@ -4,6 +4,10 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+
+/**
+ * 添加朋友面板中新的朋友
+ */
 public class ElementFriendLuckUser {
 
     private Pane pane;    // 用户底板

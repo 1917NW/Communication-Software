@@ -3,6 +3,9 @@ package com.lxy.infrastructure.entity;
 ;
 
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,13 +23,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @Data
 public class ImUserMsg{
     //自增ID
+    @TableId(type = IdType.AUTO)
     private Long id;
     //自己ID
     private String userId;
     //对话ID
     private String talkId;
     //对话类型：0好友，1群组
-    private Integer talktype;
+    private Integer talkType;
     //消息内容
     private String msgContent;
     //消息时间
