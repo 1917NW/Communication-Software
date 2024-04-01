@@ -1,0 +1,23 @@
+{
+  "id": "4490227",
+  "name": "IM-Chat-tool",
+  "font_family": "chat-tool",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "122304",
+      "name": "表情",
+      "font_class": "biaoqing",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "3903127",
+      "name": "文件",
+      "font_class": "wenjian-",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    }
+  ]
+}

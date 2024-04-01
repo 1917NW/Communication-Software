@@ -1,9 +1,16 @@
 package com.lxy.imapp.front.controller;
 
+import cn.hutool.crypto.digest.DigestUtil;
 import com.lxy.imapp.biz.event.ChatEventHandler;
+import com.lxy.imapp.biz.file.ChatRecordMap;
+import com.lxy.imapp.biz.file.FileManager;
+import com.lxy.imapp.biz.socket.po.NewFriendRequest;
 import com.lxy.imapp.biz.socket.po.UserGroupRequest;
+import com.lxy.imapp.biz.source.impl.FileDataSource;
+import com.lxy.imapp.biz.threadPool.TaskExecutor;
+import com.lxy.imapp.biz.util.BeanUtil;
 import com.lxy.imapp.front.constant.FriendPaneId;
-import com.lxy.imapp.front.constant.TalkType;
+import com.lxy.imapp.front.constant.ImFileConstants;
 import com.lxy.imapp.front.data.GroupsData;
 import com.lxy.imapp.front.data.RemindCount;
 import com.lxy.imapp.front.data.TalkBoxData;
@@ -13,14 +20,16 @@ import com.lxy.imapp.front.element.chat_group.ElementTalk;
 import com.lxy.imapp.front.element.friend_group.*;
 import com.lxy.imapp.front.util.CacheUtil;
 import com.lxy.imapp.front.util.Ids;
+import com.lxy.imapp.front.view.Chat;
 import com.lxy.imapp.front.view.Emotion;
-import com.lxy.protocolpackage.constants.FriendState;
-import com.lxy.protocolpackage.constants.GroupState;
-import com.lxy.protocolpackage.protocol.friend.dto.UserDto;
-import com.lxy.protocolpackage.protocol.group.dto.GroupDto;
-import com.lxy.protocolpackage.protocol.login.dto.ChatTalkDto;
+import com.lxy.protocolpackage.constants.*;
+
+import com.lxy.protocolpackage.dto.ChatRecordDto;
+import com.lxy.protocolpackage.dto.GroupDto;
+import com.lxy.protocolpackage.dto.UserDto;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -32,9 +41,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ChatController {
 
@@ -73,9 +84,9 @@ public class ChatController {
 
     private Map<Pane, Label> paneLabelMap;
 
-    private Stage stage;
+    private Chat stage;
 
-    public void setStage(Stage stage){
+    public void setStage(Chat stage){
         this.stage = stage;
     }
 
@@ -336,7 +347,7 @@ public class ChatController {
         ElementTalk elementTalk = CacheUtil.talkMap.get(talkId);
         if (null != elementTalk) {
 
-             Pane  talkPane = findItemInListView(talkList, Ids.ElementTalkId.createTalkPaneId(talkId));
+            Pane  talkPane = findItemInListView(talkList, Ids.ElementTalkId.createTalkPaneId(talkId));
             if (null == talkPane) {
                 talkList.getItems().add(talkIdx, elementTalk.pane());
             }
@@ -370,9 +381,6 @@ public class ChatController {
             fillInfoBox(talkElement, talkName);
             //
             setValid(true);
-
-
-
 
         });
 
@@ -408,30 +416,41 @@ public class ChatController {
         this.currentUserNickName = userNickName;
         this.currentUserHead = userHead;
 
+        BeanUtil.addBean("userId", currentUserId);
+        BeanUtil.addBean("userNickName", currentUserNickName);
+        BeanUtil.addBean("userHead", currentUserHead);
+
         // TODO ：设置头像
         //button.setStyle(String.format("-fx-background-image: url('/fxml/chat/img/head/%s.png')", userHead));
     }
 
-    public void addTalkMsgUserLeft(UserDto userDto, String msg, Date msgDate, Boolean idxFirst, Boolean selected, Boolean isRemind) {
+    public void addTalkMsgUserLeft(UserDto userDto, String msg, Integer msgType, Date msgDate, Boolean idxFirst, Boolean selected, Boolean isRemind) {
         String talkId = userDto.getUserId();
         ElementTalk talkElement = CacheUtil.talkMap.get(talkId);
         if(talkElement == null){
             // 初始化对话框元素
-             talkElement = new ElementTalk(talkId, TalkType.PRIVATE_MESSAGE.getTalkTypeCode(), userDto.getUserNickName(), userDto.getUserHead(), "", null);
+             talkElement = addTalkBox(0, TalkType.PRIVATE_MESSAGE.getTalkTypeCode(), talkId, userDto.getUserNickName(), userDto.getUserHead(), msg, msgDate, false);
 
              CacheUtil.talkMap.put(talkId, talkElement);
         }
+
         ListView<Pane> listView = talkElement.infoBoxList();
         TalkData talkUserData = (TalkData) listView.getUserData();
-        // 创建pane
-        Pane left = new ElementInfoBox().left(talkUserData.getTalkName(), talkUserData.getTalkHead(), msg);
+
+        // 创建消息pane
+        Pane left = new ElementInfoBox().left(talkId, talkUserData.getTalkName(), talkUserData.getTalkHead(), msg, msgType, stage);
         // 消息填充
         listView.getItems().add(left);
         // 滚动条
         listView.scrollTo(left);
 
         // 设置会话栏里面的消息
-        talkElement.fillMsgSketch(msg, msgDate);
+        if(MsgType.TEXT_MSG.getMsgTypeCode().equals(msgType))
+            talkElement.fillMsgSketch(msg, msgDate);
+        if(MsgType.EMOTION_MSG.getMsgTypeCode().equals(msgType))
+            talkElement.fillMsgSketch("[表情]", msgDate);
+        if(MsgType.FILE_MSG.getMsgTypeCode().equals(msgType))
+            talkElement.fillMsgSketch("[文件]"+msg, msgDate);
 
         // 将对话框向上移动，并且指定是否选中
         updateTalkListIdxAndSelected(TalkType.PRIVATE_MESSAGE.getTalkTypeCode(), talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
@@ -462,6 +481,9 @@ public class ChatController {
             return;
 
         ListView<Pane> listView = talkElement.infoBoxList();
+
+        TalkBoxData userData = (TalkBoxData) talkElement.pane().getUserData();
+
         listView.setPrefWidth(808);
         listView.setPrefHeight(542);
 
@@ -476,17 +498,68 @@ public class ChatController {
 
         // 清除通知
         clearRemind(talkElement.msgRemind());
+
+        if(listView.getItems().isEmpty()){
+
+
+            List<ChatRecordDto> chatRecordList = ChatRecordMap.getChatRecordDtoListById(talkId);
+
+            if(chatRecordList == null || chatRecordList.isEmpty()){
+                return;
+            }
+
+            if(userData.getTalkType().equals(TalkType.PRIVATE_MESSAGE.getTalkTypeCode())){
+
+                UserDto userDto = new UserDto();
+                userDto.setUserId(userData.getTalkId());
+                userDto.setUserHead(userData.getTalkHead());
+                userDto.setUserNickName(userData.getTalkName());
+
+
+
+                chatRecordList.forEach(chatRecord ->{
+                    // 如果是自己发送的消息
+                    if(chatRecord.getMsgUserType().equals(MsgUserType.MINE_MSG.getMsgTypeCode())){
+                        addTalkMsgRight(chatRecord.getTalkId(), chatRecord.getMsgContent(),  MsgType.TEXT_MSG.getMsgTypeCode(),chatRecord.getMsgDate(), true,false, false);
+                    }else if(chatRecord.getMsgUserType().equals(MsgUserType.OTHERS_MSG.getMsgTypeCode())){
+                        addTalkMsgUserLeft(userDto, chatRecord.getMsgContent(),  chatRecord.getMsgType(),chatRecord.getMsgDate(), true,false, false);
+                    }
+                } );
+
+            }
+            else if(userData.getTalkType().equals(TalkType.GROUP_MESSAGE.getTalkTypeCode())){
+                // 如果为空，则直接返回
+
+
+                chatRecordList.forEach(chatRecord ->{
+                    // 如果是自己发送的消息
+                    if(chatRecord.getMsgType().equals(MsgUserType.MINE_MSG.getMsgTypeCode())){
+                        addTalkMsgRight(chatRecord.getTalkId(), chatRecord.getMsgContent(), MsgType.TEXT_MSG.getMsgTypeCode(), chatRecord.getMsgDate(), true,false, false);
+                    }else if(chatRecord.getMsgType().equals(MsgUserType.OTHERS_MSG.getMsgTypeCode())){
+                        addTalkMsgGroupLeft(chatRecord.getTalkId(), userData.getTalkName(), userData.getTalkHead(), chatRecord.getUserId(), chatRecord.getUserNickName(), chatRecord.getUserHead(), chatRecord.getMsgContent(),chatRecord.getMsgType(),chatRecord.getMsgDate(),true,false, false);
+                    }
+                } );
+            }
+        }
+
+
     }
 
-    public void addTalkMsgRight(String talkId, String msg, Date msgData, Boolean idxFirst, Boolean selected, Boolean isRemind) {
+    public void addTalkMsgRight(String talkId, String msg, Integer msgType, Date msgDate, Boolean idxFirst, Boolean selected, Boolean isRemind) {
         ElementTalk talkElement = CacheUtil.talkMap.get(talkId);
         ListView<Pane> listView = talkElement.infoBoxList();
-        Pane right = new ElementInfoBox().right(currentUserNickName, currentUserHead, msg);
+        Pane right = new ElementInfoBox().right(currentUserNickName, currentUserHead, msg, msgType);
         // 消息填充
         listView.getItems().add(right);
         // 滚动条
         listView.scrollTo(right);
-        talkElement.fillMsgSketch(msg, msgData);
+        if(MsgType.TEXT_MSG.getMsgTypeCode().equals(msgType))
+            talkElement.fillMsgSketch(msg, msgDate);
+        if(MsgType.EMOTION_MSG.getMsgTypeCode().equals(msgType))
+            talkElement.fillMsgSketch("[表情]", msgDate);
+        if(MsgType.FILE_MSG.getMsgTypeCode().equals(msgType))
+            talkElement.fillMsgSketch("[文件]" + msg, msgDate);
+
 
         updateTalkListIdxAndSelected(1, talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
 
@@ -534,7 +607,9 @@ public class ChatController {
         if (idxFirst) {
             talkList.getItems().remove(talkElementPane);
             talkList.getItems().add(0, talkElementPane);
-        }
+        }else
+            talkList.getItems().add(talkElementPane);
+
         if (selected) {
             // 设置对话框[√选中]
             talkList.getSelectionModel().select(talkElementPane);
@@ -600,39 +675,40 @@ public class ChatController {
         Date msgDate = new Date();
         System.out.println("发送消息:"+msg);
 
-        addTalkMsgRight(talkBoxData.getTalkId(), msg, msgDate, true, true, false);
+        addTalkMsgRight(talkBoxData.getTalkId(), msg, MsgType.TEXT_MSG.getMsgTypeCode(), msgDate, true, true, false);
         txtInput.clear();
-        chatEventHandler.doEventSendMsg(currentUserId, currentUserNickName, currentUserHead, talkBoxData.getTalkId(), talkBoxData.getTalkType(), msg,msgDate);
+        chatEventHandler.doEventSendMsg(currentUserId, currentUserNickName, currentUserHead, talkBoxData.getTalkId(), talkBoxData.getTalkType(), msg,MsgType.TEXT_MSG.getMsgTypeCode(), msgDate);
 
     }
 
     // selected为true，则表示选中该会话框，并且将会话填充到infoBox中
-    public void addTalkMsgGroupLeft(String talkId, String userId, String userNickName, String userHead, String msg, Date msgDate, Boolean idxFirst, Boolean selected, Boolean isRemind) {
+    public void addTalkMsgGroupLeft(String talkId, String groupName, String groupHead, String userId, String userName, String userHead, String msg, Integer msgType, Date msgDate, Boolean idxFirst, Boolean selected, Boolean isRemind) {
         // 如果时自己发送的消息，则抛弃
         if (this.currentUserId.equals(userId))
             return;
 
         GroupsData groupsData = null;
         ElementTalk talkElement = CacheUtil.talkMap.get(talkId);
-        if (null == talkElement) {
-            Pane itemInListView = findItemInListView(talkList, Ids.ElementTalkId.createFriendGroupId(talkId));
-            if(itemInListView == null)
-                return;
-            groupsData = (GroupsData)itemInListView.getUserData();
-            if (groupsData == null)
-                return;
-            addTalkBox(0, 1, talkId, groupsData.getGroupName(), groupsData.getGroupHead(), userNickName + "：" + msg, msgDate, false);
-            talkElement = CacheUtil.talkMap.get(talkId);
-            // 事件通知(开启与群组发送消息)
-            System.out.println("填充到聊天窗口[群组] groupId：" + groupsData.getGroupId());
+        if(talkElement == null){
+            // 初始化对话框元素
+            talkElement = addTalkBox(0, TalkType.GROUP_MESSAGE.getTalkTypeCode(), talkId, groupName, groupHead, msg,msgDate, false);
+
+            CacheUtil.talkMap.put(talkId, talkElement);
         }
+
         ListView<Pane> listView = talkElement.infoBoxList();
-        Pane left = new ElementInfoBox().left(userNickName, userHead, msg);
+        Pane left = new ElementInfoBox().left(userId, userName, userHead, msg, msgType, stage);
         // 消息填充
         listView.getItems().add(left);
         // 滚动条
         listView.scrollTo(left);
-        talkElement.fillMsgSketch( userNickName + "：" + msg, msgDate);
+        if(MsgType.TEXT_MSG.getMsgTypeCode().equals(msgType))
+            talkElement.fillMsgSketch( userName + "：" + msg, msgDate);
+        if(MsgType.EMOTION_MSG.getMsgTypeCode().equals(msgType))
+            talkElement.fillMsgSketch(userName + "：[表情]" , msgDate);
+        if(MsgType.FILE_MSG.getMsgTypeCode().equals(msgType))
+            talkElement.fillMsgSketch(userName + "：[文件]"+ msg , msgDate);
+
         // 设置位置&选中
         updateTalkListIdxAndSelected(TalkType.GROUP_MESSAGE.getTalkTypeCode(), talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
 
@@ -642,13 +718,81 @@ public class ChatController {
     }
 
 
-    public void minizeWindow(MouseEvent mouseEvent) {
+    public void minimizeWindow(MouseEvent mouseEvent) {
         stage.setIconified(true);
     }
 
     public void closeWindow(MouseEvent mouseEvent){
+        FileDataSource fileDataSource = new FileDataSource(currentUserId);
+        
+        // 缓存对话框消息
+        ObservableList<Pane> items = talkList.getItems();
+        List<TalkBoxData> talkBoxDataList = new ArrayList<>();
+        if(talkBoxDataList!=null ) {
+            for (Pane pane : items) {
+                TalkBoxData userData = (TalkBoxData) pane.getUserData();
+                talkBoxDataList.add(userData);
+            }
+
+            fileDataSource.addTalkBoxList(talkBoxDataList);
+        }
+
+        // 缓存好友申请消息
+        ObservableList<Pane> newFriendListViewItems = newFriendListView.getItems();
+        List<NewFriendRequest> newFriendRequests = new ArrayList<>();
+        if(newFriendListViewItems != null ) {
+            for (Pane pane : newFriendListViewItems) {
+                NewFriendRequest userData = (NewFriendRequest) pane.getUserData();
+                newFriendRequests.add(userData);
+            }
+            fileDataSource.addNewFriendRequestList(newFriendRequests);
+        }
+
+        // 缓存群组申请消息
+        ObservableList<Pane> groupRequestPaneList = groupRequestListView.getItems();
+        List<UserGroupRequest> userGroupRequests = new ArrayList<>();
+        if(groupRequestPaneList!=null){
+            for(Pane pane : groupRequestPaneList){
+                UserGroupRequest userData = (UserGroupRequest) pane.getUserData();
+                userGroupRequests.add(userData);
+            }
+            fileDataSource.addGroupRequestList(userGroupRequests);
+        }
+
+        // 缓存好友消息
+        if(ChatRecordMap.updated) {
+            List<ChatRecordDto> chatRecordDtoList = ChatRecordMap.getChatRecordDtoList();
+            fileDataSource.addChatRecordDto(chatRecordDtoList);
+        }
+
+
         stage.close();
         System.exit(0);
+    }
+
+    public void fillNewFriendRequest(){
+        // 读数据
+        FileDataSource fileDataSource = new FileDataSource(currentUserId);
+        List<NewFriendRequest> newFriendRequestList = fileDataSource.getNewFriendRequestList();
+        // 填充消息
+        if(newFriendRequestList != null && !newFriendRequestList.isEmpty()){
+            for(NewFriendRequest newFriendRequest : newFriendRequestList){
+                remindNewFriend(newFriendRequest.getUserId(), newFriendRequest.getUserName(), newFriendRequest.getUserHead());
+            }
+        }
+
+    }
+
+    public void fillGroupRequest(){
+        // 读数据
+        FileDataSource fileDataSource = new FileDataSource(currentUserId);
+        List<UserGroupRequest> groupRequests = fileDataSource.getGroupRequestList();
+        // 填充消息
+        if(groupRequests != null && !groupRequests.isEmpty()){
+            for(UserGroupRequest groupRequest : groupRequests){
+                remindGroupRequest(groupRequest.getUserDto(), groupRequest.getGroupDto());
+            }
+        }
     }
 
     // ----------------------以下均为好友面板---------------------------
@@ -775,7 +919,7 @@ public class ChatController {
         ElementNewGroupRequest elementNewGroupRequest = new ElementNewGroupRequest(userDto, groupDto);
         Pane pane = elementNewGroupRequest.pane();
 
-        UserGroupRequest userGroupRequest = new UserGroupRequest(userDto.getUserId(), groupDto.getGroupId());
+        UserGroupRequest userGroupRequest = new UserGroupRequest(userDto, groupDto);
         for(Pane currentPane : items){
             UserGroupRequest paneUserData = (UserGroupRequest) currentPane.getUserData();
             if(paneUserData.equals(userGroupRequest)) {
@@ -794,12 +938,14 @@ public class ChatController {
         });
 
         elementNewGroupRequest.rejectLabel().setOnMousePressed(event -> {
-            System.out.println("拒绝添加好友");
+            System.out.println("拒绝加入群组");
             groupRequestListView.getItems().remove(pane);
             chatEventHandler.rejectJoinInGroupRequest(userDto.getUserId(), groupDto);
         });
 
     }
+
+
 
     public void remindNewFriend(String userId, String userNickName, String userHead){
         ElementNewFriendUser newFriendUser = new ElementNewFriendUser(userId, userNickName, userHead);
@@ -813,8 +959,8 @@ public class ChatController {
         ObservableList<Pane> items = newFriendListView.getItems();
 
         for(Pane currentPane : items){
-            String paneUserId = (String) currentPane.getUserData();
-            if(paneUserId.equals(userId)) {
+            NewFriendRequest paneUserId = (NewFriendRequest) currentPane.getUserData();
+            if(paneUserId.getUserId().equals(userId)) {
                 newFriendListView.getItems().remove(currentPane);
                 newFriendListView.getItems().add(0, currentPane);
                 return;
@@ -972,6 +1118,30 @@ public class ChatController {
         detailContent.getStyleClass().add("friendGroupDetailContent");
         ObservableList<Node> children = detailContent.getChildren();
 
+
+        Label groupHeadLabel = new Label();
+        groupHeadLabel.setPrefSize(100, 100);
+        groupHeadLabel.setStyle("-fx-background-color: purple;");
+        groupHeadLabel.setLayoutX(354);
+        groupHeadLabel.setLayoutY(150);
+        children.add(groupHeadLabel);
+
+        Label groupIdLabel = new Label();
+        groupIdLabel.setText("id : "+groupId);
+        groupIdLabel.setPrefSize(808, 30);
+        groupIdLabel.setFont(Font.font(24));
+        groupIdLabel.setLayoutY(300);
+        groupIdLabel.setAlignment(Pos.CENTER);
+        children.add(groupIdLabel);
+
+        Label groupNameLabel = new Label();
+        groupNameLabel.setText("群组 : "+groupName);
+        groupNameLabel.setAlignment(Pos.CENTER);
+        groupNameLabel.setPrefSize(808, 30);
+        groupNameLabel.setFont(Font.font(24));
+        groupNameLabel.setLayoutY(360);
+        children.add(groupNameLabel);
+
         Button sendMsgButton = new Button();
         sendMsgButton.setId(groupId);
         sendMsgButton.getStyleClass().add("friendGroupSendMsgButton");
@@ -1008,6 +1178,29 @@ public class ChatController {
         detailContent.setPrefSize(808, 560);
         detailContent.getStyleClass().add("friendUserDetailContent");
         ObservableList<Node> children = detailContent.getChildren();
+
+        Label userHeadLabel = new Label();
+        userHeadLabel.setPrefSize(100, 100);
+        userHeadLabel.setStyle("-fx-background-color: red;");
+        userHeadLabel.setLayoutX(354);
+        userHeadLabel.setLayoutY(150);
+        children.add(userHeadLabel);
+
+        Label userIdLabel = new Label();
+        userIdLabel.setText("id : "+userFriendId);
+        userIdLabel.setPrefSize(808, 30);
+        userIdLabel.setFont(Font.font(24));
+        userIdLabel.setLayoutY(300);
+        userIdLabel.setAlignment(Pos.CENTER);
+        children.add(userIdLabel);
+
+        Label nickNameLabel = new Label();
+        nickNameLabel.setText("昵称 : "+userFriendNickName);
+        nickNameLabel.setAlignment(Pos.CENTER);
+        nickNameLabel.setPrefSize(808, 30);
+        nickNameLabel.setFont(Font.font(24));
+        nickNameLabel.setLayoutY(360);
+        children.add(nickNameLabel);
 
         Button sendMsgButton = new Button();
         sendMsgButton.setId(userFriendId);
@@ -1055,6 +1248,7 @@ public class ChatController {
         sendMsgButton.setOnMouseClicked(event -> {
             // 1. 添加好友到对话框
             ElementTalk elementTalk = addTalkBox(0, talkType, talkId, talkName, groupHead, null, null, true);
+
             // 2. 切换到对话框窗口
             switchToChat(event);
             // 3.设置infoBox有效
@@ -1079,17 +1273,65 @@ public class ChatController {
 
 
     @FXML
-    private Button emotionButton;
+    private Label emotionLabel;
 
     private void registerEmotionHandler() {
-        Emotion emotionStage = new Emotion();
-        emotionButton.setOnMousePressed(event -> {
-            emotionStage.doShowFace(stage.getX() + 314 + 74 , stage.getY() + 618- 170);
+        Font font = Font.loadFont(getClass().getResourceAsStream("/fxml/chat/ttf/tool.ttf"), 35);
+        //某个图标的unicode
+        char unicode = '\uE600';
+        emotionLabel.setFont(Font.font(font.getFamily(), 30));
+        emotionLabel.setText(Character.toString(unicode));
+        emotionLabel.setTextAlignment(TextAlignment.CENTER);
+
+        emotionLabel.setOnMousePressed(event -> {
+            Emotion emotionStage = new Emotion(this, chatEventHandler, talkList);
+            emotionStage.doShowFace(stage.getX() + 314 + 74 , stage.getY() + 618 - 170);
+        });
+    }
+    @FXML
+    private Label fileLabel;
+
+    private void registerFileHandler(){
+        Font font = Font.loadFont(getClass().getResourceAsStream("/fxml/chat/ttf/tool.ttf"), 35);
+        //某个图标的unicode
+        char unicode = '\uE608';
+
+        fileLabel.setFont(Font.font(font.getFamily(), 30));
+        fileLabel.setText(Character.toString(unicode));
+        fileLabel.setTextAlignment(TextAlignment.CENTER);
+
+        fileLabel.setOnMousePressed(event -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Resource File");
+            File selectedFile = fileChooser.showOpenDialog(stage);
+            if (selectedFile != null) {
+
+                System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+                String objectName = currentUserId + "/" + selectedFile.getName();
+
+                TaskExecutor.execTask(()->{
+                    // 上传文件
+                    FileManager.upLoadFile(ImFileConstants.Bucket, objectName, selectedFile.getAbsolutePath());
+                });
+
+                String filename = selectedFile.getName();
+                Pane selectedItem = talkList.getSelectionModel().getSelectedItem();
+                TalkBoxData userData = (TalkBoxData)selectedItem.getUserData();
+
+                // 添加到对话
+                addTalkMsgRight(userData.getTalkId(), filename,MsgType.FILE_MSG.getMsgTypeCode(), new Date(), true, false, true);
+
+                // 发送消息到服务器
+                chatEventHandler.doEventSendMsg(currentUserId, currentUserNickName, currentUserHead, userData.getTalkId(),userData.getTalkType(), filename, MsgType.FILE_MSG.getMsgTypeCode(), new Date());
+
+            }
+
         });
     }
 
     public void initToolBox(){
         registerEmotionHandler();
+        registerFileHandler();
     }
 
     @FXML

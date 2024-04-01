@@ -3,8 +3,9 @@ package com.lxy.imapp.biz.socket.handler.impl;
 import com.lxy.imapp.biz.socket.handler.AbstractBizHandler;
 import com.lxy.imapp.front.ImUI;
 import com.lxy.imapp.front.controller.ChatController;
+import com.lxy.protocolpackage.dto.GroupDto;
 import com.lxy.protocolpackage.protocol.group.JoinInGroupResponse;
-import com.lxy.protocolpackage.protocol.group.dto.GroupDto;
+
 import com.lxy.protocolpackage.protocol.login.LoginResponse;
 import io.netty.channel.Channel;
 import javafx.application.Platform;

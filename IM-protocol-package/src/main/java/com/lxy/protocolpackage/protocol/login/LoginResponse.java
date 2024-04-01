@@ -2,9 +2,9 @@ package com.lxy.protocolpackage.protocol.login;
 
 import com.lxy.protocolpackage.protocol.Command;
 import com.lxy.protocolpackage.protocol.Packet;
-import com.lxy.protocolpackage.protocol.login.dto.ChatTalkDto;
-import com.lxy.protocolpackage.protocol.login.dto.GroupsDto;
-import com.lxy.protocolpackage.protocol.login.dto.UserFriendDto;
+import com.lxy.protocolpackage.dto.ChatTalkDto;
+import com.lxy.protocolpackage.dto.GroupsDto;
+import com.lxy.protocolpackage.dto.UserFriendDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

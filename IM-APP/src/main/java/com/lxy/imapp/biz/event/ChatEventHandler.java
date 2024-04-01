@@ -1,18 +1,24 @@
 package com.lxy.imapp.biz.event;
 
 import com.alibaba.fastjson.JSON;
+import com.lxy.imapp.biz.file.ChatRecordMap;
+import com.lxy.imapp.biz.source.impl.FileDataSource;
+import com.lxy.imapp.biz.threadPool.TaskExecutor;
 import com.lxy.imapp.biz.util.BeanUtil;
+
 import com.lxy.protocolpackage.constants.MsgType;
+import com.lxy.protocolpackage.constants.MsgUserType;
+import com.lxy.protocolpackage.constants.TalkType;
+import com.lxy.protocolpackage.dto.ChatRecordDto;
+import com.lxy.protocolpackage.dto.GroupDto;
+import com.lxy.protocolpackage.dto.UserDto;
 import com.lxy.protocolpackage.protocol.friend.AddFriendRequest;
 import com.lxy.protocolpackage.protocol.friend.AddFriendResponse;
 import com.lxy.protocolpackage.protocol.friend.FriendRequest;
 import com.lxy.protocolpackage.protocol.friend.SearchFriendRequest;
-import com.lxy.protocolpackage.protocol.friend.dto.UserDto;
-import com.lxy.protocolpackage.protocol.group.FullGroupJoinInGroupResponse;
-import com.lxy.protocolpackage.protocol.group.GroupCreateRequest;
-import com.lxy.protocolpackage.protocol.group.GroupSearchRequest;
-import com.lxy.protocolpackage.protocol.group.JoinInGroupRequest;
-import com.lxy.protocolpackage.protocol.group.dto.GroupDto;
+
+import com.lxy.protocolpackage.protocol.group.*;
+
 import com.lxy.protocolpackage.protocol.msg.MsgRequest;
 import com.lxy.protocolpackage.protocol.talk.DelTalkRequest;
 import com.lxy.protocolpackage.protocol.talk.TalkNoticeRequest;
@@ -94,7 +100,7 @@ public class ChatEventHandler {
         channel.writeAndFlush(new DelTalkRequest(userId, talkId, talkType));
     }
 
-    public void doEventSendMsg(String userId, String userNickname, String userHead, String talkId, Integer talkType, String msg, Date msgDate){
+    public void doEventSendMsg(String userId, String userNickname, String userHead, String talkId, Integer talkType, String msg, Integer msgType, Date msgDate){
         Channel channel = BeanUtil.getChannel();
         System.out.println("发送对话:");
         // TODO 表情
@@ -102,7 +108,34 @@ public class ChatEventHandler {
         userDto.setUserId(userId);
         userDto.setUserNickName(userNickname);
         userDto.setUserHead(userHead);
-        channel.writeAndFlush(new MsgRequest(userDto, talkId, msg, 0 , msgDate));
+        if(TalkType.PRIVATE_MESSAGE.getTalkTypeCode().equals(talkType)) {
+            System.out.println("发送好友消息");
+            channel.writeAndFlush(new MsgRequest(userDto, talkId, msg, msgType, msgDate));
+        }
+        else if(TalkType.GROUP_MESSAGE.getTalkTypeCode().equals(talkType)){
+            System.out.println("发送群组消息");
+            channel.writeAndFlush(new MsgGroupRequest(userDto, talkId, msg, msgType, msgDate));
+        }
+
+
+
+        ChatRecordDto chatRecordDto = new ChatRecordDto();
+        chatRecordDto.setMsgUserType(MsgUserType.MINE_MSG.getMsgTypeCode());
+
+        chatRecordDto.setTalkId(talkId);
+
+        chatRecordDto.setUserId(BeanUtil.getUserId());
+        chatRecordDto.setUserNickName(BeanUtil.getUserNickName());
+        chatRecordDto.setUserHead(BeanUtil.getUserHead());
+
+        chatRecordDto.setMsgContent(msg);
+        chatRecordDto.setMsgDate(msgDate);
+
+        chatRecordDto.setMsgType(msgType);
+        ChatRecordMap.appendChatRecordDto(chatRecordDto);
+
+
+
     }
 
     public void doEventCreateGroup(String currentUserId, String text) {

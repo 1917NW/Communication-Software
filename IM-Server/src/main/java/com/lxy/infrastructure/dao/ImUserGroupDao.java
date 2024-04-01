@@ -18,5 +18,7 @@ import java.util.List;
 public interface ImUserGroupDao extends BaseMapper<ImUserGroup> {
 
     List<String> queryGroupIdOfUserId(@Param("userId") String userId);
+
+    List<String> getUserIdListByGroupId(@Param("groupId") String groupId);
 }
 

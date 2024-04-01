@@ -4,7 +4,8 @@ package com.lxy.application;
 
 import com.lxy.domain.user.model.*;
 import com.lxy.infrastructure.entity.ImUserFriend;
-import com.lxy.protocolpackage.protocol.group.dto.GroupDto;
+import com.lxy.protocolpackage.dto.GroupDto;
+
 
 import java.util.List;
 
@@ -19,6 +20,15 @@ public interface UserService {
      */
     boolean checkAuth(String userId, String userPassword);
 
+    /**
+     * 批量插入对话框
+     * @param userIdList
+     * @param groupId
+     * @param talkType
+     */
+    void addTalkBoxInfoBatch(List<String> userIdList, String groupId, Integer talkType);
+
+    List<String> getUserIdListByGroupId(String groupId);
     /**
      * 查询用户信息
      *

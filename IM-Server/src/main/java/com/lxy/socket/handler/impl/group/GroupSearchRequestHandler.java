@@ -2,9 +2,9 @@ package com.lxy.socket.handler.impl.group;
 
 import cn.hutool.json.JSONUtil;
 import com.lxy.application.UserService;
+import com.lxy.protocolpackage.dto.GroupDto;
 import com.lxy.protocolpackage.protocol.group.GroupSearchRequest;
 import com.lxy.protocolpackage.protocol.group.GroupSearchResponse;
-import com.lxy.protocolpackage.protocol.group.dto.GroupDto;
 import com.lxy.protocolpackage.protocol.login.LoginRequest;
 import com.lxy.socket.handler.AbstractBizHandler;
 import io.netty.channel.Channel;

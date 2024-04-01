@@ -5,11 +5,13 @@ import com.lxy.application.UserService;
 import com.lxy.domain.user.model.UserInfo;
 import com.lxy.infrastructure.common.SocketChannelUtil;
 import com.lxy.infrastructure.common.UserOffineMsgCache;
-import com.lxy.protocolpackage.protocol.friend.dto.UserDto;
+
+import com.lxy.protocolpackage.dto.GroupDto;
+import com.lxy.protocolpackage.dto.UserDto;
 import com.lxy.protocolpackage.protocol.group.FullUserJoinInGroupRequest;
 import com.lxy.protocolpackage.protocol.group.GroupSearchRequest;
 import com.lxy.protocolpackage.protocol.group.JoinInGroupRequest;
-import com.lxy.protocolpackage.protocol.group.dto.GroupDto;
+
 import com.lxy.socket.handler.AbstractBizHandler;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;

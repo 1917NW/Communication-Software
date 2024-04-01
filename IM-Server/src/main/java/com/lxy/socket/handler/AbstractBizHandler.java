@@ -19,6 +19,7 @@ public abstract class AbstractBizHandler<T> extends SimpleChannelInboundHandler<
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
         SocketChannelUtil.removeChannel(ctx.channel().id().toString());
+        SocketChannelUtil.removeChannelFromAllGroup(ctx.channel());
         System.out.println("断开连接了");
     }
 
@@ -26,6 +27,7 @@ public abstract class AbstractBizHandler<T> extends SimpleChannelInboundHandler<
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         System.out.println(cause);
         SocketChannelUtil.removeChannel(ctx.channel().id().toString());
+        SocketChannelUtil.removeChannelFromAllGroup(ctx.channel());
         System.out.println("关闭" + ctx.channel().id());
     }
 

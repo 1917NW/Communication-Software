@@ -33,6 +33,10 @@ public class ImUserMsg{
     private Integer talkType;
     //消息内容
     private String msgContent;
+
+    // 消息类型
+    private Integer msgType;
+
     //消息时间
     private Date msgDate;
 

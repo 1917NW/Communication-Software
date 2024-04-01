@@ -1,0 +1,17 @@
+server:
+  port: 8888
+
+project:
+  name: im-api
+  module: verifyCode
+
+spring:
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+  datasource:
+    url: jdbc:mysql://localhost:3308/im_system
+    username: root
+    password: root
+

@@ -58,6 +58,10 @@ public abstract class Packet {
         packetType.put(Command.FullUserJoinInGroupRequest, FullUserJoinInGroupRequest.class);
         packetType.put(Command.FullGroupJoinInGroupResponse, FullGroupJoinInGroupResponse.class);
 
+        // 群组消息
+        packetType.put(Command.MsgGroupRequest, MsgGroupRequest.class);
+        packetType.put(Command.MsgGroupResponse, MsgGroupResponse.class);
+
     }
 
     public static Class<? extends Packet> get(Byte command) {

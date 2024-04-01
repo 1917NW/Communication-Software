@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "chat-tool"; /* Project id 4490227 */
+  src: url('iconfont.ttf?t=1711940173083') format('truetype');
+}
+
+.chat-tool {
+  font-family: "chat-tool" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-biaoqing:before {
+  content: "\e600";
+}
+
+.icon-wenjian-:before {
+  content: "\e608";
+}
+

@@ -1,8 +1,9 @@
 package com.lxy.protocolpackage.protocol.friend;
 
+import com.lxy.protocolpackage.dto.UserDto;
 import com.lxy.protocolpackage.protocol.Command;
 import com.lxy.protocolpackage.protocol.Packet;
-import com.lxy.protocolpackage.protocol.friend.dto.UserDto;
+
 
 import java.util.List;
 

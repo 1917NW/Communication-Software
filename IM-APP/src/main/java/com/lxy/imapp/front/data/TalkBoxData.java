@@ -1,7 +1,9 @@
 package com.lxy.imapp.front.data;
 
 
-public class TalkBoxData {
+import java.io.Serializable;
+
+public class TalkBoxData implements Serializable {
 
     private String talkId;    // 对话Id
     private Integer talkType; // 对话类型

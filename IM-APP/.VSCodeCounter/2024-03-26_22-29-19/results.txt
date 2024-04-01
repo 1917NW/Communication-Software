@@ -1,0 +1,155 @@
+Date : 2024-03-26 22:29:19
+Directory : c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP
+Total : 83 files,  4656 codes, 345 comments, 1293 blanks, all 6294 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| Java       |         55 |      3,195 |        256 |      1,004 |      4,455 |
+| CSS        |         18 |        959 |         26 |        200 |      1,185 |
+| XML        |          8 |        398 |         12 |         53 |        463 |
+| Batch      |          1 |        102 |         51 |         36 |        189 |
+| Properties |          1 |          2 |          0 |          0 |          2 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                               | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                                  |         83 |      4,656 |        345 |      1,293 |      6,294 |
+| . (Files)                                                                                                                          |          2 |        187 |         52 |         43 |        282 |
+| .idea                                                                                                                              |          4 |        151 |          0 |          0 |        151 |
+| .mvn                                                                                                                               |          1 |          2 |          0 |          0 |          2 |
+| .mvn\wrapper                                                                                                                       |          1 |          2 |          0 |          0 |          2 |
+| src                                                                                                                                |         76 |      4,316 |        293 |      1,250 |      5,859 |
+| src\main                                                                                                                           |         76 |      4,316 |        293 |      1,250 |      5,859 |
+| src\main\java                                                                                                                      |         55 |      3,195 |        256 |      1,004 |      4,455 |
+| src\main\java\com                                                                                                                  |         55 |      3,195 |        256 |      1,004 |      4,455 |
+| src\main\java\com\lxy                                                                                                              |         55 |      3,195 |        256 |      1,004 |      4,455 |
+| src\main\java\com\lxy\imapp                                                                                                        |         55 |      3,195 |        256 |      1,004 |      4,455 |
+| src\main\java\com\lxy\imapp (Files)                                                                                                |          3 |         61 |          3 |         17 |         81 |
+| src\main\java\com\lxy\imapp\biz                                                                                                    |         18 |        569 |          8 |        157 |        734 |
+| src\main\java\com\lxy\imapp\biz\event                                                                                              |          2 |        132 |          1 |         31 |        164 |
+| src\main\java\com\lxy\imapp\biz\socket                                                                                             |         14 |        419 |          7 |        116 |        542 |
+| src\main\java\com\lxy\imapp\biz\socket (Files)                                                                                     |          2 |         87 |          0 |         19 |        106 |
+| src\main\java\com\lxy\imapp\biz\socket\handler                                                                                     |         11 |        309 |          7 |         91 |        407 |
+| src\main\java\com\lxy\imapp\biz\socket\handler (Files)                                                                             |          1 |         23 |          0 |         12 |         35 |
+| src\main\java\com\lxy\imapp\biz\socket\handler\impl                                                                                |         10 |        286 |          7 |         79 |        372 |
+| src\main\java\com\lxy\imapp\biz\socket\po                                                                                          |          1 |         23 |          0 |          6 |         29 |
+| src\main\java\com\lxy\imapp\biz\util                                                                                               |          2 |         18 |          0 |         10 |         28 |
+| src\main\java\com\lxy\imapp\front                                                                                                  |         34 |      2,565 |        245 |        830 |      3,640 |
+| src\main\java\com\lxy\imapp\front (Files)                                                                                          |          1 |         20 |          0 |         11 |         31 |
+| src\main\java\com\lxy\imapp\front\constant                                                                                         |          2 |         25 |          0 |         10 |         35 |
+| src\main\java\com\lxy\imapp\front\controller                                                                                       |          3 |      1,050 |        107 |        367 |      1,524 |
+| src\main\java\com\lxy\imapp\front\data                                                                                             |          4 |        107 |          0 |         45 |        152 |
+| src\main\java\com\lxy\imapp\front\element                                                                                          |         17 |      1,103 |        131 |        291 |      1,525 |
+| src\main\java\com\lxy\imapp\front\element\chat_group                                                                               |          2 |        219 |         29 |         64 |        312 |
+| src\main\java\com\lxy\imapp\front\element\friend_group                                                                             |         15 |        884 |        102 |        227 |      1,213 |
+| src\main\java\com\lxy\imapp\front\util                                                                                             |          4 |        104 |          5 |         46 |        155 |
+| src\main\java\com\lxy\imapp\front\view                                                                                             |          3 |        156 |          2 |         60 |        218 |
+| src\main\resources                                                                                                                 |         21 |      1,121 |         37 |        246 |      1,404 |
+| src\main\resources\fxml                                                                                                            |         21 |      1,121 |         37 |        246 |      1,404 |
+| src\main\resources\fxml\chat                                                                                                       |         17 |        980 |         22 |        187 |      1,189 |
+| src\main\resources\fxml\chat (Files)                                                                                               |          1 |        113 |         11 |         17 |        141 |
+| src\main\resources\fxml\chat\css                                                                                                   |         16 |        867 |         11 |        170 |      1,048 |
+| src\main\resources\fxml\chat\css (Files)                                                                                           |          5 |        128 |          0 |         39 |        167 |
+| src\main\resources\fxml\chat\css\group_bar_chat                                                                                    |          5 |        357 |          8 |         65 |        430 |
+| src\main\resources\fxml\chat\css\group_bar_friend                                                                                  |          6 |        382 |          3 |         66 |        451 |
+| src\main\resources\fxml\emotion                                                                                                    |          2 |         20 |          0 |          4 |         24 |
+| src\main\resources\fxml\emotion (Files)                                                                                            |          1 |         10 |          0 |          2 |         12 |
+| src\main\resources\fxml\emotion\css                                                                                                |          1 |         10 |          0 |          2 |         12 |
+| src\main\resources\fxml\login                                                                                                      |          2 |        121 |         15 |         55 |        191 |
+| src\main\resources\fxml\login (Files)                                                                                              |          1 |         39 |          0 |         27 |         66 |
+| src\main\resources\fxml\login\css                                                                                                  |          1 |         82 |         15 |         28 |        125 |
++------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                                           | language   | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\.idea\encodings.xml                                                                        | XML        |          7 |          0 |          0 |          7 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\.idea\misc.xml                                                                             | XML        |         14 |          0 |          0 |         14 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\.idea\uiDesigner.xml                                                                       | XML        |        124 |          0 |          0 |        124 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\.idea\vcs.xml                                                                              | XML        |          6 |          0 |          0 |          6 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\.mvn\wrapper\maven-wrapper.properties                                                      | Properties |          2 |          0 |          0 |          2 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\mvnw.cmd                                                                                   | Batch      |        102 |         51 |         36 |        189 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\pom.xml                                                                                    | XML        |         85 |          1 |          7 |         93 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\IMApplication.java                                             | Java       |         42 |          3 |         11 |         56 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\Main.java                                                      | Java       |          7 |          0 |          3 |         10 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\TestApplication.java                                           | Java       |         12 |          0 |          3 |         15 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\event\ChatEventHandler.java                                | Java       |        116 |          1 |         23 |        140 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\event\LoginEventHandler.java                               | Java       |         16 |          0 |          8 |         24 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\socket\IMClientChannelInitializer.java                     | Java       |         29 |          0 |          5 |         34 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\socket\NettyClient.java                                    | Java       |         58 |          0 |         14 |         72 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\socket\handler\AbstractBizHandler.java                     | Java       |         23 |          0 |         12 |         35 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\socket\handler\impl\AddFriendRequestHandler.java           | Java       |         20 |          0 |          6 |         26 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\socket\handler\impl\FriendResponseHandler.java             | Java       |         20 |          0 |          9 |         29 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\socket\handler\impl\FullUserJoinInGroupRequestHandler.java | Java       |         21 |          0 |          3 |         24 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\socket\handler\impl\GroupCreateResponseHandler.java        | Java       |         20 |          0 |          5 |         25 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\socket\handler\impl\GroupSearchResponseHandler.java        | Java       |         27 |          0 |          6 |         33 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\socket\handler\impl\JoinInGroupResponseHandler.java        | Java       |         22 |          0 |          5 |         27 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\socket\handler\impl\LoginHandler.java                      | Java       |         83 |          7 |         25 |        115 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\socket\handler\impl\MsgGroupResponseHandler.java           | Java       |         21 |          0 |          4 |         25 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\socket\handler\impl\MsgResponseHandler.java                | Java       |         22 |          0 |          6 |         28 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\socket\handler\impl\SearchFriendHandler.java               | Java       |         30 |          0 |         10 |         40 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\socket\po\UserGroupRequest.java                            | Java       |         23 |          0 |          6 |         29 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\util\BeanUtil.java                                         | Java       |         14 |          0 |          7 |         21 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\biz\util\CacheUtil.java                                        | Java       |          4 |          0 |          3 |          7 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\ImUI.java                                                | Java       |         20 |          0 |         11 |         31 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\constant\FriendPaneId.java                               | Java       |         12 |          0 |          4 |         16 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\constant\TalkType.java                                   | Java       |         13 |          0 |          6 |         19 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\controller\ChatController.java                           | Java       |        736 |        101 |        282 |      1,119 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\controller\EmotionController.java                        | Java       |        144 |          0 |         24 |        168 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\controller\LoginController.java                          | Java       |        170 |          6 |         61 |        237 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\data\GroupsData.java                                     | Java       |         31 |          0 |         12 |         43 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\data\RemindCount.java                                    | Java       |         15 |          0 |          8 |         23 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\data\TalkBoxData.java                                    | Java       |         39 |          0 |         14 |         53 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\data\TalkData.java                                       | Java       |         22 |          0 |         11 |         33 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\chat_group\ElementInfoBox.java                   | Java       |        108 |         15 |         31 |        154 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\chat_group\ElementTalk.java                      | Java       |        111 |         14 |         33 |        158 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\friend_group\ElementCreateGroup.java             | Java       |         79 |          6 |         26 |        111 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\friend_group\ElementFriendGroup.java             | Java       |         36 |          5 |          8 |         49 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\friend_group\ElementFriendGroupList.java         | Java       |         31 |          3 |          8 |         42 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\friend_group\ElementFriendLuck.java              | Java       |         67 |          7 |         18 |         92 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\friend_group\ElementFriendLuckUser.java          | Java       |         69 |         17 |          9 |         95 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\friend_group\ElementFriendSubscription.java      | Java       |         60 |          3 |         15 |         78 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\friend_group\ElementFriendTag.java               | Java       |         23 |          0 |          6 |         29 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\friend_group\ElementFriendUser.java              | Java       |         35 |          3 |          7 |         45 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\friend_group\ElementFriendUserList.java          | Java       |         31 |          0 |          6 |         37 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\friend_group\ElementGroupRequest.java            | Java       |         65 |          8 |         25 |         98 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\friend_group\ElementJoinGroup.java               | Java       |         68 |          7 |         17 |         92 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\friend_group\ElementJoinGroupItem.java           | Java       |         70 |         14 |         11 |         95 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\friend_group\ElementNewFriend.java               | Java       |         68 |          5 |         26 |         99 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\friend_group\ElementNewFriendUser.java           | Java       |         73 |         14 |         18 |        105 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\element\friend_group\ElementNewGroupRequest.java         | Java       |        109 |         10 |         27 |        146 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\util\AutoSizeTool.java                                   | Java       |         39 |          1 |         15 |         55 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\util\CacheUtil.java                                      | Java       |          7 |          1 |          8 |         16 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\util\DateUtil.java                                       | Java       |         26 |          0 |          9 |         35 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\util\Ids.java                                            | Java       |         32 |          3 |         14 |         49 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\view\Chat.java                                           | Java       |         52 |          0 |         20 |         72 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\view\Emotion.java                                        | Java       |         42 |          0 |         15 |         57 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\java\com\lxy\imapp\front\view\Login.java                                          | Java       |         62 |          2 |         25 |         89 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\chat.fxml                                                     | XML        |        113 |         11 |         17 |        141 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\chat.css                                                  | CSS        |         10 |          0 |          8 |         18 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\content.css                                               | CSS        |         47 |          0 |         20 |         67 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\friend.css                                                | CSS        |          6 |          0 |          0 |          6 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\group_bar_chat\chat_information.css                       | CSS        |        147 |          1 |         30 |        178 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\group_bar_chat\chat_talk.css                              | CSS        |        107 |          7 |         18 |        132 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\group_bar_chat\chat_tool.css                              | CSS        |         16 |          0 |          2 |         18 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\group_bar_chat\chat_touch.css                             | CSS        |         22 |          0 |          3 |         25 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\group_bar_chat\chat_txt.css                               | CSS        |         65 |          0 |         12 |         77 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\group_bar_friend\chat_content.css                         | CSS        |         33 |          1 |          6 |         40 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\group_bar_friend\chat_friend.css                          | CSS        |         98 |          0 |         19 |        117 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\group_bar_friend\chat_friend_group.css                    | CSS        |         52 |          0 |          9 |         61 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\group_bar_friend\chat_friend_luck.css                     | CSS        |        128 |          1 |         22 |        151 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\group_bar_friend\chat_friend_user.css                     | CSS        |         51 |          0 |          9 |         60 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\group_bar_friend\chat_new_friend_user.css                 | CSS        |         20 |          1 |          1 |         22 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\operation.css                                             | CSS        |         32 |          0 |          5 |         37 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\chat\css\search.css                                                | CSS        |         33 |          0 |          6 |         39 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\emotion\css\emotion.css                                            | CSS        |         10 |          0 |          2 |         12 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\emotion\emotion.fxml                                               | XML        |         10 |          0 |          2 |         12 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\login\css\login.css                                                | CSS        |         82 |         15 |         28 |        125 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-APP\src\main\resources\fxml\login\login.fxml                                                   | XML        |         39 |          0 |         27 |         66 |
+| Total                                                                                                                              |            |      4,656 |        345 |      1,293 |      6,294 |
++------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

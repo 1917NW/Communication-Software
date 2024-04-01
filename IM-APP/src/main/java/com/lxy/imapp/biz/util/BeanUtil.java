@@ -18,4 +18,14 @@ public class BeanUtil {
 
     public static Channel getChannel(){return BeanUtil.getBean("channel", Channel.class);}
 
+
+
+    public static String getUserId(){return BeanUtil.getBean("userId", String.class);}
+
+    public static String getUserNickName(){return BeanUtil.getBean("userNickName", String.class);}
+
+    public static String getUserHead(){
+        return BeanUtil.getBean("userHead", String.class);
+    }
+
 }

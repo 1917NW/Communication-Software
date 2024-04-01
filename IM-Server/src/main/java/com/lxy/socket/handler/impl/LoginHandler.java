@@ -6,14 +6,16 @@ import com.lxy.domain.user.model.*;
 import com.lxy.infrastructure.common.SocketChannelUtil;
 import com.lxy.infrastructure.common.UserOffineMsgCache;
 import com.lxy.protocolpackage.constants.MsgType;
+import com.lxy.protocolpackage.constants.MsgUserType;
 import com.lxy.protocolpackage.constants.TalkType;
+import com.lxy.protocolpackage.dto.ChatRecordDto;
+import com.lxy.protocolpackage.dto.ChatTalkDto;
+import com.lxy.protocolpackage.dto.GroupsDto;
+import com.lxy.protocolpackage.dto.UserFriendDto;
 import com.lxy.protocolpackage.protocol.Packet;
 import com.lxy.protocolpackage.protocol.login.LoginRequest;
 import com.lxy.protocolpackage.protocol.login.LoginResponse;
-import com.lxy.protocolpackage.protocol.login.dto.ChatRecordDto;
-import com.lxy.protocolpackage.protocol.login.dto.ChatTalkDto;
-import com.lxy.protocolpackage.protocol.login.dto.GroupsDto;
-import com.lxy.protocolpackage.protocol.login.dto.UserFriendDto;
+
 import com.lxy.socket.handler.AbstractBizHandler;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
@@ -46,7 +48,16 @@ public class LoginHandler extends AbstractBizHandler<LoginRequest> {
             return;
         }
 
+        // 保存个人Channel
         SocketChannelUtil.addChannel(msg.getUserId(), channel);
+
+
+        // 保存群组Channel
+        List<String> groupIdList = userService.queryUserGroupsIdList(msg.getUserId());
+        for(String groupId : groupIdList){
+            SocketChannelUtil.addChannelGroup(groupId, channel);
+        }
+
 
         // 校验成功则返回用户个人信息
         loginResponse.setSuccess(true);
@@ -84,12 +95,12 @@ public class LoginHandler extends AbstractBizHandler<LoginRequest> {
                         // 自己发的消息
                         if (msgType) {
                             chatRecordDto.setUserId(chatRecordInfo.getUserId());
-                            chatRecordDto.setMsgType(MsgType.MINE_MSG.getMsgTypeCode()); // 消息类型[0自己/1好友]
+                            chatRecordDto.setMsgUserType(MsgUserType.MINE_MSG.getMsgTypeCode()); // 消息类型[0自己/1好友]
                         }
                         // 好友发的消息
                         else {
                             chatRecordDto.setUserId(chatRecordInfo.getUserId());
-                            chatRecordDto.setMsgType(MsgType.OTHERS_MSG.getMsgTypeCode()); // 消息类型[0自己/1好友]
+                            chatRecordDto.setMsgUserType(MsgUserType.OTHERS_MSG.getMsgTypeCode()); // 消息类型[0自己/1好友]
                         }
                         chatRecordDto.setMsgContent(chatRecordInfo.getMsgContent());
                         chatRecordDto.setMsgDate(chatRecordInfo.getMsgDate());
@@ -114,9 +125,9 @@ public class LoginHandler extends AbstractBizHandler<LoginRequest> {
                         boolean msgType = msg.getUserId().equals(chatRecordInfo.getUserId());
                         // 如果是自己的消息
                         if(msgType){
-                            chatRecordDto.setMsgType(MsgType.MINE_MSG.getMsgTypeCode());
+                            chatRecordDto.setMsgUserType(MsgUserType.MINE_MSG.getMsgTypeCode());
                         }else {
-                            chatRecordDto.setMsgType(MsgType.OTHERS_MSG.getMsgTypeCode());
+                            chatRecordDto.setMsgUserType(MsgUserType.OTHERS_MSG.getMsgTypeCode());
                         }
                         chatRecordDtoList.add(chatRecordDto);
                     }

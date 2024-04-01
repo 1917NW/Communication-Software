@@ -33,7 +33,5 @@ public class ImUserTalk{
     private Date updateTime;
 
 
-
-    
     }
 

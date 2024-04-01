@@ -8,4 +8,7 @@
         select group_id from im_user_group where user_id = #{userId}
     </select>
 
+    <select id="getUserIdListByGroupId" resultType="string">
+        select user_id from im_user_group where group_id = #{groupId}
+    </select>
 </mapper>

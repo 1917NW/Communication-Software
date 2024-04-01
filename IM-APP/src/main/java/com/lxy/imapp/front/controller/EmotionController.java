@@ -1,20 +1,48 @@
 package com.lxy.imapp.front.controller;
 
+import com.lxy.imapp.biz.event.ChatEventHandler;
+import com.lxy.imapp.front.data.TalkBoxData;
+import com.lxy.imapp.front.view.Chat;
+
+import com.lxy.protocolpackage.constants.MsgType;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.layout.Pane;
+
+import java.util.Date;
 
 public class EmotionController {
 
     @FXML
     private Pane emotionPane;
 
+    private ListView<Pane> talkList;
+
+    private ChatEventHandler chatEventHandler;
+
+    private ChatController chatController;
+
     private String imgPathPrefix = "file:src/main/resources/fxml/emotion/img/";
 
     public void initialize() {
+
         loadEmotion();
+    }
+
+    public void setTalkList(ListView<Pane> talkList){
+        this.talkList = talkList;
+    }
+
+    public void setChatController(ChatController chatController){
+        this.chatController = chatController;
+    }
+
+    public void setChatEventHandler(ChatEventHandler chatEventHandler){
+        this.chatEventHandler = chatEventHandler;
     }
 
     public void loadEmotion(){
@@ -159,8 +187,15 @@ public class EmotionController {
 
         for (Node next : children) {
             next.setOnMouseClicked(event -> {
-                Object userData = next.getUserData();
-                System.out.println("表情：" + userData);
+                Pane selectedItem = talkList.getSelectionModel().getSelectedItem();
+                TalkBoxData talkBoxData = (TalkBoxData)selectedItem.getUserData();
+                Date msgDate = new Date();
+                String faceId = (String)next.getUserData();
+
+                chatController.addTalkMsgRight(talkBoxData.getTalkId(), faceId, MsgType.EMOTION_MSG.getMsgTypeCode(), msgDate, true,true,false);
+
+                chatEventHandler.doEventSendMsg(chatController.currentUserId, chatController.currentUserNickName, chatController.currentUserHead,talkBoxData.getTalkId(), talkBoxData.getTalkType(), faceId, MsgType.EMOTION_MSG.getMsgTypeCode(), msgDate);
+                System.out.println("表情：" + faceId);
             });
         }
     }

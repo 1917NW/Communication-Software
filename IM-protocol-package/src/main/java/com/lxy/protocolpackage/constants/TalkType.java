@@ -1,5 +1,10 @@
 package com.lxy.protocolpackage.constants;
 
+/**
+ * 聊天类型
+ * 1 好友聊天
+ * 2 群组聊天
+ */
 public enum TalkType {
     // 好友消息
     PRIVATE_MESSAGE(1),

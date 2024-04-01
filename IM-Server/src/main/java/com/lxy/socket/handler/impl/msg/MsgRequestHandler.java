@@ -6,8 +6,8 @@ import com.lxy.domain.user.model.ChatRecordInfo;
 import com.lxy.infrastructure.common.SocketChannelUtil;
 import com.lxy.infrastructure.common.UserOffineMsgCache;
 import com.lxy.protocolpackage.constants.TalkType;
+import com.lxy.protocolpackage.dto.UserDto;
 import com.lxy.protocolpackage.protocol.friend.SearchFriendRequest;
-import com.lxy.protocolpackage.protocol.friend.dto.UserDto;
 import com.lxy.protocolpackage.protocol.msg.MsgRequest;
 import com.lxy.protocolpackage.protocol.msg.MsgResponse;
 import com.lxy.socket.handler.AbstractBizHandler;
@@ -30,6 +30,8 @@ public class MsgRequestHandler extends AbstractBizHandler<MsgRequest> {
         log.info("消息转发:{}", JSONUtil.toJsonStr(msg));
         UserDto sender = msg.getUserDto();
         userService.asyncAppendChatRecord(new ChatRecordInfo(sender.getUserId(), msg.getFriendId(), msg.getMsgText(), msg.getMsgType(),msg.getMsgDate(), TalkType.PRIVATE_MESSAGE.getTalkTypeCode()));
+
+        // 接收方talk数据
         userService.addTalkBoxInfo(msg.getFriendId(), sender.getUserId(), TalkType.PRIVATE_MESSAGE.getTalkTypeCode());
 
         // 组装消息

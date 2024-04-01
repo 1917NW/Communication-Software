@@ -27,4 +27,6 @@ public class ImUI {
     public void setChat(Chat chat) {
         this.chat = chat;
     }
+
+
 }

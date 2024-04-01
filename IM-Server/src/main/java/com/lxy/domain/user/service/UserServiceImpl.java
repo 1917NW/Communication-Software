@@ -10,7 +10,8 @@ import com.lxy.infrastructure.entity.*;
 import com.lxy.protocolpackage.constants.FriendState;
 import com.lxy.protocolpackage.constants.GroupState;
 import com.lxy.protocolpackage.constants.TalkType;
-import com.lxy.protocolpackage.protocol.group.dto.GroupDto;
+
+import com.lxy.protocolpackage.dto.GroupDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -49,6 +50,24 @@ public class UserServiceImpl implements UserService {
 
         return true;
     }
+
+    @Override
+    public void addTalkBoxInfoBatch(List<String> userIdList, String groupId, Integer talkType) {
+        executorService.execute(() -> {
+            // TODO : 优化多次SQL
+            if(userIdList != null && !userIdList.isEmpty()){
+                for(String userId : userIdList){
+                    addTalkBoxInfo(userId, groupId, talkType);
+                }
+            }
+        });
+    }
+
+    @Override
+    public List<String> getUserIdListByGroupId(String groupId) {
+        return imUserGroupDao.getUserIdListByGroupId(groupId);
+    }
+
 
     @Override
     public UserInfo queryUserInfo(String userId) {
@@ -224,6 +243,7 @@ public class UserServiceImpl implements UserService {
             imUserMsg.setTalkType(chatRecordInfo.getTalkType());
             imUserMsg.setMsgDate(chatRecordInfo.getMsgDate());
             imUserMsg.setMsgContent(chatRecordInfo.getMsgContent());
+            imUserMsg.setMsgType(chatRecordInfo.getMsgType());
             imUserMsgDao.insert(imUserMsg);
         });
     }
@@ -245,7 +265,8 @@ public class UserServiceImpl implements UserService {
             chatRecordInfo.setUserId(chatRecord.getUserId());
             chatRecordInfo.setFriendId(chatRecord.getTalkId());
             chatRecordInfo.setMsgContent(chatRecord.getMsgContent());
-            chatRecordInfo.setMsgType(chatRecord.getTalkType());
+            chatRecordInfo.setTalkType(chatRecord.getTalkType());
+            chatRecordInfo.setMsgType(chatRecord.getMsgType());
             chatRecordInfo.setMsgDate(chatRecord.getMsgDate());
             chatRecordInfoList.add(chatRecordInfo);
         }
@@ -263,7 +284,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<String> queryUserGroupsIdList(String userId) {
-        return null;
+        return imUserGroupDao.queryGroupIdOfUserId(userId);
     }
 
     @Override
@@ -274,11 +295,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void asyncAddUserFriend(String userId, String friendId) {
         executorService.execute(() -> {
-            ImUserFriend imUserFriend = new ImUserFriend(userId, friendId);
-            imUserFriendDao.insert(imUserFriend);
 
-            ImUserFriend reverseImUserFriend = new ImUserFriend(friendId, userId);
-            imUserFriendDao.insert(reverseImUserFriend);
+            LambdaQueryWrapper<ImUserFriend> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.eq(ImUserFriend::getUserId, userId);
+            lambdaQueryWrapper.eq(ImUserFriend::getUserFriendId, friendId);
+            ImUserFriend imUserFriend1 = imUserFriendDao.selectOne(lambdaQueryWrapper);
+            if(imUserFriend1 == null) {
+                ImUserFriend imUserFriend = new ImUserFriend(userId, friendId);
+                imUserFriendDao.insert(imUserFriend);
+
+                ImUserFriend reverseImUserFriend = new ImUserFriend(friendId, userId);
+                imUserFriendDao.insert(reverseImUserFriend);
+            }
         });
     }
 

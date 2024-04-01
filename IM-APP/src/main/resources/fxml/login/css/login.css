@@ -79,7 +79,7 @@
     -fx-translate-x: 244px;
     -fx-translate-y: 290px;
 }
-#userShowPasswordIcon:hover{
+#userShowPasswordIcon:hover, #registerShowPasswordIcon:hover{
     -fx-cursor: hand;
     -fx-text-fill: #03e9f4;
 }
@@ -118,8 +118,100 @@
     -fx-text-fill:#03e9f4;
 }
 
-#loginButton:hover{
+#loginButton:hover, #continueButton:hover, #submitButton:hover{
     -fx-background-color: #03e9f4;
     -fx-text-fill: white;
     -fx-effect: dropshadow(three-pass-box , #03e9f4 , 15 , 0.7 , 0 , 0);
+}
+
+#registerLabel{
+    -fx-translate-x: 58px;
+    -fx-translate-y: 470px;
+    -fx-text-fill: #3399cc;
+    -fx-cursor: hand;
+}
+#loginLabel{
+    -fx-translate-x: 50px;
+    -fx-translate-y: 470px;
+    -fx-text-fill: #3399cc;
+    -fx-cursor: hand;
+}
+#registerLabel:hover{
+    -fx-text-fill: #03e9f4;
+}
+
+#loginLabel:hover{
+    -fx-text-fill: #03e9f4;
+}
+
+#userNickname{
+    -fx-translate-x: 84px;
+    -fx-translate-y: 290px;
+    -fx-pref-width: 180px;
+}
+
+#userNicknameIcon{
+    -fx-translate-x: 84px;
+    -fx-translate-y: 288px;
+}
+
+#registerPassword, #registerShowPassword{
+    -fx-translate-x: 84px;
+    -fx-translate-y: 330px;
+    -fx-pref-width: 180px;
+}
+
+#registerUserPasswordIcon{
+    -fx-translate-x: 84px;
+    -fx-translate-y: 329px;
+}
+#registerShowPasswordIcon{
+    -fx-translate-x: 244px;
+    -fx-translate-y: 330px;
+}
+
+#continueButton{
+    -fx-pref-width: 80px;
+    -fx-pref-height: 30px;
+    -fx-translate-x: 134px;
+    -fx-translate-y: 385px;
+    -fx-background-radius: 15px;
+    -fx-background-color: rgba(0,0,0,.5);
+    -fx-text-fill:#03e9f4;
+}
+
+#verifyCodeRemind{
+    -fx-translate-x: 45px;
+    -fx-translate-y: 230px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #99cc00;
+
+}
+
+#verifyCodeRemind2{
+    -fx-translate-x: 85px;
+    -fx-translate-y: 250px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #99cc00;
+}
+
+#verifyCode{
+    -fx-translate-x: 84px;
+    -fx-translate-y: 300px;
+    -fx-pref-width: 180px;
+}
+
+#verifyCodeIcon{
+    -fx-translate-x: 82px;
+    -fx-translate-y: 300px;
+}
+
+#submitButton{
+    -fx-pref-width: 80px;
+    -fx-pref-height: 30px;
+    -fx-translate-x: 134px;
+    -fx-translate-y: 355px;
+    -fx-background-radius: 15px;
+    -fx-background-color: rgba(0,0,0,.5);
+    -fx-text-fill:#03e9f4;
 }

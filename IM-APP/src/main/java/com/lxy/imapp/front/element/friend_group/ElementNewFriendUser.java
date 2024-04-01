@@ -1,6 +1,8 @@
 package com.lxy.imapp.front.element.friend_group;
 
+import com.lxy.imapp.biz.socket.po.NewFriendRequest;
 import com.lxy.protocolpackage.constants.FriendState;
+
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -25,7 +27,7 @@ public class ElementNewFriendUser {
      */
     public ElementNewFriendUser(String userId, String userNickName, String userHead) {
         pane = new Pane();
-        pane.setUserData(userId);
+        pane.setUserData(new NewFriendRequest(userId, userNickName, userHead));
         pane.setPrefWidth(250);
         pane.setPrefHeight(70);
         pane.getStyleClass().add("elementFriendLuckUser");

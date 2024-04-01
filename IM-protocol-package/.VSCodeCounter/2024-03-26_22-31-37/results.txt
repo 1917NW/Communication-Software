@@ -1,0 +1,99 @@
+Date : 2024-03-26 22:31:37
+Directory : c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package
+Total : 47 files,  1105 codes, 52 comments, 287 blanks, all 1444 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| Java       |         37 |        845 |         50 |        282 |      1,177 |
+| XML        |          9 |        257 |          2 |          4 |        263 |
+| Properties |          1 |          3 |          0 |          1 |          4 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                                        | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                                           |         47 |      1,105 |         52 |        287 |      1,444 |
+| . (Files)                                                                                                                                   |          2 |         61 |          2 |          4 |         67 |
+| .idea                                                                                                                                       |          7 |        196 |          0 |          0 |        196 |
+| src                                                                                                                                         |         37 |        845 |         50 |        282 |      1,177 |
+| src\main                                                                                                                                    |         37 |        845 |         50 |        282 |      1,177 |
+| src\main\java                                                                                                                               |         37 |        845 |         50 |        282 |      1,177 |
+| src\main\java\com                                                                                                                           |         37 |        845 |         50 |        282 |      1,177 |
+| src\main\java\com\lxy                                                                                                                       |         37 |        845 |         50 |        282 |      1,177 |
+| src\main\java\com\lxy\protocolpackage                                                                                                       |         37 |        845 |         50 |        282 |      1,177 |
+| src\main\java\com\lxy\protocolpackage\codec                                                                                                 |          2 |         40 |          6 |         11 |         57 |
+| src\main\java\com\lxy\protocolpackage\constants                                                                                             |          4 |         47 |          4 |         19 |         70 |
+| src\main\java\com\lxy\protocolpackage\protocol                                                                                              |         30 |        713 |         27 |        243 |        983 |
+| src\main\java\com\lxy\protocolpackage\protocol (Files)                                                                                      |          2 |         69 |         16 |         37 |        122 |
+| src\main\java\com\lxy\protocolpackage\protocol\friend                                                                                       |          7 |        156 |          9 |         54 |        219 |
+| src\main\java\com\lxy\protocolpackage\protocol\friend (Files)                                                                               |          6 |        118 |          9 |         42 |        169 |
+| src\main\java\com\lxy\protocolpackage\protocol\friend\dto                                                                                   |          1 |         38 |          0 |         12 |         50 |
+| src\main\java\com\lxy\protocolpackage\protocol\group                                                                                        |         11 |        202 |          2 |         59 |        263 |
+| src\main\java\com\lxy\protocolpackage\protocol\group (Files)                                                                                |         10 |        188 |          2 |         55 |        245 |
+| src\main\java\com\lxy\protocolpackage\protocol\group\dto                                                                                    |          1 |         14 |          0 |          4 |         18 |
+| src\main\java\com\lxy\protocolpackage\protocol\login                                                                                        |          6 |        206 |          0 |         73 |        279 |
+| src\main\java\com\lxy\protocolpackage\protocol\login (Files)                                                                                |          2 |         44 |          0 |         12 |         56 |
+| src\main\java\com\lxy\protocolpackage\protocol\login\dto                                                                                    |          4 |        162 |          0 |         61 |        223 |
+| src\main\java\com\lxy\protocolpackage\protocol\msg                                                                                          |          2 |         44 |          0 |         11 |         55 |
+| src\main\java\com\lxy\protocolpackage\protocol\talk                                                                                         |          2 |         36 |          0 |          9 |         45 |
+| src\main\java\com\lxy\protocolpackage\util                                                                                                  |          1 |         45 |         13 |          9 |         67 |
+| target                                                                                                                                      |          1 |          3 |          0 |          1 |          4 |
+| target\maven-archiver                                                                                                                       |          1 |          3 |          0 |          1 |          4 |
++---------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                                                    | language   | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\.idea\compiler.xml                                                                     | XML        |         17 |          0 |          0 |         17 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\.idea\encodings.xml                                                                    | XML        |          7 |          0 |          0 |          7 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\.idea\jarRepositories.xml                                                              | XML        |         20 |          0 |          0 |         20 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\.idea\misc.xml                                                                         | XML        |         14 |          0 |          0 |         14 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\.idea\modules.xml                                                                      | XML        |          8 |          0 |          0 |          8 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\.idea\uiDesigner.xml                                                                   | XML        |        124 |          0 |          0 |        124 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\.idea\vcs.xml                                                                          | XML        |          6 |          0 |          0 |          6 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\IM-protocol-package.iml                                                                | XML        |          8 |          0 |          0 |          8 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\pom.xml                                                                                | XML        |         53 |          2 |          4 |         59 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\codec\ObjDecoder.java                            | Java       |         25 |          2 |          7 |         34 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\codec\ObjEncoder.java                            | Java       |         15 |          4 |          4 |         23 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\constants\FriendState.java                       | Java       |         11 |          0 |          4 |         15 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\constants\GroupState.java                        | Java       |         11 |          0 |          3 |         14 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\constants\MsgType.java                           | Java       |         12 |          2 |          5 |         19 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\constants\TalkType.java                          | Java       |         13 |          2 |          7 |         22 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\Command.java                            | Java       |         27 |          0 |         17 |         44 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\Packet.java                             | Java       |         42 |         16 |         20 |         78 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\friend\AddFriendRequest.java            | Java       |         18 |          3 |          7 |         28 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\friend\AddFriendResponse.java           | Java       |         18 |          3 |          8 |         29 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\friend\FriendRequest.java               | Java       |         17 |          3 |          4 |         24 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\friend\FriendResponse.java              | Java       |         18 |          0 |          5 |         23 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\friend\SearchFriendRequest.java         | Java       |         29 |          0 |         11 |         40 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\friend\SearchFriendResponse.java        | Java       |         18 |          0 |          7 |         25 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\friend\dto\UserDto.java                 | Java       |         38 |          0 |         12 |         50 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\group\FullGroupJoinInGroupResponse.java | Java       |         19 |          0 |          4 |         23 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\group\FullUserJoinInGroupRequest.java   | Java       |         19 |          0 |          6 |         25 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\group\GroupCreateRequest.java           | Java       |         19 |          0 |          4 |         23 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\group\GroupCreateResponse.java          | Java       |         18 |          0 |          4 |         22 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\group\GroupSearchRequest.java           | Java       |         17 |          2 |          5 |         24 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\group\GroupSearchResponse.java          | Java       |         18 |          0 |          5 |         23 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\group\JoinInGroupRequest.java           | Java       |         18 |          0 |          6 |         24 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\group\JoinInGroupResponse.java          | Java       |         17 |          0 |          4 |         21 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\group\MsgGroupRequest.java              | Java       |         21 |          0 |          8 |         29 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\group\MsgGroupResponse.java             | Java       |         22 |          0 |          9 |         31 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\group\dto\GroupDto.java                 | Java       |         14 |          0 |          4 |         18 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\login\LoginRequest.java                 | Java       |         17 |          0 |          7 |         24 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\login\LoginResponse.java                | Java       |         27 |          0 |          5 |         32 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\login\dto\ChatRecordDto.java            | Java       |         60 |          0 |         21 |         81 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\login\dto\ChatTalkDto.java              | Java       |         54 |          0 |         20 |         74 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\login\dto\GroupsDto.java                | Java       |         24 |          0 |         10 |         34 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\login\dto\UserFriendDto.java            | Java       |         24 |          0 |         10 |         34 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\msg\MsgRequest.java                     | Java       |         22 |          0 |          5 |         27 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\msg\MsgResponse.java                    | Java       |         22 |          0 |          6 |         28 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\talk\DelTalkRequest.java                | Java       |         18 |          0 |          5 |         23 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\talk\TalkNoticeRequest.java             | Java       |         18 |          0 |          4 |         22 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\util\SerializationUtil.java                      | Java       |         45 |         13 |          9 |         67 |
+| c:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\target\maven-archiver\pom.properties                                                   | Properties |          3 |          0 |          1 |          4 |
+| Total                                                                                                                                       |            |      1,105 |         52 |        287 |      1,444 |
++---------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

@@ -1,8 +1,9 @@
 package com.lxy.imapp.front.element.friend_group;
 
 import com.lxy.imapp.biz.socket.po.UserGroupRequest;
-import com.lxy.protocolpackage.protocol.friend.dto.UserDto;
-import com.lxy.protocolpackage.protocol.group.dto.GroupDto;
+import com.lxy.protocolpackage.dto.GroupDto;
+import com.lxy.protocolpackage.dto.UserDto;
+
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -34,7 +35,7 @@ public class ElementNewGroupRequest {
         String userNickName = userDto.getUserNickName();
 
         pane = new Pane();
-        pane.setUserData(new UserGroupRequest(userDto.getUserId(), groupDto.getGroupId()));
+        pane.setUserData(new UserGroupRequest(userDto, groupDto));
         pane.setPrefWidth(250);
         pane.setPrefHeight(70);
         pane.getStyleClass().add("elementFriendLuckUser");

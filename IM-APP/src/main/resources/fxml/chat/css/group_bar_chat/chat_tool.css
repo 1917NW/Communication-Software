@@ -4,15 +4,16 @@
     -fx-background-color: white;
 }
 
-#tool_face,#tool_face:pressed{
-    -fx-background-size: 40px 40px;
+.tool_item,.tool_item:pressed{
+    -fx-background-size: 30px 30px;
     -fx-background-color: transparent;
-    -fx-background-image: url("file:src/main/resources/fxml/chat/img/face_0.png");
+    /*-fx-background-image: url("file:src/main/resources/fxml/chat/img/face_0.png");*/
     -fx-cursor: hand;
     -fx-border-width: 0;
 }
 
-#tool_face:hover{
-    -fx-background-image: url("file:src/main/resources/fxml/chat/img/face_1.png");
+.tool_item:hover{
+    /*-fx-background-image: url("file:src/main/resources/fxml/chat/img/face_1.png");*/
     -fx-background-color: #ececec;
+    -fx-text-fill: #03e9f4;
 }

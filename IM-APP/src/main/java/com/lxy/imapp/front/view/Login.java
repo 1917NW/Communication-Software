@@ -85,4 +85,8 @@ public class Login extends Stage {
         System.out.println("登录失败");
 
     }
+
+    public Chat getChat(){
+        return chat;
+    }
 }

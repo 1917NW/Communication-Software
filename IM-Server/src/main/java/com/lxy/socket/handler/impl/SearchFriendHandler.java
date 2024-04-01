@@ -4,9 +4,10 @@ import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import com.lxy.application.UserService;
 import com.lxy.domain.user.model.LuckUserInfo;
+import com.lxy.protocolpackage.dto.UserDto;
 import com.lxy.protocolpackage.protocol.friend.SearchFriendRequest;
 import com.lxy.protocolpackage.protocol.friend.SearchFriendResponse;
-import com.lxy.protocolpackage.protocol.friend.dto.UserDto;
+
 import com.lxy.socket.handler.AbstractBizHandler;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;

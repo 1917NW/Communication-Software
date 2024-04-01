@@ -29,7 +29,7 @@
                 <!-- 操作栏；最小化、关闭 -->
                 <Pane id="operation" layoutX="314" prefWidth="808" prefHeight="32">
                     <children>
-                        <Button id="group_bar_chat_min" styleClass="min" layoutX="700" prefWidth="42" prefHeight="32" onMouseClicked="#minizeWindow"/>
+                        <Button id="group_bar_chat_min" styleClass="min" layoutX="700" prefWidth="42" prefHeight="32" onMouseClicked="#minimizeWindow"/>
                         <Button id="group_bar_chat_close" styleClass="close" layoutX="750" prefWidth="42" prefHeight="32" onMouseClicked="#closeWindow"/>
                     </children>
                 </Pane>
@@ -69,7 +69,8 @@
                     <!--                工具栏，现在只有表情包-->
                     <Pane id="tool"  layoutY="586" prefWidth="808" prefHeight="46">
                         <children>
-                            <Button id="tool_face" layoutX="20" layoutY="3" prefWidth="40" prefHeight="40" fx:id="emotionButton"/>
+                            <Label styleClass="tool_item" layoutX="20" layoutY="3" prefWidth="30" prefHeight="30" fx:id="emotionLabel"/>
+                            <Label styleClass="tool_item" layoutX="65" layoutY="3" prefWidth="30" prefHeight="30" fx:id="fileLabel"></Label>
                         </children>
                     </Pane>
 
@@ -103,7 +104,7 @@
             <!-- 操作栏；最小化、关闭 -->
             <Pane id="operation" layoutX="314" prefWidth="808" prefHeight="32">
                 <children>
-                    <Button id="group_bar_chat_min" styleClass="min" layoutX="700" prefWidth="42" prefHeight="32" onMouseClicked="#minizeWindow"/>
+                    <Button id="group_bar_chat_min" styleClass="min" layoutX="700" prefWidth="42" prefHeight="32" onMouseClicked="#minimizeWindow"/>
                     <Button id="group_bar_chat_close" styleClass="close" layoutX="750" prefWidth="42" prefHeight="32" onMouseClicked="#closeWindow"/>
                 </children>
             </Pane>

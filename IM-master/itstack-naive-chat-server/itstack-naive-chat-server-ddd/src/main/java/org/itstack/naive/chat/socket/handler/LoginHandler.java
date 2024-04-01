@@ -43,11 +43,13 @@ public class LoginHandler extends MyBizHandler<LoginRequest> {
         // 2. 登陆成功绑定Channel
         // 2.1 绑定用户ID
         SocketChannelUtil.addChannel(msg.getUserId(), channel);
+
         // 2.2 绑定群组
         List<String> groupsIdList = userService.queryUserGroupsIdList(msg.getUserId());
         for (String groupId : groupsIdList) {
             SocketChannelUtil.addChannelGroup(groupId, channel);
         }
+        
         // 3. 反馈消息；用户信息、用户对话框列表、好友列表、群组列表
         // 组装消息包
         LoginResponse loginResponse = new LoginResponse();
