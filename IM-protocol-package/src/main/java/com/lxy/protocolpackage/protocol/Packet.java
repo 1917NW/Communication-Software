@@ -6,6 +6,7 @@ import com.lxy.protocolpackage.protocol.login.LoginRequest;
 import com.lxy.protocolpackage.protocol.login.LoginResponse;
 import com.lxy.protocolpackage.protocol.msg.MsgRequest;
 import com.lxy.protocolpackage.protocol.msg.MsgResponse;
+import com.lxy.protocolpackage.protocol.register.RegisterSuccessRequest;
 import com.lxy.protocolpackage.protocol.talk.DelTalkRequest;
 import com.lxy.protocolpackage.protocol.talk.TalkNoticeRequest;
 
@@ -61,6 +62,9 @@ public abstract class Packet {
         // 群组消息
         packetType.put(Command.MsgGroupRequest, MsgGroupRequest.class);
         packetType.put(Command.MsgGroupResponse, MsgGroupResponse.class);
+
+        // 注册成功消息
+        packetType.put(Command.RegisterSuccessRequest, RegisterSuccessRequest.class);
 
     }
 

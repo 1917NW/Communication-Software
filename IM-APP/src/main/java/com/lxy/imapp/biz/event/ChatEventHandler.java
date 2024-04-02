@@ -39,6 +39,8 @@ public class ChatEventHandler {
         channel.writeAndFlush(new SearchFriendRequest(userId, ""));
     }
 
+
+
     public void doFriendLuckSearch(String userId, String text) {
         Channel channel = BeanUtil.getChannel();
         channel.writeAndFlush(new SearchFriendRequest(userId, text));

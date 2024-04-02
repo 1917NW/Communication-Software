@@ -1,6 +1,7 @@
 package com.lxy.imapp.front.controller;
 
 import com.lxy.imapp.TestApplication;
+import com.lxy.imapp.biz.event.ChatEventHandler;
 import com.lxy.imapp.biz.event.LoginEventHandler;
 import com.lxy.imapp.biz.http.RegisterURL;
 import com.lxy.imapp.biz.http.UserRegisterDto;
@@ -454,7 +455,7 @@ public class LoginController {
             stage.LoginSuccess();
             ChatController controller = stage.getChat().controller;
             controller.setUserInfo(registerAccount.getText(), registerNickname.getText(), "xxxx");
-
+            loginEventHandler.doRegister(registerAccount.getText());
         }
 
 

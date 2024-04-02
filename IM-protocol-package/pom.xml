@@ -20,6 +20,7 @@
       <artifactId>netty-all</artifactId>
       <version>4.1.89.Final</version>
     </dependency>
+
     <dependency>
       <groupId>com.dyuproject.protostuff</groupId>
       <artifactId>protostuff-core</artifactId>

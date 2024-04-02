@@ -41,4 +41,6 @@ public interface Command {
 
     Byte JoinInGroupResponse = 24;
 
+    Byte RegisterSuccessRequest = 25;
+
 }

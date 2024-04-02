@@ -12,6 +12,7 @@ import com.lxy.protocolpackage.constants.GroupState;
 import com.lxy.protocolpackage.constants.TalkType;
 
 import com.lxy.protocolpackage.dto.GroupDto;
+import com.lxy.protocolpackage.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -45,10 +46,9 @@ public class UserServiceImpl implements UserService {
         lambdaQueryWrapper.select(ImUser::getUserPassword);
         ImUser imUser = imUserDao.selectOne(lambdaQueryWrapper);
 
-        if(!userPassword.equals(imUser.getUserPassword()))
-            return false;
+        return SecurityUtil.check(userPassword, imUser.getUserPassword());
 
-        return true;
+
     }
 
     @Override

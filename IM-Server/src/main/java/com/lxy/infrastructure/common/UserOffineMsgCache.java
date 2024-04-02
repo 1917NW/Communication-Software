@@ -27,4 +27,10 @@ public class UserOffineMsgCache {
         packets.add(msg);
     }
 
+
+    public static Map<String, List<Packet>> getUserOfflineMap(){
+        return userOfflineMsgCache;
+    }
+
+
 }

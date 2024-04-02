@@ -2,7 +2,8 @@ package com.lxy.socket;
 import com.lxy.protocolpackage.codec.ObjDecoder;
 import com.lxy.protocolpackage.codec.ObjEncoder;
 import com.lxy.socket.handler.impl.LoginHandler;
-import com.lxy.socket.handler.impl.SearchFriendHandler;
+import com.lxy.socket.handler.impl.RegisterSuccessHandler;
+import com.lxy.socket.handler.impl.friend.SearchFriendHandler;
 import com.lxy.socket.handler.impl.friend.AddFriendResponseHandler;
 import com.lxy.socket.handler.impl.friend.FriendRequestHandler;
 import com.lxy.socket.handler.impl.group.*;
@@ -11,9 +12,7 @@ import com.lxy.socket.handler.impl.talk.DelTalkRequestHandler;
 import com.lxy.socket.handler.impl.talk.TalkNoticeRequestHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.logging.LoggingHandler;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +38,7 @@ public class IMServerChannelInitializer extends ChannelInitializer<SocketChannel
         socketChannel.pipeline().addLast(applicationContext.getBean(JoinInGroupRequestHandler.class));
         socketChannel.pipeline().addLast(applicationContext.getBean(FullGroupJoinInGroupResponseHandler.class));
         socketChannel.pipeline().addLast(applicationContext.getBean(MsgGroupRequestHandler.class));
+        socketChannel.pipeline().addLast(applicationContext.getBean(RegisterSuccessHandler.class));
         socketChannel.pipeline().addLast(new ObjEncoder());
     }
 }

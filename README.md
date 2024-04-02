@@ -29,7 +29,7 @@ https://www.bilibili.com/video/BV15t411s7R3/?spm_id_from=333.337.search-card.all
 * [x] 上传文件/下载文件
 * [ ] 接入AI
 * [ ] 朋友圈
-* [ ] 密码加密
+* [x] 密码加密
 * [X] 优化netty加密，解密处理器
 * [ ] 头像上传功能
 * [x] 创建群组

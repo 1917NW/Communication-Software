@@ -36,4 +36,5 @@ com\lxy\protocolpackage\protocol\friend\AddFriendRequest.class
 com\lxy\protocolpackage\dto\UserTalkDto.class
 com\lxy\protocolpackage\protocol\Packet.class
 com\lxy\protocolpackage\protocol\login\LoginResponse.class
+com\lxy\protocolpackage\protocol\register\RegisterSuccessRequest.class
 com\lxy\protocolpackage\protocol\group\MsgGroupResponse.class

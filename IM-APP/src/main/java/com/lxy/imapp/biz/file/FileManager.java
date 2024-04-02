@@ -10,13 +10,13 @@ public class FileManager {
         upLoadFile("im-test", "1505382/123.png", "C:\\Users\\26327\\Desktop\\毕业设计\\通讯软件\\UI\\123.png");
     }
 
-    public static void upLoadFile(String bucketName, String objectName, String filePath){
+    public static void upLoadFile(String bucketName, String objectName, String localFilePath){
         try {
             // Create a minioClient with the MinIO server playground, its access key and secret key.
             MinioClient minioClient =
                     MinioClient.builder()
-                            .endpoint("http://118.31.236.30:9000")
-                            .credentials("ROOTNAME", "CHANGEME123")
+                            .endpoint(MinioProperties.url)
+                            .credentials(MinioProperties.accessKey, MinioProperties.secretKey)
                             .build();
 
             // Make 'asiatrip' bucket if not exist.
@@ -35,7 +35,7 @@ public class FileManager {
                     UploadObjectArgs.builder()
                             .bucket(bucketName)
                             .object(objectName)
-                            .filename(filePath)
+                            .filename(localFilePath)
                             .build());
             System.out.println(String.format("object {} has sent to bucket {}", objectName, bucketName));
         } catch (Exception e) {
@@ -43,13 +43,13 @@ public class FileManager {
         }
     }
 
-    public static void downLoadFile(String bucketName, String objectName, String filePath){
+    public static void downLoadFile(String bucketName, String objectName, String localFilePath){
         try {
             // Create a minioClient with the MinIO server playground, its access key and secret key.
             MinioClient minioClient =
                     MinioClient.builder()
-                            .endpoint("http://118.31.236.30:9000")
-                            .credentials("ROOTNAME", "CHANGEME123")
+                            .endpoint(MinioProperties.url)
+                            .credentials(MinioProperties.accessKey, MinioProperties.secretKey)
                             .build();
 
             // Make 'asiatrip' bucket if not exist.
@@ -68,10 +68,10 @@ public class FileManager {
                     DownloadObjectArgs.builder()
                             .bucket(bucketName)
                             .object(objectName)
-                            .filename(filePath)
+                            .filename(localFilePath)
                             .build());
             System.out.println(
-                    String.format("object:{} has downloaded to local:{}", objectName, filePath));
+                    String.format("object:{} has downloaded to local:{}", objectName, localFilePath));
         } catch (Exception e) {
             System.out.println("Error occurred: " + e);
         }

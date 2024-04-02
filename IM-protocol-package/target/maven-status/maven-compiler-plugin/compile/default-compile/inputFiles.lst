@@ -29,6 +29,8 @@ C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\ja
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\friend\AddFriendResponse.java
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\dto\GroupDto.java
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\msg\MsgResponse.java
+C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\register\RegisterSuccessRequest.java
+C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\util\SecurityUtil.java
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\protocol\group\MsgGroupResponse.java
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\constants\FriendState.java
 C:\Users\26327\Desktop\毕业设计\通讯软件\IM-protocol-package\src\main\java\com\lxy\protocolpackage\dto\UserFriendDto.java

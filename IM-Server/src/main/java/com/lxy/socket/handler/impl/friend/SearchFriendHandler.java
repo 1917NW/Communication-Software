@@ -1,4 +1,4 @@
-package com.lxy.socket.handler.impl;
+package com.lxy.socket.handler.impl.friend;
 
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
