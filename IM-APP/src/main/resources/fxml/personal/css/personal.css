@@ -1,0 +1,27 @@
+
+#personInfoPane{
+    -fx-pref-height: 400px;
+    -fx-pref-width: 300px;
+    -fx-background-color: #03e9f4;
+    -fx-background-radius: 5px;
+}
+
+#close{
+    -fx-text-fill: grey;
+    -fx-translate-x: 270px;
+}
+
+#close:hover{
+    -fx-text-fill: white;
+}
+
+#minimize{
+    -fx-text-fill: #ccffff;
+    -fx-translate-x: 240px;
+    -fx-cursor: hand;
+}
+
+#myId{
+    -fx-pref-width: 300px;
+    -fx-pref-height: 30px;
+}

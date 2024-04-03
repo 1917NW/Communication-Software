@@ -4,6 +4,7 @@ import cn.hutool.crypto.digest.DigestUtil;
 import com.lxy.imapp.biz.event.ChatEventHandler;
 import com.lxy.imapp.biz.file.ChatRecordMap;
 import com.lxy.imapp.biz.file.FileManager;
+import com.lxy.imapp.biz.socket.NettyClient;
 import com.lxy.imapp.biz.socket.po.NewFriendRequest;
 import com.lxy.imapp.biz.socket.po.UserGroupRequest;
 import com.lxy.imapp.biz.source.impl.FileDataSource;
@@ -22,6 +23,7 @@ import com.lxy.imapp.front.util.CacheUtil;
 import com.lxy.imapp.front.util.Ids;
 import com.lxy.imapp.front.view.Chat;
 import com.lxy.imapp.front.view.Emotion;
+import com.lxy.imapp.front.view.PersonalInfo;
 import com.lxy.protocolpackage.constants.*;
 
 import com.lxy.protocolpackage.dto.ChatRecordDto;
@@ -66,6 +68,9 @@ public class ChatController {
 
     @FXML
     private Label barFavorite;
+
+    @FXML
+    private Label barMySelf;
 
     @FXML
     private Label barSetting;
@@ -116,6 +121,7 @@ public class ChatController {
 
        setBarChatStyle();
        setBarFriendStyle();
+       setBarMySelf();
        setBarFavoriteStyle();
        setBarSettingStyle();
        initPaneList();
@@ -232,6 +238,16 @@ public class ChatController {
         barFavorite.setFont(Font.font(font.getFamily(), 27));
         barFavorite.setText(Character.toString(unicode));
         barFavorite.setTextAlignment(TextAlignment.CENTER);
+    }
+
+    private void setBarMySelf(){
+        Font font = Font.loadFont(getClass().getResourceAsStream("/fxml/chat/ttf/my.ttf"), 35);
+        //某个图标的unicode
+        char unicode = '\uE680';
+        barMySelf.setFont(Font.font(font.getFamily(), 30));
+        barMySelf.setText(Character.toString(unicode));
+        barMySelf.setTextAlignment(TextAlignment.CENTER);
+
     }
 
     private void setBarFriendStyle() {
@@ -767,6 +783,9 @@ public class ChatController {
 
 
         stage.close();
+        // 关闭连接
+        NettyClient client = BeanUtil.getBean("client", NettyClient.class);
+        client.destroy();
         System.exit(0);
     }
 
@@ -1356,6 +1375,14 @@ public class ChatController {
 
     }
 
+    public void popPersonInfo(MouseEvent mouseEvent) {
+
+        barMySelf.setTextFill(Color.YELLOW);
+
+        PersonalInfo personalInfo = new PersonalInfo();
+        personalInfo.doShow(stage.getX() + 314 , stage.getY() + 150);
+
+    }
 }
 
 

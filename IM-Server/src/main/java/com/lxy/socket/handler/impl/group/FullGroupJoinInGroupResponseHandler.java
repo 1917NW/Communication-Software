@@ -31,6 +31,8 @@ public class FullGroupJoinInGroupResponseHandler extends AbstractBizHandler<Full
             joinInGroupResponse.setGroupDto(msg.getGroupDto());
 
             Channel requestUserChannel = SocketChannelUtil.getChannel(msg.getUserId());
+
+            SocketChannelUtil.addChannelGroup(msg.getGroupDto().getGroupId(), requestUserChannel);
             if(requestUserChannel == null){
                 UserOffineMsgCache.addOfflineMsgToUser(msg.getUserId(), joinInGroupResponse);
                 return;

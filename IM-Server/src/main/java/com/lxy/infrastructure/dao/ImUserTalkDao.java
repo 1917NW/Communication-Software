@@ -20,5 +20,7 @@ public interface ImUserTalkDao extends BaseMapper<ImUserTalk> {
 
     public void addTalkIfAbsent(@Param("userId") String userId, @Param("talkId") String talkId, @Param("talkType") Integer talkType);
 
+
+    public void saveBatch(@Param("userIdList") List<String> userIdList, @Param("talkId") String talkId, @Param("talkType") Integer talkType);
 }
 

@@ -3,6 +3,7 @@ package com.lxy.domain.user.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lxy.application.UserService;
 import com.lxy.domain.user.model.*;
 import com.lxy.infrastructure.dao.*;
@@ -21,9 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl  implements UserService {
 
     @Autowired
     private ImUserDao imUserDao;
@@ -56,9 +58,23 @@ public class UserServiceImpl implements UserService {
         executorService.execute(() -> {
             // TODO : 优化多次SQL
             if(userIdList != null && !userIdList.isEmpty()){
-                for(String userId : userIdList){
-                    addTalkBoxInfo(userId, groupId, talkType);
-                }
+                LambdaQueryWrapper<ImUserTalk> imUserTalkLambdaQueryWrapper = new LambdaQueryWrapper<>();
+                imUserTalkLambdaQueryWrapper.eq(ImUserTalk::getTalkId, groupId);
+                imUserTalkLambdaQueryWrapper.eq(ImUserTalk::getTalkType, talkType);
+                List<ImUserTalk> imUserTalks = imUserTalkDao.selectList(imUserTalkLambdaQueryWrapper);
+                List<String> collect = null;
+                if(imUserTalks != null && !imUserTalks.isEmpty()){
+                    collect = imUserTalks.stream().map(item -> item.getUserId()).collect(Collectors.toList());
+                    List<String> result = new ArrayList<>();
+                    for(String userId : userIdList){
+                        if(!collect.contains(userId)){
+                            result.add(userId);
+                        }
+                    }
+                    if(!result.isEmpty())
+                        imUserTalkDao.saveBatch(result, groupId, talkType);
+                }else
+                    imUserTalkDao.saveBatch(userIdList, groupId, talkType);
             }
         });
     }

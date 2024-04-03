@@ -3,6 +3,7 @@ package com.lxy.imapp;
 import com.lxy.imapp.biz.event.ChatEventHandler;
 import com.lxy.imapp.biz.event.LoginEventHandler;
 import com.lxy.imapp.biz.socket.NettyClient;
+import com.lxy.imapp.biz.util.BeanUtil;
 import com.lxy.imapp.front.ImUI;
 import com.lxy.imapp.front.view.Chat;
 import com.lxy.imapp.front.view.Login;
@@ -39,6 +40,7 @@ public class IMApplication extends Application {
 
         // 2. 初始化链接
         NettyClient nettyClient = new NettyClient(imUI);
+        BeanUtil.addBean("client", nettyClient);
         Future<Channel> future = executorService.submit(nettyClient);
         Channel channel = future.get();
         if(channel == null)

@@ -1,0 +1,16 @@
+{
+  "id": "4493540",
+  "name": "IM-i",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "72671",
+      "name": "i",
+      "font_class": "i",
+      "unicode": "e680",
+      "unicode_decimal": 59008
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@css/personal.css"
+            fx:controller="com.lxy.imapp.front.controller.PersonalController"
+            id="personInfoPane">
+
+        <children>
+            <Pane id="functionButton">
+                <children>
+                    <Label id="minimize" fx:id="personMinimize" onMouseClicked="#minimizeStage"></Label>
+                    <Label id="close" fx:id="personClose" onMouseClicked="#closeStage"></Label>
+
+                    <Label id="dummy" fx:id="dummyLabel"></Label>
+                </children>
+            </Pane>
+
+            <Pane id="personInfo" layoutY="100">
+               <children>
+                   <Label id="myHead" fx:id="myHead"></Label>
+                   <Label id="myId" fx:id="myId"></Label>
+                   <Label id="myName" fx:id="myName"></Label>
+               </children>
+            </Pane>
+
+        </children>
+</AnchorPane>

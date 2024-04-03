@@ -19,11 +19,14 @@
 
             <Label id="bar_friend" prefHeight="30" prefWidth="30" layoutX="22" layoutY="160" fx:id="barFriend" styleClass="bar_chat_item" onMouseClicked="#switchToFriend" onMouseEntered="#hoverFriendLabel" onMouseExited="#unhoverFriendLabel"></Label>
 
-            <Label id="bar_favorite" prefWidth="30" prefHeight="30" layoutX="22" layoutY="220" fx:id="barFavorite" styleClass="bar_chat_item"></Label>
 
+            <Label id="bar_myself" prefWidth="30" prefHeight="30" layoutX="22" layoutY="220" fx:id="barMySelf" styleClass="bar_chat_item" onMouseClicked="#popPersonInfo"></Label>
+
+            <Label id="bar_favorite" prefWidth="30" prefHeight="30" layoutX="22" layoutY="280" fx:id="barFavorite" styleClass="bar_chat_item"></Label>
             <Label id="bar_set" prefWidth="24" prefHeight="24" layoutX="25" layoutY="750" fx:id="barSetting" styleClass="bar_chat_item" ></Label>
         </Pane>
 
+<!--        part1-->
         <Pane visible="true" id="group_bar_chat" layoutX="75" layoutY="2" prefWidth="1122" prefHeight="795" fx:id="chatPane">
             <children>
                 <!-- 操作栏；最小化、关闭 -->
@@ -100,6 +103,8 @@
 
             </children>
         </Pane>
+
+<!--        part2-->
         <Pane visible="false" id="group_bar_friend" layoutX="75" layoutY="2" prefWidth="1122" prefHeight="795" fx:id="friendPane">
             <!-- 操作栏；最小化、关闭 -->
             <Pane id="operation" layoutX="314" prefWidth="808" prefHeight="32">
@@ -138,5 +143,6 @@
                 </children>
             </Pane>
         </Pane>
+
     </children>
 </AnchorPane>
