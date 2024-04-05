@@ -1,23 +1,17 @@
 package com.lxy.socket;
 
 import com.lxy.application.OfflineMsgService;
-import com.lxy.domain.server.service.impl.ImOfflineMsgServiceImpl;
 import com.lxy.infrastructure.common.UserOffineMsgCache;
-import com.lxy.infrastructure.entity.ImOfflineMsg;
 import com.lxy.protocolpackage.protocol.Packet;
 import com.lxy.socket.util.ServerIdGenerator;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.channel.socket.nio.NioSocketChannel;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
-import jakarta.annotation.Resource;
 import lombok.Data;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +21,6 @@ import org.springframework.core.env.Environment;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -51,7 +43,7 @@ public class NettyServer {
     private ServerIdGenerator serverIdGenerator;
 
     private static Logger LOGGER = LoggerFactory.getLogger(NettyServer.class);
-    private int port = 7399;
+    private int port = 7397;
 
     public static String serverId;
     public void startApplication(int port) throws InterruptedException {

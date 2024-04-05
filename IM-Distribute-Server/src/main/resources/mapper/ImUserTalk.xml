@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lxy.infrastructure.dao.ImUserTalkDao">
+
+    <!--定义接口方法对应的 SQL 语句-->
+    <insert id="addTalkIfAbsent">
+        insert into im_user_talk(user_id, talk_id, talk_type, create_time, update_time)
+        select #{userId}, #{talkId} ,#{talkType} , NOW(), NOW()
+        from DUAL
+        where not EXISTS (select 1 from im_user_talk where user_id = #{userId} and talk_id = #{talkId} and talk_type = #{talkType})
+    </insert>
+
+    <insert id="saveBatch">
+        insert into im_user_talk(user_id, talk_id, talk_type, create_time, update_time)
+        values
+            <foreach collection="userIdList" item="userId"  separator="," >
+            (#{userId}, #{talkId}, #{talkType}, NOW(), NOW())
+            </foreach>
+    </insert>
+
+</mapper>
