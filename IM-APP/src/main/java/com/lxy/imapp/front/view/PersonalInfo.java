@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -20,11 +21,14 @@ public class PersonalInfo extends Stage {
 
     private Parent root;
 
-    public PersonalInfo(){
+    public Label bar;
+
+    public PersonalInfo(Label bar){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource(RESOURCE_NAME));
             root = fxmlLoader.load();
+            this.bar = bar;
             PersonalController controller = fxmlLoader.getController();
             controller.setStage(this);
         } catch (IOException e) {

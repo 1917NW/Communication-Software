@@ -7,14 +7,14 @@ import java.util.List;
 
 public interface OfflineMsgService {
 
-    public void storeOfflineMsg(String serverId, String userId, Packet packet);
+    public void storeOfflineMsg(String userId, Packet packet);
 
 
 
-    void storeBatchOfflineMsg(String serverId, String userId, List<Packet> packetList);
+    void storeBatchOfflineMsg(String userId, List<Packet> packetList);
 
-    List<ImOfflineMsg> getOfflineMsgByServerId(String serverId);
 
-    List<ImOfflineMsg> getOfflineMsgByServerIdAndUserId(String serverId, String userId);
+
+    List<ImOfflineMsg> getOfflineMsgByUserId(String userId);
 
 }

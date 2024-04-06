@@ -48,22 +48,32 @@ public class SocketChannelUtil {
         return channelGroupMap.get(groupId);
     }
     public static void addChannel(String userId, Channel channel){
+        System.out.println("user"+userId + "加入channel");
         userChannel.put(userId, channel);
         userChannelId.put(channel.id().toString(), userId);
     }
 
     public static void removeChannel(String channelId){
+
         String userId = userChannelId.get(channelId);
         if(userId == null)
             return;
         userChannel.remove(userId);
+        System.out.println("user"+ userId + "移出channel");
+
+    }
+
+    public static String getUserIdByChannel(Channel channel){
+        return userChannelId.get(channel.id().toString());
     }
 
     public static void removeUserChannelByUserId(String userId){
+        System.out.println("user"+ userId + "移出channel");
         userChannel.remove(userId);
     }
 
     public static Channel getChannel(String userId){
+        System.out.println("user"+ userId + "获取channel");
         return userChannel.get(userId);
     }
 

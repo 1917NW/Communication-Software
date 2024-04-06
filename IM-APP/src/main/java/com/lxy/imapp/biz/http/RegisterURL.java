@@ -10,9 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterURL {
-    private static String GET_VERIFY_CODE_URL = "http://localhost:8888/imSystem/getCode";
+    private static String GET_VERIFY_CODE_URL =ApiURL.getApiUrL() +  "/imSystem/getCode";
 
-    private static String VERIFY_URL = "http://localhost:8888/imSystem/register";
+    private static String VERIFY_URL = ApiURL.getApiUrL() +"/imSystem/register";
 
     public static UserRegisterResult verifyCode(UserRegisterDto userRegisterDto){
         try {

@@ -28,20 +28,19 @@ public class ImOfflineMsgServiceImpl extends ServiceImpl<ImOfflineMsgDao, ImOffl
     private ImOfflineMsgDao imOfflineMsgDao;
 
     @Override
-    public void storeOfflineMsg(String serverId, String userId, Packet packet) {
+    public void storeOfflineMsg(String userId, Packet packet) {
         ImOfflineMsg imOfflineMsg = new ImOfflineMsg();
 
         imOfflineMsg.setRecipientId(userId);
         imOfflineMsg.setPacketType(packet.getCommand());
         imOfflineMsg.setPacketJsonStr(JSONUtil.toJsonStr(packet));
-        imOfflineMsg.setServerId(serverId);
 
         imOfflineMsgDao.insert(imOfflineMsg);
     }
 
 
     @Override
-    public void storeBatchOfflineMsg(String serverId, String userId, List<Packet> packetList) {
+    public void storeBatchOfflineMsg(String userId, List<Packet> packetList) {
 
         if(packetList!=null && !packetList.isEmpty()){
             List<ImOfflineMsg> collect = packetList.stream().map(packet -> {
@@ -50,7 +49,6 @@ public class ImOfflineMsgServiceImpl extends ServiceImpl<ImOfflineMsgDao, ImOffl
                 imOfflineMsg.setRecipientId(userId);
                 imOfflineMsg.setPacketType(packet.getCommand());
                 imOfflineMsg.setPacketJsonStr(JSONUtil.toJsonStr(packet));
-                imOfflineMsg.setServerId(serverId);
 
                 return imOfflineMsg;
             }).collect(Collectors.toList());
@@ -60,28 +58,13 @@ public class ImOfflineMsgServiceImpl extends ServiceImpl<ImOfflineMsgDao, ImOffl
         }
     }
 
+
+
     @Override
     @Transactional
-    public List<ImOfflineMsg> getOfflineMsgByServerId(String serverId) {
-
+    public List<ImOfflineMsg> getOfflineMsgByUserId(String userId) {
         // 查询所有serverId的离线消息
         LambdaQueryWrapper<ImOfflineMsg> imOfflineMsgLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        imOfflineMsgLambdaQueryWrapper.eq(ImOfflineMsg::getServerId, serverId);
-        List<ImOfflineMsg> imOfflineMsgs = imOfflineMsgDao.selectList(imOfflineMsgLambdaQueryWrapper);
-
-        // 删除所有serverId的离线消息
-        imOfflineMsgDao.delete(imOfflineMsgLambdaQueryWrapper);
-
-
-        return  imOfflineMsgs;
-
-    }
-
-    @Override
-    public List<ImOfflineMsg> getOfflineMsgByServerIdAndUserId(String serverId, String userId) {
-        // 查询所有serverId的离线消息
-        LambdaQueryWrapper<ImOfflineMsg> imOfflineMsgLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        imOfflineMsgLambdaQueryWrapper.eq(ImOfflineMsg::getServerId, serverId);
         imOfflineMsgLambdaQueryWrapper.eq(ImOfflineMsg::getRecipientId, userId);
         List<ImOfflineMsg> imOfflineMsgs = imOfflineMsgDao.selectList(imOfflineMsgLambdaQueryWrapper);
 

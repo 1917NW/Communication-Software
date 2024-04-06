@@ -1,13 +1,22 @@
 package com.lxy;
 
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
+@EnableDubbo
 public class ImDistributeServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ImDistributeServerApplication.class, args);
+//        SpringApplication.run(ImDistributeServerApplication.class, args);
+
+        SpringApplication springApplication = new SpringApplication(ImDistributeServerApplication.class);
+        springApplication.setWebApplicationType(WebApplicationType.NONE);
+        springApplication.run(args);
+
     }
 
 }

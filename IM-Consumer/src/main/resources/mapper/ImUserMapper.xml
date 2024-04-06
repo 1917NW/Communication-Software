@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lxy.infrastructure.dao.ImUserDao">
+
+    <!--定义接口方法对应的 SQL 语句-->
+    <select id="fuzzySearchExcludeUserId" resultType="com.lxy.infrastructure.entity.ImUser">
+        SELECT user_id, user_nickname, user_head
+        from im_user
+        where user_id != #{excludeUserId} and (user_id like "%"#{matchWord}"%" or user_nickname like "%"#{matchWord}"%")
+    </select>
+
+</mapper>

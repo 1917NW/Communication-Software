@@ -14,11 +14,15 @@ import com.lxy.protocolpackage.dto.UserFriendDto;
 import com.lxy.protocolpackage.protocol.Packet;
 import com.lxy.protocolpackage.protocol.login.LoginRequest;
 import com.lxy.protocolpackage.protocol.login.LoginResponse;
+import com.lxy.protocolpackage.rediskey.ImServerKey;
 import com.lxy.socket.NettyServer;
+import com.lxy.socket.cache.ImServerCache;
 import com.lxy.socket.handler.AbstractBizHandler;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
@@ -31,6 +35,9 @@ public class LoginHandler extends AbstractBizHandler<LoginRequest> {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public void channelRead(Channel channel, LoginRequest msg) {
@@ -56,6 +63,9 @@ public class LoginHandler extends AbstractBizHandler<LoginRequest> {
         for(String groupId : groupIdList){
             SocketChannelUtil.addChannelGroup(groupId, channel);
         }
+
+        // 注册userId:dubboServiceUrl到redis
+        stringRedisTemplate.opsForValue().set(ImServerKey.buildUserIdKey(userId), ImServerCache.getDubboServiceUrl());
 
 
         // 校验成功则返回用户个人信息
@@ -102,10 +112,20 @@ public class LoginHandler extends AbstractBizHandler<LoginRequest> {
     private OfflineMsgService offlineMsgService;
 
 
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        super.channelInactive(ctx);
+        stringRedisTemplate.delete(ImServerKey.buildUserIdKey(SocketChannelUtil.getUserIdByChannel(ctx.channel())));
+
+        //
+        stringRedisTemplate.opsForValue().decrement(ImServerKey.buildServerUrlKey(ImServerCache.getImServerUrl()));
+
+    }
+
     private void clearOfflineMsg(Channel channel, String userId) {
 
         // 先发送之前保存在数据库中的离线消息
-        List<ImOfflineMsg> offlineMsgLocalList = offlineMsgService.getOfflineMsgByServerIdAndUserId(NettyServer.serverId, userId);
+        List<ImOfflineMsg> offlineMsgLocalList = offlineMsgService.getOfflineMsgByUserId(userId);
         List<Packet> collect = offlineMsgLocalList.stream().map(offlineMsg -> {
             return JSONUtil.toBean(offlineMsg.getPacketJsonStr(), Packet.get(offlineMsg.getPacketType()));
         }).collect(Collectors.toList());

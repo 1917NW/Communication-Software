@@ -18,4 +18,20 @@ spring:
       host: 127.0.0.1
       port: 6379
 
+dubbo:
+  application:
+    name: demo-provider
+  registry:
+    address: 82.156.48.253:8848
+    password: nacos
+    username: nacos
+    protocol: nacos
+  protocol:
+    port: 20889
+
+rocketmq:
+  name-server: 118.31.236.30:9876   #配置RocketMQ的name server
+  producer:
+    group: im-producer     # 配置消息生产者的group，必须配置
+
 

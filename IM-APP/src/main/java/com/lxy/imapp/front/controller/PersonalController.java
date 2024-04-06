@@ -1,6 +1,7 @@
 package com.lxy.imapp.front.controller;
 
 import com.lxy.imapp.biz.util.BeanUtil;
+import com.lxy.imapp.front.view.PersonalInfo;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -27,9 +28,9 @@ public class PersonalController {
     @FXML
     private Label personClose;
 
-    private Stage stage;
+    private PersonalInfo stage;
 
-    public void setStage(Stage stage){
+    public void setStage(PersonalInfo stage){
         this.stage = stage;
     }
 
@@ -97,6 +98,8 @@ public class PersonalController {
     }
 
     public void closeStage(MouseEvent mouseEvent) {
+        stage.bar.setTextFill(Color.web("#99cccc"));
         stage.close();
+
     }
 }

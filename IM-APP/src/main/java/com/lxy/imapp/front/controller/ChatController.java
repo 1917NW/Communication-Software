@@ -1379,7 +1379,7 @@ public class ChatController {
 
         barMySelf.setTextFill(Color.YELLOW);
 
-        PersonalInfo personalInfo = new PersonalInfo();
+        PersonalInfo personalInfo = new PersonalInfo(barMySelf);
         personalInfo.doShow(stage.getX() + 314 , stage.getY() + 150);
 
     }

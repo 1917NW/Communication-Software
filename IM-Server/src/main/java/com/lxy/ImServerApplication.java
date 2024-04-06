@@ -11,9 +11,11 @@ public class ImServerApplication {
 
     public static void main(String[] args) {
 
-        SpringApplication springApplication = new SpringApplication(ImServerApplication.class);
-        springApplication.setWebApplicationType(WebApplicationType.NONE);
-        springApplication.run(args);
+//        SpringApplication springApplication = new SpringApplication(ImServerApplication.class);
+//        springApplication.setWebApplicationType(WebApplicationType.NONE);
+//        springApplication.run(args);
+
+        SpringApplication.run(ImServerApplication.class, args);
     }
 
 }

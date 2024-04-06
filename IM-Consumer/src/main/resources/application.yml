@@ -1,0 +1,29 @@
+dubbo:
+  registry:
+    address: 82.156.48.253:8848
+    password: nacos
+    username: nacos
+    protocol: nacos
+  protocol:
+    port: 20999
+  application:
+    name: im-consumer
+    qos-enable: true
+    qos-port: 33333
+    qos-accept-foreign-ip: false
+  consumer:
+    cluster: imRouter
+
+
+rocketmq:
+  name-server: 118.31.236.30:9876   #配置RocketMQ的name server
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3308/im_system
+    username: root
+    password: root
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379

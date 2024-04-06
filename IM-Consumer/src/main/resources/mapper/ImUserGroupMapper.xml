@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lxy.infrastructure.dao.ImUserGroupDao">
+
+    <!--定义接口方法对应的 SQL 语句-->
+    <select id="queryGroupIdOfUserId" resultType="string">
+        select group_id from im_user_group where user_id = #{userId}
+    </select>
+
+    <select id="getUserIdListByGroupId" resultType="string">
+        select user_id from im_user_group where group_id = #{groupId}
+    </select>
+</mapper>

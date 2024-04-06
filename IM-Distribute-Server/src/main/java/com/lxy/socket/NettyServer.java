@@ -3,6 +3,9 @@ package com.lxy.socket;
 import com.lxy.application.OfflineMsgService;
 import com.lxy.infrastructure.common.UserOffineMsgCache;
 import com.lxy.protocolpackage.protocol.Packet;
+import com.lxy.protocolpackage.rediskey.ImServerKey;
+import com.lxy.socket.cache.ImServerCache;
+import com.lxy.socket.constants.ImConstants;
 import com.lxy.socket.util.ServerIdGenerator;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -17,14 +20,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.*;
 
 @Data
 @Configuration
@@ -42,8 +49,11 @@ public class NettyServer {
     @Autowired
     private ServerIdGenerator serverIdGenerator;
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
     private static Logger LOGGER = LoggerFactory.getLogger(NettyServer.class);
-    private int port = 7397;
+    private int port = 7399;
 
     public static String serverId;
     public void startApplication(int port) throws InterruptedException {
@@ -60,7 +70,11 @@ public class NettyServer {
         // 获取服务器id
         initServerId();
 
+        // 注册服务器url:port到redis
+        registerServerUrl();
 
+        // 注册服务器dubbo服务url到redis
+        registerDubboService();
 
         // 监听
         ChannelFuture channelFuture = bootstrap.bind(port).sync();
@@ -78,13 +92,48 @@ public class NettyServer {
 
     }
 
+
+    private void registerDubboService() {
+        try {
+            String registryIp = InetAddress.getLocalHost().getHostAddress();
+            String registryPort = environment.getProperty(ImConstants.DUBBO_PORT);
+            ImServerCache.setDubboServiceUrl(registryIp + ":" + registryPort);
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    private void registerServerUrl() {
+        try {
+            String imServerIp = InetAddress.getLocalHost().getHostAddress();
+            String imServerPort = port + "";
+            String key = ImServerKey.IM_SERVER_PREFIX + imServerIp + "-" + imServerPort;
+            ImServerCache.setImServerUrl(imServerIp+"-"+imServerPort);
+
+            stringRedisTemplate.opsForValue().set(key, "0", 2 * ImConstants.DEFAULT_HEART_BEAT_GAP, TimeUnit.SECONDS);
+
+            ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
+            scheduledExecutorService.scheduleAtFixedRate(()->{
+                stringRedisTemplate.expire(key,2 * ImConstants.DEFAULT_HEART_BEAT_GAP, TimeUnit.SECONDS);
+            }, ImConstants.DEFAULT_HEART_BEAT_GAP, ImConstants.DEFAULT_HEART_BEAT_GAP, TimeUnit.SECONDS);
+
+
+
+
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     @PreDestroy
     private void storeOfflineMsg() {
         Map<String, List<Packet>> userOfflineMap = UserOffineMsgCache.getUserOfflineMap();
 
         Set<Map.Entry<String, List<Packet>>> entries = userOfflineMap.entrySet();
         for(Map.Entry<String, List<Packet>> entry : entries){
-            offlineMsgService.storeBatchOfflineMsg(serverId, entry.getKey(), entry.getValue());
+            offlineMsgService.storeBatchOfflineMsg(entry.getKey(), entry.getValue());
         }
     }
 

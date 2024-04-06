@@ -1,5 +1,6 @@
 package com.lxy.imapp.biz.socket;
 
+import com.lxy.imapp.biz.http.ImServerURL;
 import com.lxy.imapp.biz.util.BeanUtil;
 import com.lxy.imapp.front.ImUI;
 import io.netty.bootstrap.Bootstrap;
@@ -18,9 +19,9 @@ public class NettyClient implements Callable<Channel> {
 
     private Logger logger = LoggerFactory.getLogger(NettyClient.class);
 
-    private String inetHost = "127.0.0.1";
+    private String inetHost;
 
-    private int inetPort = 7397;
+    private int inetPort ;
 
     private EventLoopGroup workerGroup = new NioEventLoopGroup();
     private Channel channel;
@@ -31,8 +32,10 @@ public class NettyClient implements Callable<Channel> {
 
     private ImUI imUI;
 
+
     @Override
     public Channel call() throws Exception {
+        getServerIpAndPort();
         ChannelFuture channelFuture = null;
         try {
             Bootstrap client = new Bootstrap();
@@ -53,6 +56,17 @@ public class NettyClient implements Callable<Channel> {
             }
         }
         return channel;
+    }
+
+    private void getServerIpAndPort() {
+        String imServerURL = ImServerURL.getImServerURL();
+        if(imServerURL != ""){
+            String[] ipAndPort = imServerURL.split("-");
+            inetHost = ipAndPort[0];
+            inetPort = Integer.valueOf(ipAndPort[1]);
+            System.out.println("inetHost:"+inetHost + ", inetPort:"+inetPort);
+        }
+
     }
 
     public void destroy() {

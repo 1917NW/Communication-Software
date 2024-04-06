@@ -24,6 +24,13 @@ public class FriendRequestHandler extends AbstractBizHandler<FriendRequest> {
     public void channelRead(Channel channel, FriendRequest msg) {
         System.out.println("收到好友申请:" + JSONUtil.toJsonStr(msg));
 
+        Channel friendChannel = SocketChannelUtil.getChannel(msg.getFriendId());
+        // 如果不在线，则保存到缓存
+        if(friendChannel == null){
+//            UserOffineMsgCache.addOfflineMsgToUser(msg.getFriendId(), addFriendRequest);
+
+            return;
+        }
 
         UserInfo userInfo = userService.queryUserInfo(msg.getUserId());
 
@@ -32,12 +39,7 @@ public class FriendRequestHandler extends AbstractBizHandler<FriendRequest> {
         addFriendRequest.setRequestFriendNickName(userInfo.getUserNickname());
         addFriendRequest.setRequestFriendHead(userInfo.getUserHead());
 
-        Channel friendChannel = SocketChannelUtil.getChannel(msg.getFriendId());
-        // 如果不在线，则保存到缓存
-        if(friendChannel == null){
-            UserOffineMsgCache.addOfflineMsgToUser(msg.getFriendId(), addFriendRequest);
-            return;
-        }
+
 
         friendChannel.writeAndFlush(addFriendRequest);
     }
