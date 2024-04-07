@@ -1,3 +1,9 @@
+
+
+# 项目描述
+
+该项目是一个即时通讯系统，架构为C/S架构，其中客户端的技术栈为JavaFX、Netty，单体架构的服务器端的技术栈为Netty、SpringBoot、Redis、MySQL，分布式架构的服务器端的技术栈为Netty、SpringBoot、Redis、MySQL、Nacos、Dubbo、RocketMQ。该项目包含的功能为使用手机号注册、登录、搜索好友、添加好友、好友聊天(文字消息、表情消息、文件消息)、创建群组、搜索群组、加入群组、群组聊天、客户端本地消息缓存、服务器端离线消息缓存。
+
 # TODO
 
 ## 客户端
