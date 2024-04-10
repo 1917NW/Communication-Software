@@ -2,12 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lxy.infrastructure.dao.ImUserFriendDao">
+    <delete id="releaseFriendRelationship">
+        delete from im_user_friend
+        where (user_id = #{userId1} and user_friend_id = #{userId2}) or (user_id = #{userId2} and user_friend_id = #{userId1})
+    </delete>
 
     <!--定义接口方法对应的 SQL 语句-->
     <select id="queryAllFriendByUserId" resultType="string">
         select user_friend_id
         from im_user_friend
-        where user_id = #{userId}
+        where user_id = #{userId1}
     </select>
 
 </mapper>

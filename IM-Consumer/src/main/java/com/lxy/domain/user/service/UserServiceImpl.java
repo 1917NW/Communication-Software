@@ -3,7 +3,6 @@ package com.lxy.domain.user.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lxy.application.UserService;
 import com.lxy.domain.user.model.*;
 import com.lxy.infrastructure.dao.*;
@@ -323,6 +322,16 @@ public class UserServiceImpl  implements UserService {
                 ImUserFriend reverseImUserFriend = new ImUserFriend(friendId, userId);
                 imUserFriendDao.insert(reverseImUserFriend);
             }
+        });
+    }
+
+    @Override
+    public void asyncDeleteUserFriend(String userId, String friendId) {
+        executorService.execute(() -> {
+
+            imUserFriendDao.releaseFriendRelationship(userId, friendId);
+
+
         });
     }
 

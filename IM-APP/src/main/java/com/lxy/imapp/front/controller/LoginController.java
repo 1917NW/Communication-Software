@@ -1,12 +1,16 @@
 package com.lxy.imapp.front.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.lxy.imapp.TestApplication;
 import com.lxy.imapp.biz.event.ChatEventHandler;
 import com.lxy.imapp.biz.event.LoginEventHandler;
-import com.lxy.imapp.biz.http.RegisterURL;
-import com.lxy.imapp.biz.http.UserRegisterDto;
-import com.lxy.imapp.biz.http.UserRegisterResult;
+import com.lxy.imapp.biz.http.*;
+import com.lxy.imapp.biz.socket.NettyClient;
+import com.lxy.imapp.biz.util.BeanUtil;
+import com.lxy.imapp.front.ImUI;
 import com.lxy.imapp.front.view.Login;
+import io.netty.channel.Channel;
+import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
@@ -16,6 +20,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class LoginController {
 
@@ -176,8 +187,36 @@ public class LoginController {
     public void login(MouseEvent mouseEvent) {
         System.out.println("用户名:" + userAccount.getText());
         System.out.println("密码:"+ password);
+        if(StrUtil.isEmpty(userAccount.getText())){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Login Result");
+            alert.setHeaderText("Login Failed!");
+            alert.setContentText("用户账号为空");
+            alert.showAndWait();
+            return;
+        }
 
-        loginEventHandler.doLogin(userAccount.getText(), password);
+        if(StrUtil.isEmpty(password)){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Login Result");
+            alert.setHeaderText("Login Failed!");
+            alert.setContentText("用户密码为空");
+            alert.showAndWait();
+            return;
+        }
+
+        UserLoginResult userLoginResult = LoginURL.doLogin(new UserLoginDto(userAccount.getText(), password));
+        if(userLoginResult.isSuccess()){
+            connectToImServer(userLoginResult.getImServerIp(), userLoginResult.getImServerPort());
+            loginEventHandler.doLogin(userAccount.getText(), password);
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Login Result");
+            alert.setHeaderText("Login Failed!");
+            alert.setContentText(userLoginResult.getRemindMsg());
+            alert.showAndWait();
+        }
+
     }
 
     @FXML
@@ -446,6 +485,7 @@ public class LoginController {
             verifyCode.setText("");
             switchToRegister();
         }else {
+            connectToImServer(userRegisterResult.getImServerIp(), userRegisterResult.getImServerPort());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Register Result");
             alert.setHeaderText("Register Success!");
@@ -456,6 +496,7 @@ public class LoginController {
             ChatController controller = stage.getChat().controller;
             controller.setUserInfo(registerAccount.getText(), registerNickname.getText(), "xxxx");
             loginEventHandler.doRegister(registerAccount.getText());
+
         }
 
 
@@ -478,6 +519,35 @@ public class LoginController {
             registerPrePassword = newValue;
             registerPassword.setText(registerPrePassword);
         });
+    }
+
+    private Logger logger = LoggerFactory.getLogger(LoginController.class);
+    private static ExecutorService executorService = Executors.newFixedThreadPool(2);
+    private void connectToImServer(String inetHost, Integer inetPort){
+        ImUI imUI = new ImUI();
+        imUI.setLogin(this.stage);
+        imUI.setChat(this.stage.getChat());
+        NettyClient nettyClient = new NettyClient(imUI, inetHost, inetPort);
+        BeanUtil.addBean("client", nettyClient);
+        Future<Channel> future = executorService.submit(nettyClient);
+        Channel channel = null;
+        try {
+            channel = future.get();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if(channel == null)
+            throw new RuntimeException("netty server connect error!");
+
+        while (!nettyClient.isActive()) {
+            logger.info("NettyClient启动服务 ...");
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        logger.info("NettyClient连接服务完成 {}", channel.localAddress());
     }
 
 }

@@ -350,4 +350,15 @@ public class UserServiceImpl  implements UserService {
 
         return imUserGroupDao.insert(imUserGroup) > 0;
     }
+
+    @Override
+    public void exitGroup(String invokerId, String deletedGroupId) {
+        executorService.execute(()->{
+            LambdaQueryWrapper<ImUserGroup> imUserGroupLambdaQueryWrapper = new LambdaQueryWrapper<>();
+            imUserGroupLambdaQueryWrapper.eq(ImUserGroup::getUserId, invokerId);
+            imUserGroupLambdaQueryWrapper.eq(ImUserGroup::getGroupId, deletedGroupId);
+            imUserGroupDao.delete(imUserGroupLambdaQueryWrapper);
+        });
+
+    }
 }

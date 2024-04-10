@@ -26,7 +26,7 @@ public class IMApplication extends Application {
     private Logger logger = LoggerFactory.getLogger(Application.class);
 
     //默认线程池
-    private static ExecutorService executorService = Executors.newFixedThreadPool(2);
+
     @Override
     public void start(Stage stage) throws Exception {
         // 1. 初始化窗口
@@ -38,19 +38,7 @@ public class IMApplication extends Application {
         imUI.setLogin(login);
         login.show();
 
-        // 2. 初始化链接
-        NettyClient nettyClient = new NettyClient(imUI);
-        BeanUtil.addBean("client", nettyClient);
-        Future<Channel> future = executorService.submit(nettyClient);
-        Channel channel = future.get();
-        if(channel == null)
-            throw new RuntimeException("netty server connect error!");
 
-        while (!nettyClient.isActive()) {
-            logger.info("NettyClient启动服务 ...");
-            Thread.sleep(500);
-        }
-        logger.info("NettyClient连接服务完成 {}", channel.localAddress());
 
 
     }

@@ -144,4 +144,6 @@ public interface UserService {
     GroupDto queryGroupInfo(String groupId);
 
     boolean addUserToGroup(String userId, String groupId);
+
+    void exitGroup(String invokerId, String deletedGroupId);
 }

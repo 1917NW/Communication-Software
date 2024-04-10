@@ -10,4 +10,6 @@ public class UserRegisterDto {
 
     String verifyCode;
 
+
+
 }

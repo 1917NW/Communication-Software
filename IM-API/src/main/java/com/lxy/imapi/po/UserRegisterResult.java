@@ -17,4 +17,8 @@ public class UserRegisterResult {
 
     private boolean success;
     private String remindMsg;
+
+    private String imServerIp;
+
+    private Integer imServerPort;
 }

@@ -15,6 +15,7 @@ import com.lxy.protocolpackage.dto.ChatRecordDto;
 import com.lxy.protocolpackage.dto.GroupsDto;
 import com.lxy.protocolpackage.dto.UserDto;
 import com.lxy.protocolpackage.dto.UserFriendDto;
+import com.lxy.protocolpackage.protocol.init.InitSuccessResponse;
 import com.lxy.protocolpackage.protocol.login.LoginResponse;
 
 import io.netty.channel.Channel;
@@ -39,11 +40,6 @@ public class LoginHandler extends AbstractBizHandler<LoginResponse> {
 
         System.out.println("登录消息响应:" + JSON.toJSON(msg));
 
-        if (!msg.isSuccess()) {
-            System.out.println("登录失败");
-            imUI.getLogin().LoingFailed();
-            return;
-        }
 
         Platform.runLater(() -> {
             imUI.getLogin().LoginSuccess();
@@ -120,6 +116,8 @@ public class LoginHandler extends AbstractBizHandler<LoginResponse> {
 
             // TODO:显示群组申请消息
             chatController.fillGroupRequest();
+
+            channel.writeAndFlush(new InitSuccessResponse(msg.getUserId()));
         });
 
     }

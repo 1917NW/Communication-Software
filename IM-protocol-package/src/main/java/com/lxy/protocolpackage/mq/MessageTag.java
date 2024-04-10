@@ -25,7 +25,7 @@ public class MessageTag {
 
     public static final String FULL_GROUP_JOIN_In_GROUP_RESPONSE = "full_group_join_in_response";
 
-
+    public static final String DELETE_FRIEND_REQUEST = "delete_friend_request";
 
 }
 

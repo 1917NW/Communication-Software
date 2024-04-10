@@ -15,6 +15,9 @@ public class ImServerURLController {
     @Autowired
     private ImServerURLService imServerURLService;
 
+
+
+
     @GetMapping("/serverUrl")
     public String getImServerURL(){
         return imServerURLService.getImServerURL();

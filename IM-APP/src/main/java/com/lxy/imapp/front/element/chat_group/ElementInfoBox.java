@@ -81,10 +81,8 @@ public class ElementInfoBox {
                     content.putString(infoContent.getText());
                     clipboard.setContent(content);
                 });
-                MenuItem deleteMenuItem = new MenuItem("删除");
 
                 contextMenu.getItems().add(copyMenuItem);
-                contextMenu.getItems().add(deleteMenuItem);
 
 
                 // 将ContextMenu绑定到Label上

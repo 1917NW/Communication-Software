@@ -5,6 +5,7 @@ import com.lxy.imapi.entity.ImUser;
 import com.lxy.imapi.mapper.ImUserDao;
 import com.lxy.imapi.po.UserRegisterDto;
 import com.lxy.imapi.po.UserRegisterResult;
+import com.lxy.imapi.service.ImServerURLService;
 import com.lxy.imapi.service.RegisterService;
 import com.lxy.protocolpackage.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Autowired
     private ProjectProperties projectProperties;
+    
+    @Autowired
+    private ImServerURLService imServerURLService;
 
     private void sendCodeToSMS(String code) {
         System.out.println("您收到的验证码为: "+ code + ", 5min内有效");
@@ -65,6 +69,20 @@ public class RegisterServiceImpl implements RegisterService {
         imUser.setUpdateTime(date);
 
         imUserDao.insert(imUser);
+
+        String imServerURL = imServerURLService.getImServerURL();
+        String inetHost = "";
+        Integer inetPort = 0;
+
+        if(imServerURL != ""){
+            String[] ipAndPort = imServerURL.split("-");
+            inetHost = ipAndPort[0];
+            inetPort = Integer.valueOf(ipAndPort[1]);
+            System.out.println("inetHost:"+inetHost + ", inetPort:"+inetPort);
+        }
+
+        userRegisterResult.setImServerIp(inetHost);
+        userRegisterResult.setImServerPort(inetPort);
 
         return userRegisterResult;
     }

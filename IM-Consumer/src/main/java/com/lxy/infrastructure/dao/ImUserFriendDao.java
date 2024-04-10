@@ -18,5 +18,7 @@ import java.util.List;
 public interface ImUserFriendDao extends BaseMapper<ImUserFriend> {
 
     List<String> queryAllFriendByUserId(@Param("userId") String userId);
+
+    void releaseFriendRelationship(@Param("userId1") String userId1, @Param("userId2")String userId2);
 }
 

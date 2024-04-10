@@ -43,4 +43,13 @@ public interface Command {
 
     Byte RegisterSuccessRequest = 25;
 
+    Byte DeleteFriendRequest = 26;
+
+    Byte DeleteFriendResponse = 27;
+
+    Byte ExitGroupRequest = 28;
+
+    Byte InitSuccessResponse = 29;
+
+
 }

@@ -50,5 +50,9 @@ public class MessageTopic {
         return getImTopicWithTag(MessageTag.FULL_GROUP_JOIN_In_GROUP_RESPONSE);
     }
 
+    public static String getDeleteFriendRequestTag(){
+        return getImTopicWithTag(MessageTag.DELETE_FRIEND_REQUEST);
+    }
+
 
 }

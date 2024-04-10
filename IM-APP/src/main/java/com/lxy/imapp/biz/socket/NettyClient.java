@@ -26,8 +26,10 @@ public class NettyClient implements Callable<Channel> {
     private EventLoopGroup workerGroup = new NioEventLoopGroup();
     private Channel channel;
 
-    public NettyClient(ImUI imUI) {
+    public NettyClient(ImUI imUI, String inetHost, int inetPort) {
         this.imUI = imUI;
+        this.inetHost = inetHost;
+        this.inetPort = inetPort;
     }
 
     private ImUI imUI;
@@ -35,7 +37,7 @@ public class NettyClient implements Callable<Channel> {
 
     @Override
     public Channel call() throws Exception {
-        getServerIpAndPort();
+
         ChannelFuture channelFuture = null;
         try {
             Bootstrap client = new Bootstrap();
@@ -58,16 +60,7 @@ public class NettyClient implements Callable<Channel> {
         return channel;
     }
 
-    private void getServerIpAndPort() {
-        String imServerURL = ImServerURL.getImServerURL();
-        if(imServerURL != ""){
-            String[] ipAndPort = imServerURL.split("-");
-            inetHost = ipAndPort[0];
-            inetPort = Integer.valueOf(ipAndPort[1]);
-            System.out.println("inetHost:"+inetHost + ", inetPort:"+inetPort);
-        }
 
-    }
 
     public void destroy() {
         if (null == channel) return;

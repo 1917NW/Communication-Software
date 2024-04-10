@@ -15,7 +15,6 @@ import com.lxy.protocolpackage.protocol.Packet;
 import com.lxy.protocolpackage.protocol.login.LoginRequest;
 import com.lxy.protocolpackage.protocol.login.LoginResponse;
 import com.lxy.protocolpackage.rediskey.ImServerKey;
-import com.lxy.socket.NettyServer;
 import com.lxy.socket.cache.ImServerCache;
 import com.lxy.socket.handler.AbstractBizHandler;
 import io.netty.channel.Channel;
@@ -31,7 +30,7 @@ import java.util.stream.Collectors;
 
 @Component
 @ChannelHandler.Sharable
-public class LoginHandler extends AbstractBizHandler<LoginRequest> {
+public class LoginSuccessHandler extends AbstractBizHandler<LoginRequest> {
 
     @Autowired
     private UserService userService;
@@ -44,15 +43,15 @@ public class LoginHandler extends AbstractBizHandler<LoginRequest> {
         System.out.println("用户id:" + msg.getUserId() + " 用户密码:"+msg.getUserPassword());
         LoginResponse loginResponse = new LoginResponse();
 
-        // 校验账号密码
-        String userId = msg.getUserId();
-        String userPassword = msg.getUserPassword();
-        boolean checkLoginResult = userService.checkAuth(userId, userPassword);
-        if(!checkLoginResult) {
-            loginResponse.setSuccess(false);
-            channel.writeAndFlush(loginResponse);
-            return;
-        }
+//        // 校验账号密码
+         String userId = msg.getUserId();
+//        String userPassword = msg.getUserPassword();
+//        boolean checkLoginResult = userService.checkAuth(userId, userPassword);
+//        if(!checkLoginResult) {
+//            loginResponse.setSuccess(false);
+//            channel.writeAndFlush(loginResponse);
+//            return;
+//        }
 
         // 保存个人Channel
         SocketChannelUtil.addChannel(msg.getUserId(), channel);
@@ -104,8 +103,8 @@ public class LoginHandler extends AbstractBizHandler<LoginRequest> {
 
         channel.writeAndFlush(loginResponse);
 
-        // 发送离线时的消息
-        clearOfflineMsg(channel, userId);
+//        // 发送离线时的消息
+//        clearOfflineMsg(channel, userId);
     }
 
     @Autowired

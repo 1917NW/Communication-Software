@@ -10,6 +10,7 @@ import com.lxy.imapp.biz.socket.po.UserGroupRequest;
 import com.lxy.imapp.biz.source.impl.FileDataSource;
 import com.lxy.imapp.biz.threadPool.TaskExecutor;
 import com.lxy.imapp.biz.util.BeanUtil;
+import com.lxy.imapp.front.cache.ParentNodeCache;
 import com.lxy.imapp.front.constant.FriendPaneId;
 import com.lxy.imapp.front.constant.ImFileConstants;
 import com.lxy.imapp.front.data.GroupsData;
@@ -693,6 +694,23 @@ public class ChatController {
 
         addTalkMsgRight(talkBoxData.getTalkId(), msg, MsgType.TEXT_MSG.getMsgTypeCode(), msgDate, true, true, false);
         txtInput.clear();
+        if(TalkType.PRIVATE_MESSAGE.getTalkTypeCode().equals(talkBoxData.getTalkType()) && !ParentNodeCache.isFriend(talkBoxData.getTalkId())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Send Result");
+            alert.setHeaderText("Send Failed!");
+            alert.setContentText("你们目前还不是好友哦");
+            alert.showAndWait();
+            return;
+        }
+        if(TalkType.GROUP_MESSAGE.getTalkTypeCode().equals(talkBoxData.getTalkType()) && !ParentNodeCache.isInGroup(talkBoxData.getTalkId())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Send Result");
+            alert.setHeaderText("Send Failed!");
+            alert.setContentText("你目前不在该群组哟");
+            alert.showAndWait();
+            return;
+        }
+
         chatEventHandler.doEventSendMsg(currentUserId, currentUserNickName, currentUserHead, talkBoxData.getTalkId(), talkBoxData.getTalkType(), msg,MsgType.TEXT_MSG.getMsgTypeCode(), msgDate);
 
     }
@@ -1099,6 +1117,7 @@ public class ChatController {
 
         ElementFriendGroupList elementFriendGroupList = new ElementFriendGroupList();
         groupListView = elementFriendGroupList.getGroupListView();
+        ParentNodeCache.groupListView = groupListView;
         Pane pane = elementFriendGroupList.pane();
         friendGroupPane = pane;
         items.add(pane);
@@ -1114,6 +1133,7 @@ public class ChatController {
         ElementFriendUserList elementFriendUserList = new ElementFriendUserList();
         Pane pane = elementFriendUserList.pane();
         userListView = elementFriendUserList.getUserListView();
+        ParentNodeCache.firendListView = userListView;
         friendUserListPane = pane;
         items.add(pane);
 
@@ -1320,6 +1340,24 @@ public class ChatController {
         fileLabel.setTextAlignment(TextAlignment.CENTER);
 
         fileLabel.setOnMousePressed(event -> {
+            Pane selectedItem = talkList.getSelectionModel().getSelectedItem();
+            TalkBoxData userData = (TalkBoxData)selectedItem.getUserData();
+            if(TalkType.PRIVATE_MESSAGE.getTalkTypeCode().equals(userData.getTalkType()) && !ParentNodeCache.isFriend(userData.getTalkId())) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Send Result");
+                alert.setHeaderText("Send Failed!");
+                alert.setContentText("你们目前还不是好友哦");
+                alert.showAndWait();
+                return;
+            }
+            if(TalkType.GROUP_MESSAGE.getTalkTypeCode().equals(userData.getTalkType()) && !ParentNodeCache.isInGroup(userData.getTalkId())) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Send Result");
+                alert.setHeaderText("Send Failed!");
+                alert.setContentText("你目前不在该群组哟");
+                alert.showAndWait();
+                return;
+            }
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Resource File");
             File selectedFile = fileChooser.showOpenDialog(stage);
@@ -1334,11 +1372,12 @@ public class ChatController {
                 });
 
                 String filename = selectedFile.getName();
-                Pane selectedItem = talkList.getSelectionModel().getSelectedItem();
-                TalkBoxData userData = (TalkBoxData)selectedItem.getUserData();
+
 
                 // 添加到对话
                 addTalkMsgRight(userData.getTalkId(), filename,MsgType.FILE_MSG.getMsgTypeCode(), new Date(), true, false, true);
+
+
 
                 // 发送消息到服务器
                 chatEventHandler.doEventSendMsg(currentUserId, currentUserNickName, currentUserHead, userData.getTalkId(),userData.getTalkType(), filename, MsgType.FILE_MSG.getMsgTypeCode(), new Date());

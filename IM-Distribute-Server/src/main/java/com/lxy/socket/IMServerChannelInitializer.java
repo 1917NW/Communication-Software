@@ -2,7 +2,9 @@ package com.lxy.socket;
 
 import com.lxy.protocolpackage.codec.ObjDecoder;
 import com.lxy.protocolpackage.codec.ObjEncoder;
-import com.lxy.socket.handler.impl.LoginHandler;
+import com.lxy.protocolpackage.protocol.init.InitSuccessResponse;
+import com.lxy.socket.handler.impl.InitSuccessResponseHandler;
+import com.lxy.socket.handler.impl.LoginSuccessHandler;
 import com.lxy.socket.handler.impl.RegisterSuccessHandler;
 import com.lxy.socket.handler.impl.friend.AddFriendResponseHandler;
 import com.lxy.socket.handler.impl.friend.FriendRequestHandler;
@@ -27,7 +29,7 @@ public class IMServerChannelInitializer extends ChannelInitializer<SocketChannel
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         socketChannel.pipeline().addLast(new ObjDecoder());
-        socketChannel.pipeline().addLast(applicationContext.getBean(LoginHandler.class));
+        socketChannel.pipeline().addLast(applicationContext.getBean(LoginSuccessHandler.class));
         socketChannel.pipeline().addLast(applicationContext.getBean(SearchFriendHandler.class));
         socketChannel.pipeline().addLast(applicationContext.getBean(FriendRequestHandler.class));
         socketChannel.pipeline().addLast(applicationContext.getBean(AddFriendResponseHandler.class));
@@ -40,6 +42,8 @@ public class IMServerChannelInitializer extends ChannelInitializer<SocketChannel
         socketChannel.pipeline().addLast(applicationContext.getBean(FullGroupJoinInGroupResponseHandler.class));
         socketChannel.pipeline().addLast(applicationContext.getBean(MsgGroupRequestHandler.class));
         socketChannel.pipeline().addLast(applicationContext.getBean(RegisterSuccessHandler.class));
+        socketChannel.pipeline().addLast(applicationContext.getBean(InitSuccessResponseHandler.class));
+        socketChannel.pipeline().addLast(applicationContext.getBean(ExitGroupRequestHandler.class));
         socketChannel.pipeline().addLast(new ObjEncoder());
     }
 }

@@ -1,13 +1,16 @@
 package com.lxy.imapp.front.controller;
 
 import com.lxy.imapp.biz.event.ChatEventHandler;
+import com.lxy.imapp.front.cache.ParentNodeCache;
 import com.lxy.imapp.front.data.TalkBoxData;
 import com.lxy.imapp.front.view.Chat;
 
 import com.lxy.protocolpackage.constants.MsgType;
+import com.lxy.protocolpackage.constants.TalkType;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MultipleSelectionModel;
@@ -189,6 +192,23 @@ public class EmotionController {
             next.setOnMouseClicked(event -> {
                 Pane selectedItem = talkList.getSelectionModel().getSelectedItem();
                 TalkBoxData talkBoxData = (TalkBoxData)selectedItem.getUserData();
+
+                if(TalkType.PRIVATE_MESSAGE.getTalkTypeCode().equals(talkBoxData.getTalkType()) && !ParentNodeCache.isFriend(talkBoxData.getTalkId())) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Send Result");
+                    alert.setHeaderText("Send Failed!");
+                    alert.setContentText("你们目前还不是好友哦");
+                    alert.showAndWait();
+                    return;
+                }
+                if(TalkType.GROUP_MESSAGE.getTalkTypeCode().equals(talkBoxData.getTalkType()) && !ParentNodeCache.isInGroup(talkBoxData.getTalkId())) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Send Result");
+                    alert.setHeaderText("Send Failed!");
+                    alert.setContentText("你目前不在该群组哟");
+                    alert.showAndWait();
+                    return;
+                }
                 Date msgDate = new Date();
                 String faceId = (String)next.getUserData();
 

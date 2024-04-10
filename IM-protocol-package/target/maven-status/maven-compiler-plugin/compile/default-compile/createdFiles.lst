@@ -4,7 +4,9 @@ com\lxy\protocolpackage\mq\MessageTag.class
 com\lxy\protocolpackage\protocol\friend\FriendRequest.class
 com\lxy\protocolpackage\protocol\talk\TalkNoticeRequest.class
 com\lxy\protocolpackage\protocol\Command.class
+com\lxy\protocolpackage\protocol\group\ExitGroupRequest.class
 com\lxy\protocolpackage\rpc\PrivateMsgRPC.class
+com\lxy\protocolpackage\protocol\friend\DeleteFriendRequest.class
 com\lxy\protocolpackage\constants\GroupState.class
 com\lxy\protocolpackage\protocol\friend\FriendResponse.class
 com\lxy\protocolpackage\dto\UserFriendDto.class
@@ -31,6 +33,7 @@ com\lxy\protocolpackage\mq\MessageConsumerGroup.class
 com\lxy\protocolpackage\constants\FriendState.class
 com\lxy\protocolpackage\protocol\friend\SearchFriendRequest.class
 com\lxy\protocolpackage\protocol\group\GroupCreateRequest.class
+com\lxy\protocolpackage\protocol\init\InitSuccessResponse.class
 com\lxy\protocolpackage\rediskey\ImServerKey.class
 com\lxy\protocolpackage\protocol\group\JoinInGroupResponse.class
 com\lxy\protocolpackage\rpc\AddFriendRequestRPC.class
@@ -45,6 +48,8 @@ com\lxy\protocolpackage\constants\TalkType.class
 com\lxy\protocolpackage\protocol\group\MsgGroupRequest.class
 com\lxy\protocolpackage\protocol\msg\MsgRequest.class
 com\lxy\protocolpackage\constants\MsgType.class
+com\lxy\protocolpackage\protocol\friend\DeleteFriendResponse.class
 com\lxy\protocolpackage\dto\ChatTalkDto.class
 com\lxy\protocolpackage\rpc\FullUserJoinInGroupRequestRPC.class
 com\lxy\protocolpackage\rpc\GroupMsgRPC.class
+com\lxy\protocolpackage\rpc\DeleteFriendResponseRPC.class

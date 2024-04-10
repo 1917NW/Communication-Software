@@ -141,6 +141,8 @@ public interface UserService {
 
     void asyncAddUserFriend(String userId, String friendId);
 
+    void asyncDeleteUserFriend(String userId, String friendId);
+
     GroupDto queryGroupInfo(String groupId);
 
     boolean addUserToGroup(String userId, String groupId);

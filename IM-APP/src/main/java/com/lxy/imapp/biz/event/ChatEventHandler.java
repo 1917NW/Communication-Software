@@ -12,10 +12,7 @@ import com.lxy.protocolpackage.constants.TalkType;
 import com.lxy.protocolpackage.dto.ChatRecordDto;
 import com.lxy.protocolpackage.dto.GroupDto;
 import com.lxy.protocolpackage.dto.UserDto;
-import com.lxy.protocolpackage.protocol.friend.AddFriendRequest;
-import com.lxy.protocolpackage.protocol.friend.AddFriendResponse;
-import com.lxy.protocolpackage.protocol.friend.FriendRequest;
-import com.lxy.protocolpackage.protocol.friend.SearchFriendRequest;
+import com.lxy.protocolpackage.protocol.friend.*;
 
 import com.lxy.protocolpackage.protocol.group.*;
 
@@ -37,6 +34,11 @@ public class ChatEventHandler {
     public void doSearchNewFriend(String userId, List<Pane> listView){
         Channel channel = BeanUtil.getChannel();
         channel.writeAndFlush(new SearchFriendRequest(userId, ""));
+    }
+
+    public void doDeleteFriend(String deletedId){
+        Channel channel = BeanUtil.getChannel();
+        channel.writeAndFlush(new DeleteFriendRequest(BeanUtil.getUserId(), deletedId));
     }
 
 
@@ -163,5 +165,11 @@ public class ChatEventHandler {
         groupJoinInGroupResponse.setAgree(false);
         Channel channel = BeanUtil.getChannel();
         channel.writeAndFlush(groupJoinInGroupResponse);
+    }
+
+    public void doExitGroup(String groupId) {
+        Channel channel = BeanUtil.getChannel();
+        channel.writeAndFlush(new ExitGroupRequest(BeanUtil.getUserId(), groupId));
+
     }
 }

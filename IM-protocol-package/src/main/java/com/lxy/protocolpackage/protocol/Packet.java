@@ -2,6 +2,7 @@ package com.lxy.protocolpackage.protocol;
 
 import com.lxy.protocolpackage.protocol.friend.*;
 import com.lxy.protocolpackage.protocol.group.*;
+import com.lxy.protocolpackage.protocol.init.InitSuccessResponse;
 import com.lxy.protocolpackage.protocol.login.LoginRequest;
 import com.lxy.protocolpackage.protocol.login.LoginResponse;
 import com.lxy.protocolpackage.protocol.msg.MsgRequest;
@@ -66,6 +67,15 @@ public abstract class Packet {
         // 注册成功消息
         packetType.put(Command.RegisterSuccessRequest, RegisterSuccessRequest.class);
 
+        // 删除好友请求
+        packetType.put(Command.DeleteFriendRequest, DeleteFriendRequest.class);
+        packetType.put(Command.DeleteFriendResponse, DeleteFriendResponse.class);
+
+        // 退出群组请求
+        packetType.put(Command.ExitGroupRequest, ExitGroupRequest.class);
+
+        // 客户端初始化加载完成
+        packetType.put(Command.InitSuccessResponse, InitSuccessResponse.class);
     }
 
     public static Class<? extends Packet> get(Byte command) {

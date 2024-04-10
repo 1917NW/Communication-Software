@@ -31,6 +31,5 @@ public class RegisterSuccessHandler extends AbstractBizHandler<RegisterSuccessRe
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
-        stringRedisTemplate.delete(ImServerKey.buildUserIdKey(SocketChannelUtil.getUserIdByChannel(ctx.channel())));
     }
 }
