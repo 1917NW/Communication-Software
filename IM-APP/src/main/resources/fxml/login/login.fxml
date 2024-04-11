@@ -28,33 +28,48 @@
 
 
            <Label id="appName" fx:id="loginAppName" ></Label>
-           <TextField id="userAccount" promptText="       UserPhone" styleClass="inputClass" editable="true" fx:id="userAccount" focusTraversable="false" >
-               <padding>
-                   <Insets left="25" right="25"></Insets>
-               </padding>
-           </TextField>
-
-           <Label id="userAccountIcon" fx:id="userAccountIcon" ></Label>
 
 
-           <PasswordField id="userPassword" promptText="     UserPassword" styleClass="inputClass" editable="true" fx:id="userPassword" focusTraversable="false">
-               <padding>
-                   <Insets left="25" right="25"></Insets>
-               </padding>
-           </PasswordField>
+           <Pane id="loginInputPane" fx:id="loginInputPane" visible="true">
+               <children>
 
-           <TextField visible="false" id="userShowPassword" promptText="     UserPassword" styleClass="inputClass" editable="true" fx:id="userShowPassword" focusTraversable="false">
-               <padding>
-                   <Insets left="25" right="25"></Insets>
-               </padding>
-           </TextField>
+                   <TextField id="userAccount" promptText="       UserPhone" styleClass="inputClass" editable="true" fx:id="userAccount" focusTraversable="false" >
+                       <padding>
+                           <Insets left="25" right="25"></Insets>
+                       </padding>
+                   </TextField>
 
-           <Label id="userPasswordIcon"  fx:id="userPasswordIcon"></Label>
-           <Label fx:id="userShowPasswordIcon" id="userShowPasswordIcon" onMouseClicked="#showPassword"></Label>
+                   <Label id="userAccountIcon" fx:id="userAccountIcon" ></Label>
 
-           <Button id="loginButton" text="login" fx:id="loginButton" onMouseClicked="#login"></Button>
 
-          <Label id="registerLabel" text="Haven't registered? Click here to register" onMouseClicked="#switchToRegister"></Label>
+                   <PasswordField id="userPassword" promptText="     UserPassword" styleClass="inputClass" editable="true" fx:id="userPassword" focusTraversable="false">
+                       <padding>
+                           <Insets left="25" right="25"></Insets>
+                       </padding>
+                   </PasswordField>
+
+                   <TextField visible="false" id="userShowPassword" promptText="     UserPassword" styleClass="inputClass" editable="true" fx:id="userShowPassword" focusTraversable="false">
+                       <padding>
+                           <Insets left="25" right="25"></Insets>
+                       </padding>
+                   </TextField>
+
+                   <Label id="userPasswordIcon"  fx:id="userPasswordIcon"></Label>
+                   <Label fx:id="userShowPasswordIcon" id="userShowPasswordIcon" onMouseClicked="#showPassword"></Label>
+
+                   <Button id="loginButton" text="login" fx:id="loginButton" onMouseClicked="#login"></Button>
+
+                   <Label id="registerLabel" text="Haven't registered? Click here to register" onMouseClicked="#switchToRegister"></Label>
+               </children>
+           </Pane>
+
+           <Pane id="loginSuccessPane" visible="false" fx:id="loginSuccessPane">
+               <ProgressBar fx:id="loginSuccessBar" id="loginSuccessBar">
+
+               </ProgressBar>
+
+           </Pane>
+
        </children>
    </Pane>
 

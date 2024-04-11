@@ -215,3 +215,12 @@
     -fx-background-color: rgba(0,0,0,.5);
     -fx-text-fill:#03e9f4;
 }
+
+#loginSuccessBar{
+    -fx-translate-x: 75px;
+    -fx-translate-y: 300px;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 13px;
+    -fx-text-fill: #99cc00;
+    -fx-accent:#99cc00;
+}

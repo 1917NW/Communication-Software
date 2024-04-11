@@ -10,6 +10,9 @@ import com.lxy.imapp.biz.util.BeanUtil;
 import com.lxy.imapp.front.ImUI;
 import com.lxy.imapp.front.view.Login;
 import io.netty.channel.Channel;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -20,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,6 +90,8 @@ public class LoginController {
         initUserShowPasswordIcon();
 
         initAccountFocusHandler();
+
+        // initProgressBar();
     }
 
 
@@ -207,6 +213,7 @@ public class LoginController {
 
         UserLoginResult userLoginResult = LoginURL.doLogin(new UserLoginDto(userAccount.getText(), password));
         if(userLoginResult.isSuccess()){
+            loginSuccess();
             connectToImServer(userLoginResult.getImServerIp(), userLoginResult.getImServerPort());
             loginEventHandler.doLogin(userAccount.getText(), password);
         }else{
@@ -549,5 +556,30 @@ public class LoginController {
         }
         logger.info("NettyClient连接服务完成 {}", channel.localAddress());
     }
+
+    @FXML
+    private Pane loginInputPane;
+
+    @FXML
+    private Pane loginSuccessPane;
+
+    @FXML
+    private ProgressBar loginSuccessBar;
+
+    void initProgressBar(){
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.millis(1),
+                ae -> {
+                    loginSuccessBar.setProgress((loginSuccessBar.getProgress() + 0.1));
+                }
+        ));
+        timeline.setCycleCount(Animation.INDEFINITE); // 动画循环次数，这里设置为100次
+        timeline.play(); // 播放动画
+    }
+    private void loginSuccess(){
+        loginSuccessPane.setVisible(true);
+        loginInputPane.setVisible(false);
+    }
+
 
 }
