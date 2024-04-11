@@ -37,6 +37,7 @@ public class ChatEventHandler {
     }
 
     public void doDeleteFriend(String deletedId){
+        System.out.println("发送删除好友的消息：删除"+deletedId);
         Channel channel = BeanUtil.getChannel();
         channel.writeAndFlush(new DeleteFriendRequest(BeanUtil.getUserId(), deletedId));
     }

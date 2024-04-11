@@ -692,8 +692,7 @@ public class ChatController {
         Date msgDate = new Date();
         System.out.println("发送消息:"+msg);
 
-        addTalkMsgRight(talkBoxData.getTalkId(), msg, MsgType.TEXT_MSG.getMsgTypeCode(), msgDate, true, true, false);
-        txtInput.clear();
+
         if(TalkType.PRIVATE_MESSAGE.getTalkTypeCode().equals(talkBoxData.getTalkType()) && !ParentNodeCache.isFriend(talkBoxData.getTalkId())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Send Result");
@@ -710,6 +709,9 @@ public class ChatController {
             alert.showAndWait();
             return;
         }
+
+        addTalkMsgRight(talkBoxData.getTalkId(), msg, MsgType.TEXT_MSG.getMsgTypeCode(), msgDate, true, true, false);
+        txtInput.clear();
 
         chatEventHandler.doEventSendMsg(currentUserId, currentUserNickName, currentUserHead, talkBoxData.getTalkId(), talkBoxData.getTalkType(), msg,MsgType.TEXT_MSG.getMsgTypeCode(), msgDate);
 
@@ -1120,6 +1122,7 @@ public class ChatController {
         ParentNodeCache.groupListView = groupListView;
         Pane pane = elementFriendGroupList.pane();
         friendGroupPane = pane;
+        ParentNodeCache.friendGroupPane = friendGroupPane;
         items.add(pane);
 
     }
@@ -1135,6 +1138,7 @@ public class ChatController {
         userListView = elementFriendUserList.getUserListView();
         ParentNodeCache.firendListView = userListView;
         friendUserListPane = pane;
+        ParentNodeCache.friendUserListPane = friendUserListPane;
         items.add(pane);
 
     }

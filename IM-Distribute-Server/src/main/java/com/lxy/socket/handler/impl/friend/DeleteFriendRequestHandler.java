@@ -21,6 +21,7 @@ public class DeleteFriendRequestHandler extends AbstractBizHandler<DeleteFriendR
 
     @Override
     public void channelRead(Channel channel, DeleteFriendRequest msg) {
+        System.out.println("转发删除好友的消息"+msg);
         rocketMQTemplate.send(MessageTopic.getDeleteFriendRequestTag(), MessageBuilder.withPayload(msg).build());
         return;
     }

@@ -7,6 +7,7 @@ import com.lxy.socket.handler.impl.InitSuccessResponseHandler;
 import com.lxy.socket.handler.impl.LoginSuccessHandler;
 import com.lxy.socket.handler.impl.RegisterSuccessHandler;
 import com.lxy.socket.handler.impl.friend.AddFriendResponseHandler;
+import com.lxy.socket.handler.impl.friend.DeleteFriendRequestHandler;
 import com.lxy.socket.handler.impl.friend.FriendRequestHandler;
 import com.lxy.socket.handler.impl.friend.SearchFriendHandler;
 import com.lxy.socket.handler.impl.group.*;
@@ -44,6 +45,8 @@ public class IMServerChannelInitializer extends ChannelInitializer<SocketChannel
         socketChannel.pipeline().addLast(applicationContext.getBean(RegisterSuccessHandler.class));
         socketChannel.pipeline().addLast(applicationContext.getBean(InitSuccessResponseHandler.class));
         socketChannel.pipeline().addLast(applicationContext.getBean(ExitGroupRequestHandler.class));
+        socketChannel.pipeline().addLast(applicationContext.getBean(DeleteFriendRequestHandler.class));
+
         socketChannel.pipeline().addLast(new ObjEncoder());
     }
 }
